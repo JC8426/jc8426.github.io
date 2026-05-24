@@ -3,33 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Johnny Chan is a PhD student at RobotEdge Lab, Universiti Malaya, working on UAV swarm autonomy, communication-aware robotics, and distributed perception-communication architectures.">
+  <meta name="description" content="Johnny Chan is a PhD student at RobotEdge Lab, Universiti Malaya. Academic homepage, research engineering portfolio, and project updates dashboard for UAV swarm autonomy and related RobotEdge Lab projects.">
   <meta name="theme-color" content="#f7f8fb" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
-  <title>Johnny Chan · UAV Swarm Autonomy</title>
+  <title>Johnny Chan · Research Operations Portal</title>
   <style>
     :root {
       color-scheme: light dark;
-      --bg: #f7f8fb;
-      --surface: rgba(255, 255, 255, 0.78);
-      --surface-solid: #ffffff;
-      --text: #111827;
-      --muted: #667085;
-      --subtle: #98a2b3;
-      --line: rgba(17, 24, 39, 0.10);
-      --line-strong: rgba(17, 24, 39, 0.16);
-      --accent: #2454a6;
-      --accent-soft: #e7eefb;
+      --bg: #f4f1eb;
+      --surface: rgba(250, 248, 243, 0.78);
+      --surface-solid: #fbfaf7;
+      --surface-muted: #ebe7df;
+      --text: #24231f;
+      --muted: #6f6a60;
+      --subtle: #9b9488;
+      --line: rgba(36, 35, 31, 0.12);
+      --line-strong: rgba(36, 35, 31, 0.22);
+      --accent: #5d6357;
+      --accent-soft: #e5e1d8;
       --green-soft: #eaf5ef;
       --green: #276749;
       --amber-soft: #f7efd9;
       --amber: #7a5a12;
       --rose-soft: #f7e9e7;
       --rose: #8a3a32;
+      --slate-soft: #edf0f4;
+      --slate: #4b5563;
       --shadow: 0 24px 80px rgba(16, 24, 40, 0.08);
       --radius: 18px;
       --max: 1180px;
       --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      --serif: "Iowan Old Style", "Editorial New", Georgia, "Times New Roman", serif;
       --mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
     }
 
@@ -38,6 +42,7 @@
         --bg: #0d1117;
         --surface: rgba(22, 27, 34, 0.76);
         --surface-solid: #161b22;
+        --surface-muted: #111820;
         --text: #f0f3f8;
         --muted: #a7b0bf;
         --subtle: #778293;
@@ -51,20 +56,18 @@
         --amber: #f6d384;
         --rose-soft: rgba(248, 113, 113, 0.12);
         --rose: #f5a6a0;
+        --slate-soft: rgba(148, 163, 184, 0.12);
+        --slate: #cbd5e1;
         --shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
       }
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(36, 84, 166, 0.08), transparent 34rem),
-        radial-gradient(circle at 90% 12%, rgba(39, 103, 73, 0.06), transparent 30rem),
-        var(--bg);
+      background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
       line-height: 1.55;
@@ -74,657 +77,360 @@
 
     a { color: inherit; text-decoration: none; }
     p { margin: 0; }
+    strong { color: var(--text); }
 
-    .site-shell {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-    }
+    .site-shell { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
 
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      padding: 18px 0 12px;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .nav-inner {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 12px 14px 12px 18px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--surface);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: max-content;
-      font-weight: 680;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-mark {
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
-      border: 1px solid var(--line-strong);
-      display: grid;
-      place-items: center;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      background: var(--accent-soft);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .nav-links a {
-      padding: 8px 10px;
-      border-radius: 9px;
-      transition: background 180ms cubic-bezier(0.16, 1, 0.3, 1), color 180ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .nav-links a:hover { background: var(--accent-soft); color: var(--text); }
-
-    .theme-toggle {
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--muted);
-      border-radius: 9px;
-      padding: 8px 10px;
-      font-family: var(--mono);
-      font-size: 11px;
-      cursor: pointer;
-      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 20; padding: 18px 0 12px; color: #f6f1e8; mix-blend-mode: difference; }
+    .nav-inner { width: min(1440px, calc(100% - 48px)); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0; border: 0; border-radius: 0; background: transparent; }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: max-content; font-weight: 560; letter-spacing: -0.01em; text-transform: uppercase; font-size: 12px; }
+    .brand-mark { width: 24px; height: 24px; border-radius: 50%; border: 1px solid currentColor; display: grid; place-items: center; font-family: var(--mono); font-size: 9px; color: inherit; background: transparent; }
+    .nav-links { display: flex; align-items: center; gap: 18px; color: inherit; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .nav-links a { padding: 6px 0; border-radius: 0; opacity: 0.76; transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .nav-links a:hover { background: transparent; color: inherit; opacity: 1; }
+    .theme-toggle { border: 1px solid currentColor; background: transparent; color: inherit; border-radius: 999px; padding: 7px 10px; font-family: var(--mono); font-size: 10px; cursor: pointer; opacity: 0.78; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms cubic-bezier(0.16, 1, 0.3, 1); }
     .theme-toggle:active { transform: scale(0.98); }
-    .theme-toggle:hover { border-color: var(--line-strong); color: var(--text); }
+    .theme-toggle:hover { opacity: 1; }
 
-    .hero {
-      min-height: 86dvh;
-      display: grid;
-      grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
-      gap: 56px;
-      align-items: center;
-      padding: 70px 0 96px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 10px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      background: var(--surface);
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 4px var(--green-soft);
-    }
-
-    h1 {
-      margin: 22px 0 22px;
-      max-width: 820px;
-      font-size: clamp(48px, 7.2vw, 92px);
-      line-height: 0.94;
-      letter-spacing: -0.065em;
-      font-weight: 760;
-    }
-
-    .hero-lead {
-      max-width: 720px;
-      color: var(--muted);
-      font-size: clamp(18px, 2vw, 24px);
-      line-height: 1.35;
-      letter-spacing: -0.025em;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 34px;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 42px;
-      padding: 0 16px;
-      border-radius: 10px;
-      border: 1px solid var(--line-strong);
-      font-size: 14px;
-      font-weight: 650;
-      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .button.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
-    .button.secondary { background: var(--surface); color: var(--text); }
+    .hero { height: 100vh; height: 100dvh; min-height: 680px; width: 100vw; margin-left: calc(50% - 50vw); position: relative; isolation: isolate; display: grid; align-items: end; overflow: hidden; padding: 0; background: #161512; color: #f4f1eb; }
+    .hero-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+    .hero-video, .hero-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-video-fallback { position: absolute; inset: 0; background: linear-gradient(115deg, rgba(22,21,18,0.96), rgba(22,21,18,0.64) 42%, rgba(125,119,105,0.58)), radial-gradient(circle at 74% 74%, rgba(236,229,215,0.42), transparent 34rem), linear-gradient(180deg, #2e2c26, #11100e); }
+    .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(17,16,14,0.70), rgba(17,16,14,0.22) 56%, rgba(17,16,14,0.50)), linear-gradient(180deg, rgba(17,16,14,0.30), transparent 36%, rgba(17,16,14,0.82)); pointer-events: none; }
+    .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(246,241,232,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(246,241,232,0.045) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.18)); pointer-events: none; }
+    .hero-content { width: min(1440px, calc(100% - 48px)); margin: 0 auto; height: 100%; display: grid; grid-template-columns: minmax(0, 1.22fr) minmax(280px, 0.38fr); align-content: end; gap: clamp(28px, 6vw, 96px); padding: clamp(82px, 11vh, 128px) 0 clamp(36px, 7vh, 70px); }
+    .hero-copy { align-self: end; max-width: 1120px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; border-radius: 0; color: currentColor; opacity: 0.72; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; background: transparent; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: none; }
+    h1 { margin: 20px 0 22px; max-width: 1120px; font-family: var(--serif); font-size: clamp(54px, 9.7vw, 136px); line-height: 0.82; letter-spacing: -0.078em; font-weight: 520; }
+    .hero-lead { max-width: 700px; color: rgba(244, 241, 235, 0.76); font-size: clamp(16px, 1.55vw, 22px); line-height: 1.38; letter-spacing: -0.018em; margin-left: clamp(0px, 16vw, 240px); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; margin-left: clamp(0px, 16vw, 240px); }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid currentColor; font-size: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .button.primary { background: #f4f1eb; color: #24231f; border-color: #f4f1eb; }
+    .button.secondary { background: transparent; color: inherit; }
     .button:hover { transform: translateY(-1px); }
     .button:active { transform: scale(0.98); }
+    .hero-meta { align-self: end; display: grid; gap: 18px; color: rgba(244, 241, 235, 0.72); }
+    .hero-meta-line { display: grid; grid-template-columns: 86px 1fr; gap: 18px; padding-top: 12px; border-top: 1px solid rgba(244, 241, 235, 0.22); }
+    .hero-meta-line span:first-child { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.09em; opacity: 0.65; }
+    .hero-meta-line span:last-child { font-size: 14px; line-height: 1.35; }
+    .hero-logos { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid rgba(244, 241, 235, 0.22); }
+    .hero-logos img { display: block; width: auto; max-width: 132px; max-height: 34px; object-fit: contain; filter: grayscale(1) brightness(0) invert(1); opacity: 0.74; }
+    .hero-logos img.logo-icon { max-width: 34px; border-radius: 7px; }
 
-    .hero-panel {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .panel-topbar {
-      height: 42px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 0 16px;
-      border-bottom: 1px solid var(--line);
-    }
-
+    .hero-panel, .card, .mini-card, .dashboard-card, .activity-panel, .quick-access-panel, .publication-list, .note-list, .contact-link { border: 1px solid var(--line); background: var(--surface); }
+    .hero-panel { border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .panel-topbar { height: 42px; display: flex; align-items: center; gap: 7px; padding: 0 16px; border-bottom: 1px solid var(--line); }
     .window-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line-strong); }
-
     .panel-body { padding: 26px; }
-
     .identity-grid { display: grid; gap: 16px; }
-
-    .identity-row {
-      display: grid;
-      grid-template-columns: 104px 1fr;
-      gap: 16px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--line);
-    }
-
+    .identity-row { display: grid; grid-template-columns: 104px 1fr; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
     .identity-row:last-child { border-bottom: 0; padding-bottom: 0; }
     .identity-row span:first-child { color: var(--subtle); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
     .identity-row span:last-child { color: var(--text); font-weight: 620; }
-
-    .system-card {
-      margin-top: 24px;
-      padding: 18px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: color-mix(in srgb, var(--surface-solid) 74%, transparent);
-    }
-
+    .system-card { margin-top: 24px; padding: 18px; border-radius: 14px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface-solid) 74%, transparent); }
     .system-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--subtle); margin-bottom: 14px; }
-
     .signal-row { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; margin: 12px 0; }
     .signal-row b { font-size: 13px; }
     .signal-row span { color: var(--muted); font-family: var(--mono); font-size: 12px; }
     .signal-track { grid-column: 1 / -1; height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
     .signal-fill { height: 100%; border-radius: inherit; background: var(--accent); transform-origin: left; animation: grow 1000ms cubic-bezier(0.16, 1, 0.3, 1) both; }
-
     @keyframes grow { from { transform: scaleX(0.18); opacity: 0.3; } to { transform: scaleX(1); opacity: 1; } }
 
-    section {
-      padding: 86px 0;
-      border-top: 1px solid var(--line);
-    }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-      gap: 40px;
-      margin-bottom: 32px;
-    }
-
-    .section-kicker {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--subtle);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    h2 {
-      margin: 0;
-      max-width: 780px;
-      font-size: clamp(32px, 4.4vw, 58px);
-      line-height: 0.98;
-      letter-spacing: -0.052em;
-      font-weight: 740;
-    }
-
-    .section-intro {
-      max-width: 760px;
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 17px;
-    }
-
+    section { padding: 82px 0; border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; margin-bottom: 32px; }
+    .section-kicker { font-family: var(--mono); font-size: 11px; color: var(--subtle); letter-spacing: 0.08em; text-transform: uppercase; }
+    h2 { margin: 0; max-width: 820px; font-family: var(--serif); font-size: clamp(34px, 5vw, 70px); line-height: 0.94; letter-spacing: -0.058em; font-weight: 520; }
+    .section-intro { max-width: 780px; margin-top: 14px; color: var(--muted); font-size: 17px; }
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--surface);
-      padding: 24px;
-      min-height: 210px;
-      transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .card:hover { transform: translateY(-2px); box-shadow: 0 18px 46px rgba(16, 24, 40, 0.08); border-color: var(--line-strong); }
-
-    .card-label {
-      display: inline-flex;
-      width: fit-content;
-      padding: 5px 8px;
-      border-radius: 999px;
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: var(--accent-soft);
-      margin-bottom: 18px;
-    }
-
+    .card { border-radius: 16px; padding: 24px; min-height: 210px; transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .card:hover, .dashboard-card:hover, .contact-link:hover { transform: translateY(-2px); box-shadow: 0 18px 46px rgba(16, 24, 40, 0.08); border-color: var(--line-strong); }
+    .card-label { display: inline-flex; width: fit-content; padding: 5px 8px; border-radius: 999px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); margin-bottom: 18px; }
     .card h3 { margin: 0 0 10px; font-size: 20px; line-height: 1.15; letter-spacing: -0.03em; }
     .card p { color: var(--muted); font-size: 15px; }
-
     .research-card:nth-child(2) .card-label { color: var(--green); background: var(--green-soft); }
     .research-card:nth-child(3) .card-label { color: var(--amber); background: var(--amber-soft); }
     .research-card:nth-child(4) .card-label { color: var(--rose); background: var(--rose-soft); }
 
-    .current-research {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
-      gap: 14px;
-    }
+    .dashboard-layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start; }
+    .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .dashboard-card { border-radius: 18px; padding: 24px; min-height: 0; display: flex; flex-direction: column; transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .dashboard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+    .project-code { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--subtle); text-transform: uppercase; margin-bottom: 8px; }
+    .dashboard-card h3 { margin: 0; font-size: 22px; line-height: 1.08; letter-spacing: -0.035em; }
+    .org-logo { display: inline-flex; align-items: center; justify-content: center; width: 54px; height: 38px; margin-bottom: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-solid); overflow: hidden; }
+    .org-logo img { max-width: 82%; max-height: 72%; object-fit: contain; filter: grayscale(1); }
+    .org-logo.icon img { max-width: 26px; max-height: 26px; border-radius: 5px; }
+    .status-badge { display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px; border-radius: 999px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; border: 1px solid var(--line); }
+    .status-badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .status-active { color: var(--green); background: var(--green-soft); }
+    .status-ongoing { color: var(--accent); background: var(--accent-soft); }
+    .status-planned { color: var(--amber); background: var(--amber-soft); }
+    .status-archived { color: var(--slate); background: var(--slate-soft); }
+    .dashboard-desc { color: var(--muted); font-size: 14.5px; margin-bottom: 20px; }
+    .status-table { display: grid; gap: 10px; margin-top: auto; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--surface-solid) 62%, transparent); }
+    .status-row { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: baseline; }
+    .status-row span:first-child { font-family: var(--mono); color: var(--subtle); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .status-row span:last-child { color: var(--text); font-size: 13.5px; font-weight: 560; }
+    .progress-block { margin: 18px 0; }
+    .progress-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: var(--muted); font-size: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.04em; }
+    .progress-track { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: inherit; background: var(--accent); transform-origin: left; animation: grow 900ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .progress-fill.active { background: var(--green); }
+    .progress-fill.planned { background: var(--amber); }
+    .project-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 18px; }
+    .action-link { display: inline-flex; justify-content: center; align-items: center; min-height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 9px; color: var(--text); background: color-mix(in srgb, var(--surface-solid) 58%, transparent); font-size: 12px; font-weight: 650; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .action-link:hover { transform: translateY(-1px); border-color: var(--line-strong); background: var(--accent-soft); }
+    .action-link.disabled { color: var(--subtle); cursor: not-allowed; }
+    .action-link.disabled:hover { transform: none; background: color-mix(in srgb, var(--surface-solid) 58%, transparent); }
 
+    .dashboard-side { display: grid; gap: 14px; }
+    .activity-panel, .quick-access-panel { border-radius: 18px; padding: 20px; }
+    .panel-heading { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+    .panel-heading h3 { margin: 0; font-size: 17px; letter-spacing: -0.025em; }
+    .panel-heading span { color: var(--subtle); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .activity-list { display: grid; gap: 0; }
+    .activity-item { display: grid; grid-template-columns: 92px 1fr; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .activity-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .activity-date { color: var(--subtle); font-family: var(--mono); font-size: 11px; }
+    .activity-title { font-size: 13.5px; font-weight: 640; letter-spacing: -0.01em; }
+    .activity-meta { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+    .quick-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .quick-link { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: color-mix(in srgb, var(--surface-solid) 60%, transparent); transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .quick-link:hover { transform: translateY(-1px); border-color: var(--line-strong); }
+    .quick-link b { font-size: 13px; }
+    .quick-link span { color: var(--subtle); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .architecture-note { margin-top: 16px; padding: 16px; border: 1px dashed var(--line-strong); border-radius: 14px; color: var(--muted); font-size: 13.5px; }
+
+    .current-research { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr); gap: 14px; }
     .large-card { min-height: 380px; display: flex; flex-direction: column; justify-content: space-between; }
-
     .research-stack { display: grid; gap: 14px; }
-
-    .mini-card {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--surface);
-      padding: 22px;
-    }
-
+    .mini-card { border-radius: 16px; padding: 22px; }
     .mini-card h3 { margin: 0 0 8px; letter-spacing: -0.025em; }
     .mini-card p { color: var(--muted); font-size: 15px; }
-
-    .architecture-lines {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 34px;
-    }
-
-    .arch-node {
-      min-height: 92px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 12px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      background: color-mix(in srgb, var(--surface-solid) 68%, transparent);
-    }
-
+    .architecture-lines { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 34px; }
+    .arch-node { min-height: 92px; border: 1px solid var(--line); border-radius: 14px; display: grid; place-items: center; text-align: center; padding: 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); background: color-mix(in srgb, var(--surface-solid) 68%, transparent); }
     .project-card { min-height: 260px; display: flex; flex-direction: column; justify-content: space-between; }
-
     .project-meta { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: 11px; }
 
-    .tag {
-      padding: 6px 8px;
-      border-radius: 8px;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 11px;
-    }
-
-    .publication-list, .note-list {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--surface);
-      overflow: hidden;
-    }
-
-    .pub-item, .note-item {
-      display: grid;
-      grid-template-columns: 160px 1fr auto;
-      gap: 24px;
-      padding: 22px 24px;
-      border-bottom: 1px solid var(--line);
-      align-items: start;
-    }
-
+    .publication-list, .note-list { border-radius: 16px; overflow: hidden; }
+    .pub-item, .note-item { display: grid; grid-template-columns: 160px 1fr auto; gap: 24px; padding: 22px 24px; border-bottom: 1px solid var(--line); align-items: start; }
     .pub-item:last-child, .note-item:last-child { border-bottom: 0; }
     .pub-year, .note-type { font-family: var(--mono); font-size: 12px; color: var(--subtle); text-transform: uppercase; letter-spacing: 0.06em; }
     .pub-title, .note-title { font-weight: 680; letter-spacing: -0.02em; }
     .pub-desc, .note-desc { margin-top: 6px; color: var(--muted); font-size: 14px; }
     .pub-status { color: var(--accent); font-family: var(--mono); font-size: 11px; white-space: nowrap; }
 
-    .contact-panel {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.56fr);
-      gap: 14px;
-      align-items: stretch;
-    }
 
-    .contact-main {
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background: var(--text);
-      color: var(--bg);
-      padding: 34px;
-      min-height: 320px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
 
+    .dashboard-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+    .summary-cell { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: color-mix(in srgb, var(--surface-solid) 58%, transparent); }
+    .summary-cell span { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--subtle); margin-bottom: 8px; }
+    .summary-cell b { display: block; font-size: 18px; line-height: 1.05; letter-spacing: -0.035em; }
+    .dashboard-card { position: relative; }
+    .project-brief { display: grid; gap: 8px; margin: 16px 0 0; }
+    .brief-row { display: grid; grid-template-columns: 86px 1fr; gap: 10px; align-items: baseline; padding-top: 8px; border-top: 1px solid var(--line); }
+    .brief-row span:first-child { font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--subtle); }
+    .brief-row span:last-child { color: var(--muted); font-size: 13px; }
+    .project-actions { grid-template-columns: repeat(4, 1fr); margin-top: 20px; }
+    .action-link { flex-direction: column; gap: 2px; min-height: 54px; align-items: flex-start; justify-content: center; padding: 8px 10px; text-align: left; }
+    .action-link span { display: block; color: var(--subtle); font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+    .integration-note { margin-top: 14px; color: var(--subtle); font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    .visual-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px; }
+    .visual-panel { border: 1px solid var(--line); border-radius: 18px; padding: 22px; background: var(--surface); min-height: 250px; }
+    .visual-panel h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: -0.025em; }
+    .visual-panel p { color: var(--muted); font-size: 13.5px; margin-bottom: 18px; max-width: 58ch; }
+    .radar-box { display: grid; grid-template-columns: 160px 1fr; gap: 20px; align-items: center; }
+    .radar { width: 150px; height: 150px; border: 1px solid var(--line); border-radius: 50%; background: radial-gradient(circle, transparent 31%, var(--line) 32%, transparent 33%, transparent 63%, var(--line) 64%, transparent 65%), conic-gradient(from 20deg, rgba(93,99,87,0.22), rgba(93,99,87,0.04), rgba(93,99,87,0.16), rgba(93,99,87,0.22)); position: relative; }
+    .radar::after { content: ""; position: absolute; inset: 34px 24px 28px 42px; clip-path: polygon(48% 0, 100% 32%, 80% 92%, 20% 100%, 0 38%); border: 1px solid var(--line-strong); background: rgba(93,99,87,0.18); }
+    .metric-list { display: grid; gap: 10px; }
+    .metric { display: grid; grid-template-columns: 112px 1fr 34px; gap: 10px; align-items: center; font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .metric-track { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .metric-track i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+    .maturity-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .maturity-cell { border: 1px solid var(--line); border-radius: 14px; padding: 14px; min-height: 92px; background: color-mix(in srgb, var(--surface-solid) 54%, transparent); }
+    .maturity-cell span { font-family: var(--mono); font-size: 10px; color: var(--subtle); text-transform: uppercase; letter-spacing: 0.07em; }
+    .maturity-cell b { display: block; margin-top: 10px; font-size: 24px; letter-spacing: -0.04em; }
+    .timeline-rail { display: grid; gap: 0; border-top: 1px solid var(--line); }
+    .timeline-step { display: grid; grid-template-columns: 110px 1fr; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .timeline-step span { font-family: var(--mono); font-size: 10px; color: var(--subtle); text-transform: uppercase; letter-spacing: 0.07em; }
+    .timeline-step b { display: block; font-size: 14px; letter-spacing: -0.01em; }
+    .timeline-step p { margin: 4px 0 0; font-size: 13px; }
+
+    .model-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; counter-reset: model; }
+    .model-step { counter-increment: model; border: 1px solid var(--line); border-radius: 18px; padding: 22px; min-height: 240px; background: var(--surface); display: flex; flex-direction: column; justify-content: space-between; }
+    .model-step::before { content: "0" counter(model); font-family: var(--mono); font-size: 11px; color: var(--subtle); letter-spacing: 0.08em; }
+    .model-step h3 { margin: 36px 0 10px; font-family: var(--serif); font-size: 30px; line-height: 0.95; letter-spacing: -0.05em; font-weight: 520; }
+    .model-step p { color: var(--muted); font-size: 14px; }
+    .model-output { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 10px; color: var(--subtle); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    .to-top { position: fixed; right: 22px; bottom: 22px; z-index: 30; width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--surface-solid) 84%, transparent); color: var(--text); font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 34px rgba(16,24,40,0.08); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1), transform 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .to-top:active { transform: scale(0.98); }
+
+    .contact-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 0.56fr); gap: 14px; align-items: stretch; }
+    .contact-main { border: 1px solid var(--line); border-radius: 18px; background: var(--text); color: var(--bg); padding: 34px; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; }
     .contact-main h2 { color: inherit; }
     .contact-main p { color: color-mix(in srgb, var(--bg) 72%, transparent); max-width: 660px; margin-top: 18px; }
-
-    .contact-links {
-      display: grid;
-      gap: 10px;
-    }
-
-    .contact-link {
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--surface);
-      padding: 20px;
-      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .contact-link:hover { transform: translateY(-1px); border-color: var(--line-strong); }
+    .contact-links { display: grid; gap: 10px; }
+    .contact-link { border-radius: 16px; padding: 20px; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1); }
     .contact-link span { display: block; color: var(--subtle); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
     .contact-link b { letter-spacing: -0.02em; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--subtle); font-size: 13px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 28px 0 44px;
-      color: var(--subtle);
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 680ms cubic-bezier(0.16, 1, 0.3, 1), transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 680ms cubic-bezier(0.16, 1, 0.3, 1), transform 680ms cubic-bezier(0.16, 1, 0.3, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    body.force-light {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --surface: rgba(255, 255, 255, 0.78);
-      --surface-solid: #ffffff;
-      --text: #111827;
-      --muted: #667085;
-      --subtle: #98a2b3;
-      --line: rgba(17, 24, 39, 0.10);
-      --line-strong: rgba(17, 24, 39, 0.16);
-      --accent: #2454a6;
-      --accent-soft: #e7eefb;
-      --green-soft: #eaf5ef;
-      --green: #276749;
-      --amber-soft: #f7efd9;
-      --amber: #7a5a12;
-      --rose-soft: #f7e9e7;
-      --rose: #8a3a32;
-      --shadow: 0 24px 80px rgba(16, 24, 40, 0.08);
-    }
+    body.force-light { color-scheme: light; --bg: #f4f1eb; --surface: rgba(250, 248, 243, 0.78); --surface-solid: #fbfaf7; --surface-muted: #ebe7df; --text: #24231f; --muted: #6f6a60; --subtle: #9b9488; --line: rgba(36, 35, 31, 0.12); --line-strong: rgba(36, 35, 31, 0.22); --accent: #5d6357; --accent-soft: #e5e1d8; --green-soft: #eaf5ef; --green: #276749; --amber-soft: #f7efd9; --amber: #7a5a12; --rose-soft: #f7e9e7; --rose: #8a3a32; --slate-soft: #edf0f4; --slate: #4b5563; --shadow: 0 24px 80px rgba(16, 24, 40, 0.08); }
+    body.force-dark { color-scheme: dark; --bg: #0d1117; --surface: rgba(22, 27, 34, 0.76); --surface-solid: #161b22; --surface-muted: #111820; --text: #f0f3f8; --muted: #a7b0bf; --subtle: #778293; --line: rgba(240, 246, 252, 0.11); --line-strong: rgba(240, 246, 252, 0.18); --accent: #8bb7ff; --accent-soft: rgba(139, 183, 255, 0.13); --green-soft: rgba(74, 222, 128, 0.11); --green: #9ae6b4; --amber-soft: rgba(251, 191, 36, 0.12); --amber: #f6d384; --rose-soft: rgba(248, 113, 113, 0.12); --rose: #f5a6a0; --slate-soft: rgba(148, 163, 184, 0.12); --slate: #cbd5e1; --shadow: 0 24px 80px rgba(0, 0, 0, 0.26); }
 
-    body.force-dark {
-      color-scheme: dark;
-      --bg: #0d1117;
-      --surface: rgba(22, 27, 34, 0.76);
-      --surface-solid: #161b22;
-      --text: #f0f3f8;
-      --muted: #a7b0bf;
-      --subtle: #778293;
-      --line: rgba(240, 246, 252, 0.11);
-      --line-strong: rgba(240, 246, 252, 0.18);
-      --accent: #8bb7ff;
-      --accent-soft: rgba(139, 183, 255, 0.13);
-      --green-soft: rgba(74, 222, 128, 0.11);
-      --green: #9ae6b4;
-      --amber-soft: rgba(251, 191, 36, 0.12);
-      --amber: #f6d384;
-      --rose-soft: rgba(248, 113, 113, 0.12);
-      --rose: #f5a6a0;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
-    }
-
-    @media (max-width: 980px) {
-      .nav-inner { align-items: flex-start; }
-      .nav-links { display: none; }
-      .hero, .section-head, .current-research, .contact-panel { grid-template-columns: 1fr; }
-      .hero { min-height: auto; padding-top: 44px; }
-      .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); }
-      .pub-item, .note-item { grid-template-columns: 1fr; gap: 8px; }
-      .pub-status { white-space: normal; }
-    }
-
-    @media (max-width: 680px) {
-      .site-shell, .nav-inner { width: min(100% - 28px, var(--max)); }
-      .hero { padding-bottom: 64px; }
-      section { padding: 64px 0; }
-      .grid-4, .grid-3, .grid-2, .architecture-lines { grid-template-columns: 1fr; }
-      .card, .mini-card, .contact-main { padding: 22px; }
-      .identity-row { grid-template-columns: 1fr; gap: 4px; }
-      .hero-actions { flex-direction: column; align-items: stretch; }
-      .button { width: 100%; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-      .reveal { opacity: 1; transform: none; }
-    }
+    @media (max-width: 1120px) { .dashboard-layout, .visual-grid { grid-template-columns: 1fr; } .dashboard-grid { grid-template-columns: 1fr; } .dashboard-side { grid-template-columns: repeat(2, 1fr); } .model-flow { grid-template-columns: repeat(2, 1fr); } .project-actions { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 980px) { .nav-inner { align-items: flex-start; } .nav-links { display: none; } .hero-content, .section-head, .current-research, .contact-panel, .radar-box { grid-template-columns: 1fr; } .hero-content { align-content: end; } .hero-lead, .hero-actions { margin-left: 0; } .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); } .pub-item, .note-item { grid-template-columns: 1fr; gap: 8px; } .pub-status { white-space: normal; } }
+    @media (max-width: 680px) { .site-shell, .nav-inner, .hero-content { width: min(100% - 28px, var(--max)); } .hero-content { padding-bottom: 38px; } section { padding: 60px 0; } .grid-4, .grid-3, .grid-2, .architecture-lines, .dashboard-side, .dashboard-summary, .maturity-grid, .model-flow { grid-template-columns: 1fr; } .card, .mini-card, .contact-main, .dashboard-card, .activity-panel, .quick-access-panel { padding: 20px; } .identity-row, .status-row, .activity-item { grid-template-columns: 1fr; gap: 4px; } .hero-actions, .project-actions { grid-template-columns: 1fr; flex-direction: column; align-items: stretch; } .button, .action-link { width: 100%; } .dashboard-card { min-height: auto; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } .reveal { opacity: 1; transform: none; } }
   </style>
 </head>
 <body>
   <nav class="nav" aria-label="Primary navigation">
     <div class="nav-inner">
-      <a class="brand" href="#top" aria-label="Johnny Chan homepage">
-        <span class="brand-mark">JC</span>
-        <span>Johnny Chan</span>
-      </a>
+      <a class="brand" href="#top" aria-label="Johnny Chan homepage"><span class="brand-mark">JC</span><span>Johnny Chan</span></a>
       <div class="nav-links" aria-label="Page sections">
-        <a href="#research">Research</a>
-        <a href="#current">Current</a>
-        <a href="#projects">Projects</a>
-        <a href="#publications">Publications</a>
-        <a href="#notes">Notes</a>
-        <a href="#contact">Contact</a>
+        <a href="#top">Home</a><a href="#dashboard">Dashboard</a><a href="#research">Research</a><a href="#projects">Projects</a><a href="#updates">Updates</a><a href="#operating-model">Operating Model</a><a href="#contact">Contact</a>
       </div>
       <button class="theme-toggle" type="button" aria-label="Toggle color theme" data-theme-toggle>Auto</button>
     </div>
   </nav>
 
   <main id="top" class="site-shell">
+    <!-- Public GitHub Pages version: non-public collaboration project details are intentionally omitted. -->
     <header class="hero reveal">
-      <div>
-        <div class="eyebrow"><span class="status-dot"></span> PhD Student · RobotEdge Lab</div>
-        <h1>UAV swarm autonomy under real-world communication constraints.</h1>
-        <p class="hero-lead">I am Johnny Chan, a PhD student at Universiti Malaya working on distributed UAV autonomy, communication-aware swarm robotics, and robust aerial systems for tropical and infrastructure-constrained environments.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#research">View research focus</a>
-          <a class="button secondary" href="#contact">Get in touch</a>
-        </div>
+      <div class="hero-media" aria-hidden="true">
+        <video class="hero-video" autoplay muted loop playsinline poster="assets/Robotedge_logo.png">
+          <source src="assets/hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-fallback"></div>
       </div>
-
-      <aside class="hero-panel" aria-label="Academic identity summary">
-        <div class="panel-topbar" aria-hidden="true"><span class="window-dot"></span><span class="window-dot"></span><span class="window-dot"></span></div>
-        <div class="panel-body">
-          <div class="identity-grid">
-            <div class="identity-row"><span>Name</span><span>Johnny Chan</span></div>
-            <div class="identity-row"><span>Role</span><span>PhD Student</span></div>
-            <div class="identity-row"><span>Lab</span><span>RobotEdge Lab</span></div>
-            <div class="identity-row"><span>University</span><span>Universiti Malaya</span></div>
-            <div class="identity-row"><span>Focus</span><span>Distributed UAV autonomy and swarm robotics</span></div>
-          </div>
-          <div class="system-card" aria-label="Research system emphasis">
-            <div class="system-title">Research emphasis</div>
-            <div class="signal-row"><b>Autonomy</b><span>distributed</span><div class="signal-track"><div class="signal-fill" style="width: 88%"></div></div></div>
-            <div class="signal-row"><b>Communication</b><span>aware</span><div class="signal-track"><div class="signal-fill" style="width: 82%"></div></div></div>
-            <div class="signal-row"><b>Robustness</b><span>field-oriented</span><div class="signal-track"><div class="signal-fill" style="width: 76%"></div></div></div>
-          </div>
+      <div class="hero-content">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="status-dot"></span> PhD Student · RobotEdge Lab · Universiti Malaya</div>
+          <h1>Building autonomy beyond constraints.</h1>
+          <p class="hero-lead">A research operations portal for UAV autonomy, robotics research, teaching hardware, and field-oriented systems — connecting academic direction, engineering execution, validation evidence, and documented outputs.</p>
+          <div class="hero-actions"><a class="button primary" href="#dashboard">Open dashboard</a><a class="button secondary" href="#research">Research focus</a><a class="button secondary" href="#contact">Contact</a></div>
         </div>
-      </aside>
+        <aside class="hero-meta" aria-label="Academic identity summary">
+          <div class="hero-meta-line"><span>Name</span><span>Johnny Chan</span></div>
+          <div class="hero-meta-line"><span>Lab</span><span>RobotEdge Lab, Universiti Malaya</span></div>
+          <div class="hero-meta-line"><span>Scope</span><span>UAV autonomy, robotics research, teaching hardware, and research-to-field system validation.</span></div>
+          <div class="hero-logos" aria-label="Affiliated project marks">
+            <img src="assets/Robotedge_logo.png" alt="RobotEdge Lab logo">
+            <img src="assets/UM_logo.png" alt="Universiti Malaya logo">
+            <img class="logo-icon" src="assets/agenthub_logo_v2.ico" alt="AgentHub logo">
+          </div>
+        </aside>
+      </div>
     </header>
 
-    <section id="research" class="reveal">
+    <section id="dashboard" class="reveal" aria-labelledby="dashboard-title">
       <div class="section-head">
-        <div class="section-kicker">Research Interests</div>
-        <div>
-          <h2>Distributed autonomy for aerial systems that must coordinate with imperfect information.</h2>
-          <p class="section-intro">My work focuses on the interface between swarm control, communication constraints, distributed perception, and deployable aerial robotics systems.</p>
-        </div>
+        <div class="section-kicker">Research Operations Dashboard</div>
+        <div><h2 id="dashboard-title">A control surface for project status, evidence, documents, and repository handoff.</h2><p class="section-intro">This dashboard is the operational center of the homepage: each project keeps a readable status layer, a document route, a latest-update route, and a future-ready GitHub integration point.</p></div>
       </div>
-      <div class="grid-4">
-        <article class="card research-card"><span class="card-label">Area 01</span><h3>Distributed UAV Autonomy</h3><p>Coordination algorithms and autonomy frameworks for multi-UAV teams operating without centralized assumptions.</p></article>
-        <article class="card research-card"><span class="card-label">Area 02</span><h3>Communication-Aware Swarm Robotics</h3><p>Swarm behavior that adapts to bandwidth limits, latency, packet loss, and incomplete network topology.</p></article>
-        <article class="card research-card"><span class="card-label">Area 03</span><h3>Robust Aerial Robotics Systems</h3><p>Field-oriented system design for reliable autonomy under sensing, compute, and environmental uncertainty.</p></article>
-        <article class="card research-card"><span class="card-label">Area 04</span><h3>Distributed Perception–Communication Architecture</h3><p>DPCA as a framework for connecting perception, message passing, and downstream swarm decision-making.</p></article>
+      <div class="dashboard-summary" aria-label="Dashboard readiness summary">
+        <div class="summary-cell"><span>Active lines</span><b>02</b></div>
+        <div class="summary-cell"><span>Update layer</span><b>Markdown ready</b></div>
+        <div class="summary-cell"><span>Document layer</span><b>PDF / reports</b></div>
+        <div class="summary-cell"><span>Code layer</span><b>GitHub linked</b></div>
+      </div>
+      <div class="dashboard-layout">
+        <div class="dashboard-grid">
+          <article class="dashboard-card" data-status="active">
+            <div class="org-logo"><img src="assets/Robotedge_logo.png" alt="RobotEdge Lab logo"></div><div class="dashboard-top"><div><div class="project-code">Project 01 · Research platform</div><h3>UAV Experimental Platform</h3></div><span class="status-badge status-active">active</span></div>
+            <p class="dashboard-desc">Experimental hardware and software platform for validating swarm autonomy, communication-aware coordination, and robust aerial robotics systems.</p>
+            <div class="status-table"><div class="status-row"><span>Status</span><span>Platform planning and validation design</span></div><div class="status-row"><span>Latest update</span><span>2026-05-12 · validation discussion</span></div><div class="status-row"><span>Next output</span><span>Architecture scope, equipment shortlist, experiment checklist</span></div></div>
+            <div class="project-brief"><div class="brief-row"><span>Data route</span><span>Markdown update → PDF brief → GitHub issue/release</span></div><div class="brief-row"><span>Readiness</span><span>Research question and platform validation path defined</span></div></div>
+            <div class="progress-block"><div class="progress-head"><span>Operational readiness</span><span>42%</span></div><div class="progress-track"><div class="progress-fill active" style="width:42%"></div></div></div>
+            <div class="project-actions"><a class="action-link" href="projects/uav-platform/"><b>Overview</b><span>project page</span></a><a class="action-link" href="updates/uav-platform/latest.html"><b>Latest Update</b><span>markdown log</span></a><a class="action-link" href="docs/uav-platform/"><b>Docs</b><span>pdf / reports</span></a><a class="action-link" href="https://github.com/JC8426" target="_blank" rel="noopener"><b>GitHub Repo</b><span>code handoff</span></a></div>
+            <div class="integration-note">Ready for: repo link · PDF preview · milestone status · update index</div>
+          </article>
+          <article class="dashboard-card" data-status="planned">
+            <div class="org-logo icon"><img src="assets/agenthub_logo_v2.ico" alt="AgentHub logo"></div><div class="dashboard-top"><div><div class="project-code">Project 02 · Teaching hardware</div><h3>AgentHub Teaching Hardware</h3></div><span class="status-badge status-planned">planned</span></div>
+            <p class="dashboard-desc">Intelligent teaching hardware and agent workflow project connecting digital technology, foreign language teaching, and classroom-facing systems.</p>
+            <div class="status-table"><div class="status-row"><span>Status</span><span>Hardware concept and demonstration pipeline</span></div><div class="status-row"><span>Latest update</span><span>2026-05-10 · demo consolidation</span></div><div class="status-row"><span>Next output</span><span>Module definition, demo path, partner-facing brief</span></div></div>
+            <div class="project-brief"><div class="brief-row"><span>Data route</span><span>Demo notes → module spec → GitHub Pages documentation</span></div><div class="brief-row"><span>Readiness</span><span>Concept direction set; implementation route still forming</span></div></div>
+            <div class="progress-block"><div class="progress-head"><span>Operational readiness</span><span>30%</span></div><div class="progress-track"><div class="progress-fill planned" style="width:30%"></div></div></div>
+            <div class="project-actions"><a class="action-link" href="projects/agenthub-hardware/"><b>Overview</b><span>project page</span></a><a class="action-link" href="updates/agenthub-hardware/latest.html"><b>Latest Update</b><span>memo log</span></a><a class="action-link" href="docs/agenthub-hardware/"><b>Docs</b><span>spec / PDFs</span></a><a class="action-link" href="https://github.com/JC8426" target="_blank" rel="noopener"><b>GitHub Repo</b><span>future repo</span></a></div>
+            <div class="integration-note">Ready for: module spec · demo archive · partner notes · repository route</div>
+          </article>
+        </div>
+        <aside class="dashboard-side" aria-label="Latest activity and quick access">
+          <div class="activity-panel"><div class="panel-heading"><h3>Latest Activity</h3><span>Chronological</span></div><div class="activity-list"><div class="activity-item"><div class="activity-date">2026-05-14</div><div><div class="activity-title">DPCA framework notes revised</div><div class="activity-meta">Research · framework writing</div></div></div><div class="activity-item"><div class="activity-date">2026-05-12</div><div><div class="activity-title">UAV platform validation discussion</div><div class="activity-meta">RobotEdge Lab · experimental planning</div></div></div></div></div>
+          <div class="quick-access-panel"><div class="panel-heading"><h3>Integration Routes</h3><span>Future-ready</span></div><div class="quick-grid"><a class="quick-link" href="updates/"><b>Markdown update index</b><span>Logs</span></a><a class="quick-link" href="docs/"><b>Documents and PDF previews</b><span>Docs</span></a><a class="quick-link" href="reports/"><b>Project reports</b><span>Reports</span></a><a class="quick-link" href="https://github.com/JC8426" target="_blank" rel="noopener"><b>GitHub repositories</b><span>Code</span></a><a class="quick-link" href="projects/"><b>Project pages</b><span>Overview</span></a><a class="quick-link" href="#updates"><b>Technical memos</b><span>Updates</span></a></div><p class="architecture-note"><strong>Architecture note:</strong> the homepage is the index layer. Project folders, markdown updates, PDFs, and repositories should remain separate execution layers.</p></div>
+        </aside>
       </div>
     </section>
 
-    <section id="current" class="reveal">
-      <div class="section-head">
-        <div class="section-kicker">Current Research</div>
-        <div>
-          <h2>Building a research bridge from simulation logic to experimental UAV platforms.</h2>
-          <p class="section-intro">The current research direction studies how UAV teams maintain coordination quality when communication becomes limited, local, delayed, or partially unavailable.</p>
-        </div>
-      </div>
-      <div class="current-research">
-        <article class="card large-card">
-          <div>
-            <span class="card-label">Core framework</span>
-            <h3>Communication-aware swarm autonomy for UAV teams</h3>
-            <p>The research investigates distributed decision-making, neighbor-aware coordination, and perception-communication coupling. The goal is to define a framework that remains useful beyond idealized simulation settings and can support experimental validation.</p>
-          </div>
-          <div class="architecture-lines" aria-label="Research architecture blocks">
-            <div class="arch-node">local perception</div>
-            <div class="arch-node">message passing</div>
-            <div class="arch-node">distributed policy</div>
-            <div class="arch-node">swarm behavior</div>
-          </div>
-        </article>
-        <div class="research-stack">
-          <article class="mini-card"><h3>Problem context</h3><p>UAV swarms often assume stable communication, but real deployment environments produce intermittent links and uneven information access.</p></article>
-          <article class="mini-card"><h3>Method direction</h3><p>Integrate communication quality into the architecture of perception, coordination, and local decision-making.</p></article>
-          <article class="mini-card"><h3>Validation goal</h3><p>Connect algorithmic design with a practical UAV experimental platform for controlled field testing.</p></article>
-        </div>
-      </div>
+    <section id="research" class="reveal">
+      <div class="section-head"><div class="section-kicker">Research Direction</div><div><h2>Autonomy research grounded in communication limits, field constraints, and deployable robotic systems.</h2><p class="section-intro">The research layer explains the academic direction behind the operational work: distributed autonomy, robust aerial robotics, teaching hardware, and system validation under imperfect information.</p></div></div>
+      <div class="current-research"><article class="card large-card"><div><span class="card-label">Core thread</span><h3>Communication-aware autonomy and field-oriented robotics</h3><p>The work studies how robotic systems maintain useful coordination and decision quality when communication, sensing, compute, or deployment environments become constrained. The emphasis is framework-level: connect research questions to architectures, experiments, and documented evidence.</p></div><div class="architecture-lines" aria-label="Research architecture blocks"><div class="arch-node">local perception</div><div class="arch-node">message passing</div><div class="arch-node">distributed policy</div><div class="arch-node">field validation</div></div></article><div class="research-stack"><article class="mini-card"><h3>Academic direction</h3><p>Distributed UAV autonomy, communication-aware swarm robotics, robust aerial systems, and DPCA-style perception–communication frameworks.</p></article><article class="mini-card"><h3>Engineering direction</h3><p>Prototype platforms, teaching hardware modules, system integration, and reproducible validation packages.</p></article><article class="mini-card"><h3>Documentation direction</h3><p>Maintain project logs, update memos, reports, PDF previews, and GitHub-linked artifacts as evidence trails.</p></article></div></div>
+      <div class="grid-4" style="margin-top:14px"><article class="card research-card"><span class="card-label">Area 01</span><h3>Distributed UAV Autonomy</h3><p>Coordination algorithms and autonomy frameworks for multi-UAV teams operating without centralized assumptions.</p></article><article class="card research-card"><span class="card-label">Area 02</span><h3>Communication-Aware Robotics</h3><p>System behavior that adapts to bandwidth limits, latency, packet loss, and incomplete network topology.</p></article><article class="card research-card"><span class="card-label">Area 03</span><h3>Teaching Hardware and Agent Workflows</h3><p>Applied systems that connect intelligent agents, hardware interaction, classroom use, and project delivery.</p></article><article class="card research-card"><span class="card-label">Area 04</span><h3>Field-Oriented Systems</h3><p>Validation design for robotic systems facing sensing, compute, environment, and deployment uncertainty.</p></article></div>
     </section>
 
     <section id="projects" class="reveal">
-      <div class="section-head">
-        <div class="section-kicker">Projects</div>
-        <div><h2>Applied systems that support research, collaboration, and deployment learning.</h2></div>
+      <div class="section-head"><div class="section-kicker">Projects</div><div><h2>Applied systems that support research, collaboration, and deployment learning.</h2><p class="section-intro">The dashboard above is for operational tracking. This section explains each project’s research or engineering role.</p></div></div>
+      <div class="grid-2"><article class="card project-card"><div><span class="card-label">Research Platform</span><h3>UAV Experimental Platform</h3><p>A hardware and software platform for validating swarm coordination, communication-aware autonomy, and aerial robotics experiments.</p></div><div class="project-meta"><span class="tag">UAV</span><span class="tag">field validation</span><span class="tag">swarm systems</span></div></article><article class="card project-card"><div><span class="card-label">Teaching Hardware</span><h3>AgentHub Teaching Hardware</h3><p>Intelligent hardware development for digital technology and foreign language teaching, connecting agent workflows with classroom-facing systems.</p></div><div class="project-meta"><span class="tag">education</span><span class="tag">agents</span><span class="tag">hardware</span></div></article></div>
+    </section>
+
+    <section id="analytics" class="reveal">
+      <div class="section-head"><div class="section-kicker">Lightweight System Analytics</div><div><h2>Subtle indicators for readiness, maturity, and research progress.</h2><p class="section-intro">These panels are intentionally lightweight placeholders: they establish the structure for future real data without turning the homepage into a startup analytics dashboard.</p></div></div>
+      <div class="visual-grid">
+        <article class="visual-panel"><h3>Project readiness radar</h3><p>Placeholder view for comparing research framing, implementation readiness, validation path, and documentation completeness.</p><div class="radar-box"><div class="radar" aria-hidden="true"></div><div class="metric-list"><div class="metric"><span>Research</span><div class="metric-track"><i style="width:72%"></i></div><b>72</b></div><div class="metric"><span>Build</span><div class="metric-track"><i style="width:48%"></i></div><b>48</b></div><div class="metric"><span>Validate</span><div class="metric-track"><i style="width:38%"></i></div><b>38</b></div><div class="metric"><span>Document</span><div class="metric-track"><i style="width:64%"></i></div><b>64</b></div></div></div></article>
+        <article class="visual-panel"><h3>System maturity indicators</h3><p>Operational maturity can later be computed from update frequency, document completeness, GitHub activity, and validation evidence.</p><div class="maturity-grid"><div class="maturity-cell"><span>Architecture</span><b>L2</b></div><div class="maturity-cell"><span>Prototype</span><b>L1</b></div><div class="maturity-cell"><span>Evidence</span><b>L1</b></div><div class="maturity-cell"><span>Handoff</span><b>L0</b></div></div></article>
+        <article class="visual-panel"><h3>Research progress visualization</h3><p>Reserved for paper milestones, experiment readiness, and supervisor-facing review status.</p><div class="metric-list"><div class="metric"><span>Problem</span><div class="metric-track"><i style="width:82%"></i></div><b>82</b></div><div class="metric"><span>Framework</span><div class="metric-track"><i style="width:58%"></i></div><b>58</b></div><div class="metric"><span>Experiment</span><div class="metric-track"><i style="width:34%"></i></div><b>34</b></div><div class="metric"><span>Manuscript</span><div class="metric-track"><i style="width:46%"></i></div><b>46</b></div></div></article>
+        <article class="visual-panel"><h3>Activity timeline</h3><p>A compact operational log for project movement, technical memos, and delivery checkpoints.</p><div class="timeline-rail"><div class="timeline-step"><span>Capture</span><div><b>Raw notes and meeting signals</b><p>Supervisor feedback, technical observations, and validation notes.</p></div></div><div class="timeline-step"><span>Review</span><div><b>Decision-ready synthesis</b><p>Evaluation matrices, feasibility notes, comparison reports.</p></div></div><div class="timeline-step"><span>Deliver</span><div><b>Published output layer</b><p>PDF previews, GitHub pages, repo links, update memos.</p></div></div></div></article>
       </div>
-      <div class="grid-3">
-        <article class="card project-card"><div><span class="card-label">Research Platform</span><h3>UAV Experimental Platform</h3><p>A hardware and software platform for validating swarm coordination, communication-aware autonomy, and aerial robotics experiments.</p></div><div class="project-meta"><span class="tag">UAV</span><span class="tag">field validation</span><span class="tag">swarm systems</span></div></article>
-        <article class="card project-card"><div><span class="card-label">Automation</span><h3>Cucumber Sorting Automation</h3><p>Agricultural automation project exploring supplier evaluation, AI vision sorting, mechanical integration, and project delivery under RobotEdge Lab collaboration.</p></div><div class="project-meta"><span class="tag">AI vision</span><span class="tag">agri-robotics</span><span class="tag">systems integration</span></div></article>
-        <article class="card project-card"><div><span class="card-label">Teaching Hardware</span><h3>AgentHub Teaching Hardware</h3><p>Intelligent hardware development for digital technology and foreign language teaching, connecting agent workflows with classroom-facing systems.</p></div><div class="project-meta"><span class="tag">education</span><span class="tag">agents</span><span class="tag">hardware</span></div></article>
+    </section>
+
+    <section id="operating-model" class="reveal">
+      <div class="section-head"><div class="section-kicker">Operating Model</div><div><h2>How ideas become systems, evidence, and documented outputs.</h2><p class="section-intro">The portal is organized around a research-engineering loop. It is not only a personal homepage; it is a lightweight mechanism for turning scattered work into reviewable, reusable project artifacts.</p></div></div>
+      <div class="model-flow" aria-label="Research engineering operating model">
+        <article class="model-step"><div><h3>Research</h3><p>Frame the question, assumptions, constraints, and academic contribution before choosing tools or implementation paths.</p></div><div class="model-output">Output: research brief</div></article>
+        <article class="model-step"><div><h3>Build</h3><p>Translate the framework into prototypes, code repositories, hardware modules, or experiment scaffolds.</p></div><div class="model-output">Output: system artifact</div></article>
+        <article class="model-step"><div><h3>Validate</h3><p>Check whether the system works under realistic constraints: communication limits, field conditions, integration risk, and delivery feasibility.</p></div><div class="model-output">Output: evidence package</div></article>
+        <article class="model-step"><div><h3>Document</h3><p>Convert progress into markdown updates, reports, PDF previews, technical memos, and GitHub-linked handoff material.</p></div><div class="model-output">Output: reviewable archive</div></article>
       </div>
     </section>
 
     <section id="publications" class="reveal">
-      <div class="section-head">
-        <div class="section-kicker">Publications</div>
-        <div>
-          <h2>Selected papers and manuscripts.</h2>
-          <p class="section-intro">Placeholders are provided for GitHub Pages deployment. Replace these entries with final titles, venues, and links as papers become available.</p>
-        </div>
-      </div>
-      <div class="publication-list">
-        <article class="pub-item"><div class="pub-year">In progress</div><div><div class="pub-title">Communication-Aware Distributed Autonomy for UAV Swarms</div><div class="pub-desc">Manuscript on swarm autonomy under constrained communication and partial observability.</div></div><div class="pub-status">placeholder</div></article>
-        <article class="pub-item"><div class="pub-year">In progress</div><div><div class="pub-title">DPCA: Distributed Perception–Communication Architecture</div><div class="pub-desc">Framework-oriented paper connecting perception, network state, and distributed coordination.</div></div><div class="pub-status">placeholder</div></article>
-        <article class="pub-item"><div class="pub-year">Planned</div><div><div class="pub-title">Experimental Validation of Robust UAV Swarm Systems</div><div class="pub-desc">Platform and experiment-focused work for aerial swarm validation.</div></div><div class="pub-status">placeholder</div></article>
-      </div>
+      <div class="section-head"><div class="section-kicker">Publications</div><div><h2>Selected papers and manuscripts.</h2><p class="section-intro">Placeholders are provided for GitHub Pages deployment. Replace these entries with final titles, venues, and links as papers become available.</p></div></div>
+      <div class="publication-list"><article class="pub-item"><div class="pub-year">In progress</div><div><div class="pub-title">Communication-Aware Distributed Autonomy for UAV Swarms</div><div class="pub-desc">Manuscript on swarm autonomy under constrained communication and partial observability.</div></div><div class="pub-status">placeholder</div></article><article class="pub-item"><div class="pub-year">In progress</div><div><div class="pub-title">DPCA: Distributed Perception–Communication Architecture</div><div class="pub-desc">Framework-oriented paper connecting perception, network state, and distributed coordination.</div></div><div class="pub-status">placeholder</div></article><article class="pub-item"><div class="pub-year">Planned</div><div><div class="pub-title">Experimental Validation of Robust UAV Swarm Systems</div><div class="pub-desc">Platform and experiment-focused work for aerial swarm validation.</div></div><div class="pub-status">placeholder</div></article></div>
     </section>
 
-    <section id="notes" class="reveal">
-      <div class="section-head">
-        <div class="section-kicker">Technical Notes</div>
-        <div><h2>Working notes on research design, engineering practice, and system validation.</h2></div>
-      </div>
-      <div class="note-list">
-        <article class="note-item"><div class="note-type">Research note</div><div><div class="note-title">Framework vs. Algorithm in UAV Swarm Research</div><div class="note-desc">Clarifying the difference between architectural specification, coordination logic, and implementation-level algorithms.</div></div><div class="pub-status">draft</div></article>
-        <article class="note-item"><div class="note-type">Engineering note</div><div><div class="note-title">Designing Experiments for Communication-Constrained UAV Teams</div><div class="note-desc">A practical checklist for moving from simulation assumptions to measurable platform experiments.</div></div><div class="pub-status">draft</div></article>
-        <article class="note-item"><div class="note-type">Project note</div><div><div class="note-title">From Robotics Research to Field-Oriented Systems</div><div class="note-desc">Lessons from connecting lab prototypes, supplier ecosystems, and deployment constraints.</div></div><div class="pub-status">draft</div></article>
-      </div>
+    <section id="updates" class="reveal">
+      <div class="section-head"><div class="section-kicker">Updates</div><div><h2>Logs, deliverables, technical memos, and project notes.</h2><p class="section-intro">This section becomes the public-facing update layer for markdown logs, supervisor memos, technical notes, PDF-ready reports, and future project deliverables.</p></div></div>
+      <div class="note-list"><article class="note-item"><div class="note-type">Research memo</div><div><div class="note-title">Framework vs. Algorithm in UAV Swarm Research</div><div class="note-desc">Clarifying the difference between architectural specification, coordination logic, and implementation-level algorithms.</div></div><div class="pub-status">draft</div></article><article class="note-item"><div class="note-type">Validation memo</div><div><div class="note-title">Designing Experiments for Communication-Constrained UAV Teams</div><div class="note-desc">A practical checklist for moving from simulation assumptions to measurable platform experiments.</div></div><div class="pub-status">draft</div></article><article class="note-item"><div class="note-type">Delivery memo</div><div><div class="note-title">From Robotics Research to Field-Oriented Systems</div><div class="note-desc">Lessons from connecting lab prototypes, validation evidence, and deployment constraints.</div></div><div class="pub-status">draft</div></article></div>
     </section>
 
     <section id="contact" class="reveal">
-      <div class="contact-panel">
-        <div class="contact-main">
-          <div>
-            <div class="eyebrow" style="background: transparent; color: currentColor; border-color: color-mix(in srgb, currentColor 24%, transparent);"><span class="status-dot"></span> Contact</div>
-            <h2>Open to research discussion and collaboration.</h2>
-            <p>If your work relates to UAV swarms, distributed autonomy, communication-aware robotics, or experimental aerial systems, feel free to reach out.</p>
-          </div>
-          <div class="hero-actions"><a class="button secondary" href="mailto:17221419@siswa.um.edu.my">Email</a><a class="button secondary" href="https://github.com/JC8426" target="_blank" rel="noopener">GitHub</a></div>
-        </div>
-        <div class="contact-links">
-          <a class="contact-link" href="https://www.um.edu.my/" target="_blank" rel="noopener"><span>Institution</span><b>Universiti Malaya</b></a>
-          <a class="contact-link" href="#research"><span>Research</span><b>UAV Swarm Autonomy</b></a>
-          <a class="contact-link" href="#projects"><span>Lab work</span><b>RobotEdge Lab Projects</b></a>
-        </div>
-      </div>
+      <div class="contact-panel"><div class="contact-main"><div><div class="eyebrow" style="background: transparent; color: currentColor; border-color: color-mix(in srgb, currentColor 24%, transparent);"><span class="status-dot"></span> Contact</div><h2>Open to research discussion and collaboration.</h2><p>If your work relates to UAV swarms, distributed autonomy, communication-aware robotics, experimental aerial systems, or RobotEdge Lab project collaboration, feel free to reach out.</p></div><div class="hero-actions"><a class="button secondary" href="mailto:17221419@siswa.um.edu.my">Email</a><a class="button secondary" href="https://github.com/JC8426" target="_blank" rel="noopener">GitHub</a></div></div><div class="contact-links"><a class="contact-link" href="https://www.um.edu.my/" target="_blank" rel="noopener"><span>Institution</span><b>Universiti Malaya</b></a><a class="contact-link" href="#dashboard"><span>Operations</span><b>Project Updates Dashboard</b></a><a class="contact-link" href="#research"><span>Research</span><b>UAV Swarm Autonomy</b></a><a class="contact-link" href="#projects"><span>Lab work</span><b>RobotEdge Lab Projects</b></a></div></div>
     </section>
   </main>
 
-  <footer class="site-shell">
-    <span>© <span data-year></span> Johnny Chan. Built as a single-file GitHub Pages homepage.</span>
-    <span>UAV autonomy · Swarm robotics · Distributed systems</span>
-  </footer>
+  <button class="to-top" type="button" data-to-top aria-label="Back to top">Top</button>
+
+  <footer class="site-shell"><span>© <span data-year></span> Johnny Chan. Single-file GitHub Pages research operations portal.</span><span>Academic homepage · project dashboard · documentation gateway</span></footer>
 
   <script>
     (function () {
       const root = document.body;
       const toggle = document.querySelector('[data-theme-toggle]');
       const year = document.querySelector('[data-year]');
+      const toTop = document.querySelector('[data-to-top]');
       const saved = localStorage.getItem('jc-theme');
-
       function applyTheme(mode) {
         root.classList.remove('force-light', 'force-dark');
         if (mode === 'light') root.classList.add('force-light');
@@ -732,42 +438,21 @@
         toggle.textContent = mode === 'auto' ? 'Auto' : mode.charAt(0).toUpperCase() + mode.slice(1);
         toggle.setAttribute('aria-label', 'Theme: ' + toggle.textContent + '. Click to change.');
       }
-
-      function nextTheme(mode) {
-        if (mode === 'auto') return 'light';
-        if (mode === 'light') return 'dark';
-        return 'auto';
-      }
-
+      function nextTheme(mode) { if (mode === 'auto') return 'light'; if (mode === 'light') return 'dark'; return 'auto'; }
       let mode = saved || 'auto';
       applyTheme(mode);
       if (year) year.textContent = new Date().getFullYear();
-
-      toggle.addEventListener('click', function () {
-        mode = nextTheme(mode);
-        localStorage.setItem('jc-theme', mode);
-        applyTheme(mode);
-      });
-
-      const items = document.querySelectorAll('.reveal');
-      if (!('IntersectionObserver' in window)) {
-        items.forEach(function (item) { item.classList.add('visible'); });
-        return;
+      toggle.addEventListener('click', function () { mode = nextTheme(mode); localStorage.setItem('jc-theme', mode); applyTheme(mode); });
+      if (toTop) {
+        const syncToTop = function () { toTop.classList.toggle('visible', window.scrollY > 520); };
+        syncToTop();
+        window.addEventListener('scroll', syncToTop, { passive: true });
+        toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
       }
-
-      const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
-
-      items.forEach(function (item, index) {
-        item.style.transitionDelay = Math.min(index * 55, 220) + 'ms';
-        observer.observe(item);
-      });
+      const items = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { items.forEach(function (item) { item.classList.add('visible'); }); return; }
+      const observer = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
+      items.forEach(function (item, index) { item.style.transitionDelay = Math.min(index * 55, 220) + 'ms'; observer.observe(item); });
     })();
   </script>
 </body>
