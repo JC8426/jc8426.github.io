@@ -3,50 +3,91 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Johnny Chan researches, designs, organizes, and delivers technical systems across research, engineering, AI workflows, technical websites, and prototype development.">
-  <meta name="theme-color" content="#f4f1eb" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#171712" media="(prefers-color-scheme: dark)">
-  <title>Johnny Chan · Research-Driven Technical Project Builder</title>
+  <meta name="description" content="Johnny Chan is a Computer Science PhD candidate focused on robotics software, Python development, UAV autonomy, AI-assisted engineering workflows, and practical software delivery.">
+  <meta name="theme-color" content="#f6f7f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#11140f" media="(prefers-color-scheme: dark)">
+  <title>Johnny Chan - Robotics Software Engineer</title>
   <link rel="icon" type="image/x-icon" href="assets/agenthub_logo_v2.ico">
   <style>
     :root {
       color-scheme: light dark;
-      --bg: #f4f1eb;
-      --surface: rgba(250, 248, 243, 0.78);
-      --surface-solid: #fbfaf7;
-      --text: #24231f;
-      --muted: #6f6a60;
-      --subtle: #9b9488;
-      --line: rgba(36, 35, 31, 0.12);
-      --line-strong: rgba(36, 35, 31, 0.22);
-      --accent: #5d6357;
-      --shadow: 0 24px 80px rgba(16, 24, 40, 0.08);
+      --bg: #f6f7f2;
+      --bg-rgb: 246 247 242;
+      --surface: rgb(255 255 252 / 0.74);
+      --surface-strong: #fffffb;
+      --text: #171913;
+      --muted: #65695f;
+      --subtle: #8d9286;
+      --line: rgb(23 25 19 / 0.12);
+      --line-strong: rgb(23 25 19 / 0.22);
+      --accent: #53624e;
+      --accent-soft: rgb(83 98 78 / 0.14);
+      --shadow: 0 28px 90px rgb(21 30 16 / 0.08);
+      --icon-filter: none;
+      --radius: 18px;
       --max: 1180px;
       --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-      --serif: "Iowan Old Style", "Editorial New", Georgia, "Times New Roman", serif;
+      --display: "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
       --mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #171712;
-        --surface: rgba(32, 32, 26, 0.76);
-        --surface-solid: #201f19;
-        --text: #ece9e1;
-        --muted: #a5a196;
-        --subtle: #7d796d;
-        --line: rgba(236, 233, 225, 0.11);
-        --line-strong: rgba(236, 233, 225, 0.2);
-        --accent: #adb8a0;
-        --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+        --bg: #11140f;
+        --bg-rgb: 17 20 15;
+        --surface: rgb(31 35 27 / 0.72);
+        --surface-strong: #1d2119;
+        --text: #f1eee5;
+        --muted: #b3b6aa;
+        --subtle: #858a7d;
+        --line: rgb(241 238 229 / 0.12);
+        --line-strong: rgb(241 238 229 / 0.22);
+        --accent: #b4c4a4;
+        --accent-soft: rgb(180 196 164 / 0.14);
+        --shadow: 0 28px 90px rgb(0 0 0 / 0.32);
+        --icon-filter: invert(1);
       }
+    }
+
+    body.force-light {
+      color-scheme: light;
+      --bg: #f6f7f2;
+      --bg-rgb: 246 247 242;
+      --surface: rgb(255 255 252 / 0.74);
+      --surface-strong: #fffffb;
+      --text: #171913;
+      --muted: #65695f;
+      --subtle: #8d9286;
+      --line: rgb(23 25 19 / 0.12);
+      --line-strong: rgb(23 25 19 / 0.22);
+      --accent: #53624e;
+      --accent-soft: rgb(83 98 78 / 0.14);
+      --shadow: 0 28px 90px rgb(21 30 16 / 0.08);
+      --icon-filter: none;
+    }
+
+    body.force-dark {
+      color-scheme: dark;
+      --bg: #11140f;
+      --bg-rgb: 17 20 15;
+      --surface: rgb(31 35 27 / 0.72);
+      --surface-strong: #1d2119;
+      --text: #f1eee5;
+      --muted: #b3b6aa;
+      --subtle: #858a7d;
+      --line: rgb(241 238 229 / 0.12);
+      --line-strong: rgb(241 238 229 / 0.22);
+      --accent: #b4c4a4;
+      --accent-soft: rgb(180 196 164 / 0.14);
+      --shadow: 0 28px 90px rgb(0 0 0 / 0.32);
+      --icon-filter: invert(1);
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body {
       margin: 0;
+      min-height: 100dvh;
       background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
@@ -56,208 +97,521 @@
       text-rendering: optimizeLegibility;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 50% 20%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 34rem),
+        radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--accent) 42%, transparent) 1px, transparent 1.35px);
+      background-size: 100% 100%, 22px 22px;
+      opacity: 0.58;
+      animation: dottedGlow 12s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgb(var(--bg-rgb) / 0.78), rgb(var(--bg-rgb) / 0.72)),
+        radial-gradient(circle at 20% 12%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 28rem),
+        radial-gradient(circle at 82% 44%, color-mix(in srgb, var(--text) 6%, transparent), transparent 30rem);
+      background-size: 100% 100%, 160% 160%, 150% 150%;
+      animation: gradientDrift 34s ease-in-out infinite alternate;
+    }
+
+    @keyframes dottedGlow {
+      0% { opacity: 0.34; filter: saturate(0.86); }
+      100% { opacity: 0.68; filter: saturate(1.08); }
+    }
+
+    @keyframes gradientDrift {
+      0% { background-position: 0 0, 0% 50%; }
+      100% { background-position: 0 0, 100% 50%; }
+    }
+
     a { color: inherit; text-decoration: none; }
     p { margin: 0; }
     strong { color: var(--text); }
     button { font-family: inherit; }
+    img, video, canvas { max-width: 100%; }
 
     .site-shell { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
 
-    /* Floating pill navigation */
-    .nav { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 20; width: min(1060px, calc(100% - 28px)); border: 1px solid var(--line); border-radius: 999px; background: color-mix(in srgb, var(--surface-solid) 78%, transparent); backdrop-filter: blur(16px) saturate(1.05); -webkit-backdrop-filter: blur(16px) saturate(1.05); box-shadow: 0 10px 34px rgba(16, 24, 40, 0.1); padding: 11px 20px; transition: padding 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .nav.scrolled { padding: 7px 16px; box-shadow: 0 8px 26px rgba(16, 24, 40, 0.14); }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-    .brand { display: flex; align-items: center; gap: 10px; min-width: max-content; font-weight: 560; letter-spacing: -0.01em; text-transform: uppercase; font-size: 12px; }
-    .brand-mark { width: 24px; height: 24px; border-radius: 50%; border: 1px solid currentColor; display: grid; place-items: center; font-family: var(--mono); font-size: 9px; }
-    .nav-links { display: flex; align-items: center; gap: 18px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
-    .nav-links a { padding: 6px 0; opacity: 0.72; transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .nav-links a:hover { opacity: 1; }
-    .nav-controls { display: flex; align-items: center; gap: 8px; }
-    .theme-toggle, .lang-toggle, .nav-menu-btn { border: 1px solid var(--line-strong); background: transparent; color: inherit; border-radius: 999px; padding: 6px 10px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; opacity: 0.82; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms cubic-bezier(0.16, 1, 0.3, 1), background 180ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .theme-toggle:active, .nav-menu-btn:active { transform: scale(0.98); }
-    .theme-toggle:hover, .lang-toggle:hover, .nav-menu-btn:hover { opacity: 1; }
-    .lang-toggle { min-width: 56px; }
-    .nav-menu-btn { display: none; }
-
-    /* Hero */
-    .hero { min-height: 100vh; min-height: 100dvh; width: 100vw; margin-left: calc(50% - 50vw); position: relative; isolation: isolate; display: grid; place-items: center; overflow: hidden; background: #111211; color: #f8f6f1; }
-    .hero-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
-    .hero-video, .hero-media img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-video-fallback { position: absolute; inset: 0; z-index: 0; background: linear-gradient(115deg, rgba(22,21,18,0.96), rgba(22,21,18,0.64) 42%, rgba(125,119,105,0.58)), radial-gradient(circle at 74% 74%, rgba(236,229,215,0.42), transparent 34rem), linear-gradient(180deg, #2e2c26, #11100e); transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .hero-video-fallback.is-hidden { opacity: 0; pointer-events: none; }
-    .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34%; z-index: -1; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--bg) 78%, transparent)); pointer-events: none; }
-    .hero-content { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; min-height: clamp(188px, 24dvh, 252px); display: grid; align-items: center; color: #182026; border-top: 1px solid rgba(24, 32, 38, 0.13); background: linear-gradient(135deg, rgba(250, 250, 247, 0.76), rgba(238, 242, 241, 0.5)); box-shadow: 0 -22px 90px rgba(15, 23, 31, 0.16); backdrop-filter: blur(20px) saturate(1.08); -webkit-backdrop-filter: blur(20px) saturate(1.08); padding: clamp(18px, 2.6vh, 28px) max(36px, calc((100vw - 1180px) / 2)); }
-    .hero-panel { width: 100%; display: grid; grid-template-columns: minmax(0, 1.36fr) minmax(300px, 0.64fr); gap: clamp(18px, 3vw, 56px); align-items: center; transform: translateY(calc(var(--hero-scroll, 0) * -10px)); transform-origin: bottom left; }
-    .hero-copy { align-self: end; max-width: 900px; }
-    h1 { margin: 0 0 10px; max-width: 860px; font-family: var(--serif); font-size: clamp(34px, 4vw, 56px); line-height: 0.96; letter-spacing: -0.055em; font-weight: 520; }
-    .hero-lead { max-width: 760px; color: rgba(24, 32, 38, 0.78); font-size: clamp(14px, 1.05vw, 16px); line-height: 1.42; letter-spacing: -0.018em; }
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-    .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid currentColor; font-size: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .button.primary { background: #182026; color: #f4f1eb; border-color: #182026; }
-    .button.secondary { background: transparent; color: inherit; }
-    .button:hover { transform: translateY(-1px); }
-    .button:active { transform: scale(0.98); }
-    .hero-meta { align-self: center; display: grid; gap: 9px; color: rgba(24, 32, 38, 0.78); padding-left: clamp(16px, 2.2vw, 34px); border-left: 1px solid rgba(24, 32, 38, 0.14); }
-    .hero-meta-line { display: grid; grid-template-columns: 74px 1fr; gap: 16px; padding-top: 9px; border-top: 1px solid rgba(24, 32, 38, 0.14); }
-    .hero-meta-line:first-child { padding-top: 0; border-top: 0; }
-    .hero-meta-line span:first-child { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.09em; opacity: 0.65; }
-    .hero-meta-line span:last-child { font-size: 13.5px; line-height: 1.34; }
-    .hero-logos { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid rgba(24, 32, 38, 0.14); }
-    .hero-logos img { display: block; width: auto; max-width: 124px; max-height: 30px; object-fit: contain; filter: grayscale(1) brightness(0.32); opacity: 0.78; }
-    .hero-logos img.logo-icon { max-width: 34px; border-radius: 7px; }
-
-    /* Engineering frame */
-    .frame { position: relative; }
-    section { padding: 96px clamp(4px, 2vw, 28px); border-top: 1px solid var(--line); position: relative; overflow: clip; }
-    section.glow-section::before { content: ""; position: absolute; inset: 0; z-index: -2; opacity: 0.56; background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--accent) 32%, transparent) 1px, transparent 0); background-size: 22px 22px; mask-image: radial-gradient(circle at 72% 20%, black, transparent 42%), linear-gradient(180deg, transparent, black 18%, black 82%, transparent); }
-    section.glow-section::after { content: ""; position: absolute; width: 440px; height: 440px; right: -160px; top: 90px; z-index: -1; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%); filter: blur(8px); opacity: 0.7; pointer-events: none; }
-    section.split-section { background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--surface-solid) 62%, transparent), transparent); }
-    .section-head { max-width: 860px; margin-bottom: 38px; }
-    h2 { margin: 0; font-family: var(--serif); font-size: clamp(32px, 4.4vw, 58px); line-height: 0.96; letter-spacing: -0.055em; font-weight: 520; }
-    .section-intro { max-width: 720px; margin-top: 16px; color: var(--muted); font-size: 17px; }
-
-    @media (min-width: 981px) {
-      .frame { border-inline: 1px solid var(--line); }
-      section:not(.glow-section)::before, section:not(.glow-section)::after { content: "+"; position: absolute; top: -10.5px; font-family: var(--mono); font-size: 14px; line-height: 1; color: var(--line-strong); background: var(--bg); padding: 2px 1px; }
-      section:not(.glow-section)::before { left: -5.5px; }
-      section:not(.glow-section)::after { right: -5.5px; }
+    .nav {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      width: min(1060px, calc(100% - 28px));
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--surface-strong) 78%, transparent);
+      backdrop-filter: blur(18px) saturate(1.08);
+      -webkit-backdrop-filter: blur(18px) saturate(1.08);
+      box-shadow: 0 10px 36px rgb(16 24 40 / 0.1);
+      padding: 11px 20px;
+      transition: padding 260ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Research */
-    .sticky-research { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(360px, 0.82fr); gap: clamp(22px, 4vw, 64px); align-items: start; }
-    .research-steps { display: grid; gap: clamp(18px, 5vh, 46px); padding-top: 10px; }
-    .research-step { min-height: clamp(220px, 34vh, 360px); display: flex; flex-direction: column; justify-content: center; padding: 14px 0; opacity: 0.45; transform: translateY(12px); transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 360ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .nav.scrolled { padding: 7px 16px; box-shadow: 0 8px 26px rgb(16 24 40 / 0.14); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: max-content; font-weight: 620; letter-spacing: -0.01em; text-transform: uppercase; font-size: 12px; }
+    .brand-mark { width: 24px; height: 24px; border-radius: 50%; border: 1px solid currentColor; display: grid; place-items: center; font-family: var(--mono); font-size: 9px; }
+    .nav-links { display: flex; align-items: center; gap: 18px; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .nav-links a { padding: 6px 0; opacity: 0.74; transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .nav-links a:hover { opacity: 1; }
+    .nav-controls { display: flex; align-items: center; gap: 8px; }
+    .theme-toggle, .lang-toggle, .nav-menu-btn {
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: inherit;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      opacity: 0.84;
+      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .theme-toggle:hover, .lang-toggle:hover, .nav-menu-btn:hover { opacity: 1; }
+    .theme-toggle:active, .lang-toggle:active, .nav-menu-btn:active, .button:active { transform: scale(0.98); }
+    .lang-toggle { min-width: 44px; }
+    .nav-menu-btn { display: none; }
+
+    .hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background: #10120f;
+      color: #f8f6ef;
+      display: grid;
+      align-items: end;
+    }
+
+    .hero-media, .hero-video, .hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hero-media { z-index: -3; overflow: hidden; }
+    .hero-video, .hero-media img { object-fit: cover; display: block; filter: saturate(0.86) contrast(1.05) brightness(0.82); }
+    .hero-video-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+      background: linear-gradient(120deg, #12140f, #30372a 56%, #171912);
+      transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero-video-fallback.is-hidden { opacity: 0; pointer-events: none; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgb(7 9 6 / 0.78), rgb(7 9 6 / 0.46) 40%, rgb(7 9 6 / 0.14)),
+        linear-gradient(180deg, rgb(7 9 6 / 0.54), rgb(7 9 6 / 0.24) 48%, rgb(7 9 6 / 0.72));
+      pointer-events: none;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 22%;
+      z-index: -1;
+      background: linear-gradient(180deg, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      width: min(1500px, calc(100% - 48px));
+      margin: 0 auto;
+      height: 100%;
+      padding: clamp(82px, 11vh, 128px) 0 clamp(36px, 7vh, 70px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+      gap: clamp(28px, 7vw, 120px);
+      align-content: end;
+      align-items: end;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-family: var(--display);
+      font-size: clamp(46px, 5.8vw, 94px);
+      line-height: 0.94;
+      letter-spacing: -0.06em;
+      font-weight: 540;
+    }
+
+    .hero-lead {
+      max-width: 650px;
+      margin-top: 18px;
+      color: rgb(248 246 239 / 0.82);
+      font-size: clamp(16px, 1.35vw, 20px);
+      line-height: 1.45;
+      letter-spacing: -0.018em;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 17px;
+      border-radius: 999px;
+      border: 1px solid currentColor;
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 560;
+      white-space: nowrap;
+      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .button:hover { transform: translateY(-1px); }
+    .button.primary { background: #f8f6ef; color: #15170f; border-color: #f8f6ef; }
+    .button.secondary { background: rgb(248 246 239 / 0.08); color: #f8f6ef; border-color: rgb(248 246 239 / 0.36); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    section .button.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+    section .button.secondary { background: transparent; color: var(--text); border-color: var(--line-strong); backdrop-filter: none; }
+
+    .hero-card {
+      align-self: end;
+      border: 1px solid rgb(248 246 239 / 0.24);
+      border-radius: 22px;
+      background: linear-gradient(150deg, rgb(248 246 239 / 0.16), rgb(248 246 239 / 0.06));
+      backdrop-filter: blur(18px) saturate(1.1);
+      -webkit-backdrop-filter: blur(18px) saturate(1.1);
+      box-shadow: 0 24px 80px rgb(0 0 0 / 0.24);
+      padding: 22px;
+    }
+    .hero-card h2 {
+      margin: 0 0 16px;
+      font-size: 18px;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      color: #f8f6ef;
+    }
+    .hero-facts { display: grid; gap: 12px; }
+    .hero-fact { display: grid; grid-template-columns: 82px 1fr; gap: 14px; padding-top: 12px; border-top: 1px solid rgb(248 246 239 / 0.18); }
+    .hero-fact:first-child { border-top: 0; padding-top: 0; }
+    .hero-fact span { color: rgb(248 246 239 / 0.56); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .hero-fact b { color: rgb(248 246 239 / 0.84); font-size: 13px; line-height: 1.35; font-weight: 520; }
+
+    .frame { position: relative; border-inline: 1px solid var(--line); }
+    section { position: relative; isolation: isolate; overflow: clip; padding: clamp(74px, 9vw, 128px) clamp(4px, 2vw, 28px); border-top: 1px solid var(--line); scroll-margin-top: 96px; }
+    .section-head { max-width: 840px; margin-bottom: 42px; }
+    h2 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(36px, 5vw, 68px);
+      line-height: 0.96;
+      letter-spacing: -0.055em;
+      font-weight: 540;
+    }
+    .section-intro { max-width: 690px; margin-top: 16px; color: var(--muted); font-size: clamp(16px, 1.45vw, 18px); }
+
+    .program-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
+      gap: clamp(24px, 5vw, 72px);
+      align-items: start;
+    }
+    .program-summary {
+      position: sticky;
+      top: 112px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: color-mix(in srgb, var(--surface-strong) 78%, transparent);
+      box-shadow: var(--shadow);
+      padding: clamp(24px, 3vw, 38px);
+    }
+    .stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 28px; }
+    .stat { min-height: 106px; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--surface) 86%, transparent); padding: 16px; }
+    .stat b { display: block; font-size: clamp(26px, 3.3vw, 42px); line-height: 0.9; letter-spacing: -0.06em; }
+    .stat span { display: block; margin-top: 10px; color: var(--muted); font-family: var(--mono); font-size: 10px; line-height: 1.28; text-transform: uppercase; letter-spacing: 0.06em; }
+    .timeline { display: grid; gap: 16px; }
+    .timeline-card {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--surface-strong) 68%, transparent);
+      padding: 22px;
+      box-shadow: 0 14px 50px rgb(16 24 40 / 0.05);
+    }
+    .timeline-card time { color: var(--subtle); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .timeline-card h3 { margin: 0 0 8px; font-size: clamp(21px, 2vw, 28px); line-height: 1.08; letter-spacing: -0.045em; }
+    .timeline-card p { color: var(--muted); font-size: 15px; }
+
+    .research-layout { display: grid; grid-template-columns: minmax(0, 0.88fr) minmax(360px, 0.82fr); gap: clamp(38px, 6vw, 92px); align-items: start; }
+    .research-steps { display: grid; gap: clamp(44px, 9vh, 96px); padding-top: 12px; }
+    .research-step {
+      min-height: clamp(240px, 38vh, 390px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0.38;
+      transform: translateY(14px);
+      transition: opacity 360ms cubic-bezier(0.16, 1, 0.3, 1), transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
     .research-step.active { opacity: 1; transform: translateY(0); }
-    .research-step span { width: fit-content; margin-bottom: 14px; padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--subtle); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; background: color-mix(in srgb, var(--surface-solid) 76%, transparent); }
-    .research-step h3 { margin: 0 0 12px; font-size: clamp(26px, 3vw, 42px); line-height: 1; letter-spacing: -0.05em; }
-    .research-step p { max-width: 56ch; color: var(--muted); font-size: 16px; }
-    .sticky-visual { position: sticky; top: 112px; min-height: 520px; border: 1px solid var(--line); border-radius: 22px; background: color-mix(in srgb, var(--surface-solid) 72%, transparent); box-shadow: var(--shadow); overflow: hidden; transform: perspective(1200px) rotateX(calc(var(--system-scroll, 0) * 5deg)) translateY(calc(var(--system-scroll, 0) * -16px)); transform-origin: center bottom; }
-    .sticky-visual::before { content: ""; position: absolute; inset: 0; opacity: 0.5; background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--accent) 32%, transparent) 1px, transparent 0); background-size: 18px 18px; mask-image: radial-gradient(circle at 62% 34%, black, transparent 68%); pointer-events: none; }
-    .visual-screen { position: absolute; inset: 22px; display: grid; grid-template-rows: auto 1fr auto; gap: 18px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(145deg, color-mix(in srgb, var(--surface-solid) 86%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)); overflow: hidden; }
+    .research-step span {
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--subtle);
+      background: color-mix(in srgb, var(--surface-strong) 70%, transparent);
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+    .research-step h3 { margin: 0 0 14px; font-size: clamp(30px, 3.3vw, 46px); line-height: 1; letter-spacing: -0.055em; }
+    .research-step p { max-width: 58ch; color: var(--muted); font-size: 16px; }
+    .sticky-visual {
+      position: sticky;
+      top: 112px;
+      min-height: 590px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .sticky-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.54;
+      background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--accent) 32%, transparent) 1px, transparent 0);
+      background-size: 18px 18px;
+      mask-image: radial-gradient(circle at 62% 34%, black, transparent 70%);
+      pointer-events: none;
+    }
+    .visual-screen { position: absolute; inset: 26px; display: grid; grid-template-rows: auto 1fr auto; gap: 20px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(145deg, color-mix(in srgb, var(--surface-strong) 86%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)); overflow: hidden; }
     .visual-topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 11px; color: var(--subtle); text-transform: uppercase; letter-spacing: 0.08em; }
     .visual-pills { display: flex; gap: 7px; }
     .visual-pill { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
-    .system-panel { position: relative; min-height: 280px; }
-    .system-panel canvas { width: 100%; height: 100%; display: block; }
-    .system-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px 16px; }
-    .metric-card { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: color-mix(in srgb, var(--surface-solid) 80%, transparent); }
+    .system-panel { position: relative; min-height: 310px; margin: 0; }
+    .system-panel canvas { width: 100%; height: 100%; min-height: 310px; display: block; }
+    .system-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 0 18px 18px; }
+    .metric-card { border: 1px solid var(--line); border-radius: 14px; padding: 14px; background: color-mix(in srgb, var(--surface-strong) 78%, transparent); }
     .metric-card span { display: block; color: var(--subtle); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; }
-    .metric-card b { display: block; margin-top: 6px; font-size: 18px; letter-spacing: -0.035em; }
-    .system-caption { padding: 14px 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
-    .visual-mode { position: absolute; left: 16px; right: 16px; bottom: 104px; display: grid; gap: 8px; pointer-events: none; }
-    .mode-row { display: grid; grid-template-columns: 86px 1fr; gap: 10px; align-items: center; color: var(--muted); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0; transform: translateY(8px); transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1), transform 280ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .mode-row.active { opacity: 1; transform: translateY(0); }
-    .mode-bar { height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 22%, transparent); overflow: hidden; }
-    .mode-bar span { display: block; height: 100%; border-radius: inherit; background: var(--accent); transform-origin: left; transform: scaleX(var(--fill, 0.72)); }
-    .phd-brief { margin-top: 34px; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--surface-solid) 74%, transparent); padding: 18px 20px; display: grid; grid-template-columns: 160px 1fr; gap: 18px; align-items: start; }
+    .metric-card b { display: block; margin-top: 6px; font-size: 17px; letter-spacing: -0.035em; }
+    .system-caption { padding: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .phd-brief { margin-top: 72px; border: 1px solid var(--line); border-radius: 22px; background: color-mix(in srgb, var(--surface-strong) 68%, transparent); padding: clamp(26px, 3vw, 34px); display: grid; grid-template-columns: 180px 1fr; gap: clamp(26px, 4vw, 44px); align-items: start; }
     .phd-brief span { color: var(--subtle); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
-    .phd-brief b { display: block; margin-bottom: 8px; font-size: 16px; letter-spacing: -0.02em; }
-    .phd-keywords { display: flex; flex-wrap: wrap; gap: 8px; }
-    /* Projects */
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .card { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 24px; transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 18px 46px rgba(16, 24, 40, 0.09); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
-    .card h3 { margin: 0 0 10px; font-size: 20px; line-height: 1.15; letter-spacing: -0.03em; }
-    .card p { color: var(--muted); font-size: 15px; }
-    .project-card { min-height: 240px; display: flex; flex-direction: column; justify-content: space-between; }
-    .project-meta { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag { padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: 11px; }
-    .showcase-wrap { width: 100vw; margin-left: calc(50% - 50vw); overflow: hidden; padding: 6px 0 10px; }
-    .showcase-track { display: flex; width: max-content; gap: 14px; padding: 0 14px; animation: marquee 42s linear infinite; }
-    .showcase-wrap:hover .showcase-track { animation-play-state: paused; }
-    .showcase-card { flex: 0 0 min(420px, calc(100vw - 56px)); min-height: 260px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); border-radius: 18px; padding: 24px; background: linear-gradient(145deg, color-mix(in srgb, var(--surface-solid) 82%, transparent), color-mix(in srgb, var(--surface) 72%, transparent)); box-shadow: 0 18px 52px rgba(16, 24, 40, 0.07); }
-    .showcase-card h3 { margin: 0 0 10px; font-size: 22px; line-height: 1.08; letter-spacing: -0.04em; }
-    .showcase-card p { color: var(--muted); font-size: 15px; }
-    .showcase-card .project-meta { margin-top: 28px; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(-50%)); } }
+    .phd-brief b { display: block; margin-bottom: 18px; font-size: 18px; letter-spacing: -0.02em; }
 
-    /* Capabilities accordion */
-    .cap-list { display: grid; }
-    .cap { border-top: 1px solid var(--line); }
-    .cap:last-child { border-bottom: 1px solid var(--line); }
-    .cap-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 22px 4px; background: none; border: 0; color: inherit; text-align: left; cursor: pointer; }
-    .cap-toggle h3 { margin: 0; font-size: clamp(18px, 1.6vw, 22px); letter-spacing: -0.025em; font-weight: 640; }
-    .cap-plus { flex: none; width: 30px; height: 30px; border: 1px solid var(--line-strong); border-radius: 50%; display: grid; place-items: center; font-family: var(--mono); font-size: 15px; color: var(--muted); transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), background 320ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .cap.open .cap-plus { transform: rotate(45deg); background: color-mix(in srgb, var(--accent) 14%, transparent); }
-    .cap-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 420ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .cap.open .cap-body { grid-template-rows: 1fr; }
-    .cap-body-inner { overflow: hidden; }
-    .cap-body p { color: var(--muted); font-size: 15.5px; max-width: 62ch; padding: 0 4px 8px; }
-    .cap-example { padding: 0 4px 24px; color: var(--subtle); font-size: 13.5px; }
+    .tag-list, .card-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); color: var(--muted); background: color-mix(in srgb, var(--surface-strong) 52%, transparent); font-family: var(--mono); font-size: 11px; }
 
-    /* Method */
-    .method-rail { position: relative; height: 2px; background: var(--line); margin: 8px 2px 36px; }
+    .systems-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .system-card {
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+      box-shadow: 0 18px 54px rgb(16 24 40 / 0.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), border-color 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .system-card:nth-child(2), .system-card:nth-child(4) { margin-top: 42px; }
+    .system-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 48%, var(--line)); }
+    .system-media { aspect-ratio: 4 / 3; overflow: hidden; border-bottom: 1px solid var(--line); background: var(--accent-soft); }
+    .system-media img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.08) saturate(0.9); transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1), filter 420ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .system-card:hover .system-media img { transform: scale(1.035); filter: grayscale(0) saturate(1); }
+    .system-body { padding: 22px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+    .system-role { color: var(--subtle); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .system-body h3 { margin: 10px 0 10px; font-size: clamp(22px, 2vw, 29px); line-height: 1.03; letter-spacing: -0.05em; }
+    .system-body p { color: var(--muted); font-size: 15px; }
+
+    .method-rail { position: relative; height: 2px; background: var(--line); margin: 8px 2px 40px; }
     .method-line { position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(0); }
     .method-line.drawn { transform: scaleX(1); transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1); }
     .model-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(16px, 2.4vw, 34px); }
-    .model-step h3 { margin: 0 0 10px; font-family: var(--serif); font-size: 30px; line-height: 0.95; letter-spacing: -0.05em; font-weight: 520; }
+    .model-step h3 { margin: 0 0 12px; font-family: var(--display); font-size: clamp(28px, 3vw, 40px); line-height: 0.96; letter-spacing: -0.05em; font-weight: 540; }
     .model-step p { color: var(--muted); font-size: 14.5px; }
-    .model-output { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--subtle); }
+    .model-output { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--subtle); }
 
-    /* Contact */
-    .contact-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 0.56fr); gap: 14px; align-items: stretch; }
-    .contact-main { border: 1px solid var(--line); border-radius: 18px; background: var(--text); color: var(--bg); padding: 34px; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between; }
-    .contact-main h2 { color: inherit; }
-    .contact-main p { color: color-mix(in srgb, var(--bg) 72%, transparent); max-width: 660px; margin-top: 18px; }
-    .contact-links { display: grid; gap: 10px; }
-    .contact-link { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 20px; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .contact-link:hover { transform: translateY(-2px); border-color: var(--line-strong); }
-    .contact-link span { display: block; color: var(--subtle); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-    .contact-link b { letter-spacing: -0.02em; }
+    .visual-journal {
+      display: grid;
+      grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.12fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+    .journal-copy {
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: color-mix(in srgb, var(--surface-strong) 74%, transparent);
+      box-shadow: var(--shadow);
+      padding: clamp(28px, 4vw, 46px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .journal-copy p { max-width: 560px; margin-top: 16px; color: var(--muted); }
+    .journal-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto;
+      gap: 14px;
+      min-height: 520px;
+    }
+    .journal-shot {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: color-mix(in srgb, var(--surface-strong) 70%, transparent);
+      box-shadow: 0 18px 54px rgb(16 24 40 / 0.06);
+    }
+    .journal-shot.large { grid-row: span 2; }
+    .journal-shot img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.1) saturate(0.86); transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), filter 520ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .journal-shot:hover img { transform: scale(1.035); filter: grayscale(0) saturate(1); }
+    .journal-note {
+      grid-column: 1 / -1;
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--surface-strong) 68%, transparent);
+      color: var(--muted);
+      padding: 16px 18px;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .journal-note span { display: block; color: rgb(248 246 239 / 0.62); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; }
+    .journal-note b { display: block; margin-top: 5px; font-size: 14px; letter-spacing: -0.02em; }
+    .journal-placeholders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .journal-chip { min-height: 94px; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb, var(--surface) 80%, transparent); padding: 14px; }
+    .journal-chip b { display: block; font-size: 18px; letter-spacing: -0.04em; }
+    .journal-chip span { display: block; margin-top: 8px; color: var(--muted); font-family: var(--mono); font-size: 10px; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.06em; }
 
-    footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--subtle); font-size: 13px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .contact-panel { display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(300px, 0.56fr); gap: 14px; align-items: stretch; }
+    .contact-main {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: color-mix(in srgb, var(--surface-strong) 78%, transparent);
+      box-shadow: var(--shadow);
+      padding: clamp(26px, 4vw, 46px);
+      min-height: 440px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 34px;
+    }
+    .contact-main p { max-width: 680px; color: var(--muted); margin-top: 18px; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .contact-details { display: grid; gap: 12px; }
+    .contact-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--surface-strong) 66%, transparent);
+      padding: 20px;
+      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .contact-card:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+    .contact-card span { display: block; color: var(--subtle); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; }
+    .contact-card b { display: block; font-size: 15px; letter-spacing: -0.02em; line-height: 1.28; }
 
-    .to-top { position: fixed; right: 22px; bottom: 22px; z-index: 30; width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--surface-solid) 84%, transparent); color: var(--text); font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 34px rgba(16,24,40,0.08); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1), transform 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    footer { border-top: 1px solid var(--line); padding: 56px 0 44px; color: var(--subtle); font-size: 13px; }
+    .footer-inner { display: grid; justify-items: center; gap: 22px; text-align: center; }
+    .footer-logo { width: 58px; height: 58px; border: 1px solid var(--line-strong); border-radius: 50%; display: grid; place-items: center; color: var(--text); font-family: var(--mono); font-size: 14px; background: color-mix(in srgb, var(--surface-strong) 72%, transparent); }
+    .footer-links, .social-links { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; }
+    .footer-links a { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 6px 8px; }
+    .social-link { width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; color: var(--text); font-family: var(--mono); font-size: 11px; background: color-mix(in srgb, var(--surface-strong) 66%, transparent); transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .social-link:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+    .social-link img { width: 17px; height: 17px; display: block; filter: var(--icon-filter); }
+    .social-glyph { font-family: var(--sans); font-size: 15px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+
+    .to-top { position: fixed; right: 22px; bottom: 22px; z-index: 30; width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--surface-strong) 84%, transparent); color: var(--text); font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 34px rgb(16 24 40 / 0.08); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1), transform 180ms cubic-bezier(0.16, 1, 0.3, 1); }
     .to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .to-top:active { transform: scale(0.98); }
 
-    .reveal { opacity: 0; transform: translateY(26px); filter: blur(10px); transition: opacity 820ms cubic-bezier(0.16, 1, 0.3, 1), transform 820ms cubic-bezier(0.16, 1, 0.3, 1), filter 820ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal { opacity: 0; transform: translateY(28px); filter: blur(10px); transition: opacity 820ms cubic-bezier(0.16, 1, 0.3, 1), transform 820ms cubic-bezier(0.16, 1, 0.3, 1), filter 820ms cubic-bezier(0.16, 1, 0.3, 1); }
     .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
-    .reveal .card, .reveal .cap, .reveal .model-step, .reveal .contact-link, .reveal .research-step, .reveal .showcase-card { opacity: 0; transform: translateY(22px); filter: blur(8px); transition: opacity 760ms cubic-bezier(0.16, 1, 0.3, 1), transform 760ms cubic-bezier(0.16, 1, 0.3, 1), filter 760ms cubic-bezier(0.16, 1, 0.3, 1); }
-    .reveal.visible .card, .reveal.visible .cap, .reveal.visible .model-step, .reveal.visible .contact-link, .reveal.visible .research-step, .reveal.visible .showcase-card { opacity: 1; transform: translateY(0); filter: blur(0); }
-    .reveal.visible .research-step { opacity: 0.45; }
+    .reveal .timeline-card, .reveal .system-card, .reveal .model-step, .reveal .contact-card, .reveal .research-step, .reveal .stat, .reveal .journal-shot, .reveal .journal-chip {
+      opacity: 0;
+      transform: translateY(24px);
+      filter: blur(8px);
+      transition: opacity 760ms cubic-bezier(0.16, 1, 0.3, 1), transform 760ms cubic-bezier(0.16, 1, 0.3, 1), filter 760ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible .timeline-card, .reveal.visible .system-card, .reveal.visible .model-step, .reveal.visible .contact-card, .reveal.visible .stat, .reveal.visible .journal-shot, .reveal.visible .journal-chip { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .reveal.visible .research-step { opacity: 0.38; transform: translateY(0); filter: blur(0); }
     .reveal.visible .research-step.active { opacity: 1; }
-    .reveal.visible .card:nth-child(2), .reveal.visible .cap:nth-child(2), .reveal.visible .model-step:nth-child(2), .reveal.visible .contact-link:nth-child(2), .reveal.visible .research-step:nth-child(2), .reveal.visible .showcase-card:nth-child(2) { transition-delay: 80ms; }
-    .reveal.visible .card:nth-child(3), .reveal.visible .cap:nth-child(3), .reveal.visible .model-step:nth-child(3), .reveal.visible .contact-link:nth-child(3), .reveal.visible .research-step:nth-child(3), .reveal.visible .showcase-card:nth-child(3) { transition-delay: 150ms; }
-    .reveal.visible .card:nth-child(4), .reveal.visible .cap:nth-child(4), .reveal.visible .model-step:nth-child(4), .reveal.visible .contact-link:nth-child(4), .reveal.visible .showcase-card:nth-child(4) { transition-delay: 220ms; }
-    .reveal.visible .card:nth-child(5), .reveal.visible .cap:nth-child(5) { transition-delay: 290ms; }
-    .reveal.visible .card:nth-child(6), .reveal.visible .cap:nth-child(6) { transition-delay: 360ms; }
+    .reveal.visible .timeline-card:nth-child(2), .reveal.visible .system-card:nth-child(2), .reveal.visible .model-step:nth-child(2), .reveal.visible .contact-card:nth-child(2), .reveal.visible .stat:nth-child(2), .reveal.visible .journal-shot:nth-child(2), .reveal.visible .journal-chip:nth-child(2) { transition-delay: 80ms; }
+    .reveal.visible .timeline-card:nth-child(3), .reveal.visible .system-card:nth-child(3), .reveal.visible .model-step:nth-child(3), .reveal.visible .contact-card:nth-child(3), .reveal.visible .stat:nth-child(3), .reveal.visible .journal-shot:nth-child(3), .reveal.visible .journal-chip:nth-child(3) { transition-delay: 150ms; }
+    .reveal.visible .timeline-card:nth-child(4), .reveal.visible .system-card:nth-child(4), .reveal.visible .model-step:nth-child(4), .reveal.visible .contact-card:nth-child(4), .reveal.visible .stat:nth-child(4) { transition-delay: 220ms; }
 
-    body.force-light { color-scheme: light; --bg: #f4f1eb; --surface: rgba(250, 248, 243, 0.78); --surface-solid: #fbfaf7; --text: #24231f; --muted: #6f6a60; --subtle: #9b9488; --line: rgba(36, 35, 31, 0.12); --line-strong: rgba(36, 35, 31, 0.22); --accent: #5d6357; --shadow: 0 24px 80px rgba(16, 24, 40, 0.08); }
-    body.force-dark { color-scheme: dark; --bg: #171712; --surface: rgba(32, 32, 26, 0.76); --surface-solid: #201f19; --text: #ece9e1; --muted: #a5a196; --subtle: #7d796d; --line: rgba(236, 233, 225, 0.11); --line-strong: rgba(236, 233, 225, 0.2); --accent: #adb8a0; --shadow: 0 24px 80px rgba(0, 0, 0, 0.32); }
+    @media (max-width: 1120px) {
+      .systems-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .system-card:nth-child(2), .system-card:nth-child(4) { margin-top: 0; }
+    }
 
     @media (max-width: 980px) {
       .nav-links { display: none; }
       .nav-menu-btn { display: inline-flex; }
       .nav.menu-open { border-radius: 22px; }
-      .nav.menu-open .nav-links { display: grid; gap: 2px; padding: 12px 4px 6px; font-size: 12px; }
+      .nav.menu-open .nav-inner { display: grid; grid-template-columns: auto 1fr auto; row-gap: 10px; align-items: center; }
+      .nav.menu-open .nav-controls { grid-column: 3; justify-self: end; }
+      .nav.menu-open .nav-links { grid-column: 1 / -1; display: grid; gap: 2px; padding: 12px 4px 6px; font-size: 12px; justify-items: center; }
       .nav.menu-open .nav-links a { padding: 11px 6px; border-top: 1px solid var(--line); opacity: 0.9; }
-      .hero-panel, .sticky-research, .contact-panel { grid-template-columns: 1fr; }
-      .hero-content { min-height: clamp(260px, 34dvh, 360px); padding-inline: max(24px, calc((100vw - 760px) / 2)); }
-      .hero-meta { padding-left: 0; border-left: 0; border-top: 1px solid rgba(24, 32, 38, 0.14); padding-top: 16px; }
-      .grid-3 { grid-template-columns: repeat(2, 1fr); }
-      .sticky-visual { position: relative; top: auto; min-height: 440px; }
-      .research-step { min-height: auto; padding: 18px 0; opacity: 1; transform: none; }
+      .hero-content, .program-layout, .research-layout, .contact-panel, .visual-journal { grid-template-columns: 1fr; }
+      .hero-card { max-width: 560px; }
+      .program-summary { position: relative; top: auto; }
+      .sticky-visual { position: relative; top: auto; min-height: 560px; }
+      .journal-grid { min-height: auto; }
+      .research-step { min-height: auto; opacity: 1; transform: none; padding: 20px 0; }
       .model-flow { grid-template-columns: repeat(2, 1fr); }
-      .system-panel { min-height: 300px; }
+      .frame { border-inline: 0; }
     }
+
     @media (max-width: 680px) {
       .site-shell { width: min(100% - 28px, var(--max)); }
-      .hero-content { min-height: clamp(410px, 52dvh, 520px); padding: 24px 28px; }
-      h1 { font-size: clamp(34px, 11vw, 44px); letter-spacing: -0.045em; }
-      .hero-panel { transform: none; }
-      .hero-meta { display: none; }
-      section { padding: 60px 0; }
-      .grid-3, .model-flow, .system-metrics { grid-template-columns: 1fr; }
-      .card, .contact-main { padding: 20px; }
+      .hero-content { width: min(100% - 28px, 680px); padding-top: 126px; padding-bottom: 36px; }
+      h1 { font-size: clamp(40px, 13vw, 58px); letter-spacing: -0.05em; }
+      .hero-lead { font-size: 15px; max-width: 36ch; }
+      .hero-card { display: none; }
       .hero-actions { flex-direction: column; align-items: stretch; }
       .button { width: 100%; }
-      .sticky-visual { min-height: 520px; }
-      .system-panel { min-height: 240px; }
+      section { padding: 64px 0; scroll-margin-top: 124px; }
+      .stat-grid, .systems-grid, .model-flow, .system-metrics, .journal-grid, .journal-placeholders { grid-template-columns: 1fr; }
+      .timeline-card, .phd-brief { grid-template-columns: 1fr; }
+      .system-card { min-height: auto; }
       .visual-screen { inset: 14px; }
-      .phd-brief { grid-template-columns: 1fr; }
+      .sticky-visual { min-height: 620px; }
+      .contact-actions { flex-direction: column; align-items: stretch; }
     }
-    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } .reveal, .reveal .card, .reveal .cap, .reveal .model-step, .reveal .contact-link, .reveal .research-step, .showcase-card { opacity: 1; transform: none; filter: none; } .method-line { transform: scaleX(1); } .showcase-track { animation: none; flex-wrap: wrap; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      .reveal, .reveal .timeline-card, .reveal .system-card, .reveal .model-step, .reveal .contact-card, .reveal .research-step, .reveal .stat, .reveal .journal-shot, .reveal .journal-chip { opacity: 1; transform: none; filter: none; }
+      .method-line { transform: scaleX(1); }
+    }
   </style>
 </head>
 <body>
@@ -265,7 +619,12 @@
     <div class="nav-inner">
       <a class="brand" href="#top" aria-label="Johnny Chan homepage"><span class="brand-mark">JC</span><span>Johnny Chan</span></a>
       <div class="nav-links" id="nav-links" aria-label="Page sections">
-        <a href="#research" data-lang-en="Research" data-lang-zh="研究">Research</a><a href="#projects" data-lang-en="Projects" data-lang-zh="项目">Projects</a><a href="#services" data-lang-en="Capabilities" data-lang-zh="能力">Capabilities</a><a href="#operating-model" data-lang-en="Method" data-lang-zh="方法">Method</a><a href="#contact" data-lang-en="Contact" data-lang-zh="联系">Contact</a>
+        <a href="#program" data-lang-en="Past program" data-lang-zh="过往经历">Past program</a>
+        <a href="#research" data-lang-en="Research" data-lang-zh="研究">Research</a>
+        <a href="#systems" data-lang-en="Systems" data-lang-zh="系统">Systems</a>
+        <a href="#teamwork" data-lang-en="Teamwork" data-lang-zh="协作">Teamwork</a>
+        <a href="#visual-journal" data-lang-en="Visual journal" data-lang-zh="影像">Visual journal</a>
+        <a href="#contact" data-lang-en="Contact" data-lang-zh="联系">Contact</a>
       </div>
       <div class="nav-controls">
         <button class="theme-toggle" type="button" aria-label="Toggle color theme" data-theme-toggle>Auto</button>
@@ -276,7 +635,6 @@
   </nav>
 
   <main id="top" class="site-shell">
-    <!-- Public GitHub Pages version: non-public collaboration project details are intentionally omitted. -->
     <header class="hero">
       <div class="hero-media" aria-hidden="true">
         <div class="hero-video-fallback" aria-hidden="true"></div>
@@ -285,68 +643,71 @@
         </video>
       </div>
       <div class="hero-content">
-        <div class="hero-panel">
-          <div class="hero-copy">
-            <h1 data-lang-en="Research-driven technical project builder." data-lang-zh="研究驱动的技术项目构建者。">Research-driven technical project builder.</h1>
-            <p class="hero-lead" data-lang-en="I research, design, organize, and deliver technical systems across research, engineering, AI workflows, and digital product development." data-lang-zh="我将研究、设计、组织与交付连接起来，面向研究工程、AI 工作流、技术网站和数字产品完成可落地的技术项目。">I research, design, organize, and deliver technical systems across research, engineering, AI workflows, and digital product development.</p>
-            <div class="hero-actions"><a class="button primary" href="#projects" data-lang-en="View projects" data-lang-zh="查看项目">View projects</a><a class="button secondary" href="#services" data-lang-en="Work with me" data-lang-zh="合作方式">Work with me</a></div>
+        <div>
+          <h1 data-lang-en="Robotics software, made practical." data-lang-zh="把机器人软件做成可交付能力。">Robotics software, made practical.</h1>
+          <p class="hero-lead" data-lang-en="Computer Science PhD candidate working across Python, ROS simulation, AI-assisted engineering, documentation, and product-minded delivery." data-lang-zh="计算机科学博士候选人，聚焦 Python、ROS 仿真、AI 辅助工程、技术文档与产品化交付。">Computer Science PhD candidate working across Python, ROS simulation, AI-assisted engineering, documentation, and product-minded delivery.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#program" data-lang-en="View past program" data-lang-zh="查看过往经历">View past program</a>
+            <a class="button secondary" href="assets/Chen_Zhe_Software_Engineering_Resume.pdf" data-lang-en="Download resume" data-lang-zh="下载简历">Download resume</a>
           </div>
-          <aside class="hero-meta" aria-label="Professional identity summary">
-            <div class="hero-meta-line"><span data-lang-en="Name" data-lang-zh="姓名">Name</span><span>Johnny Chan</span></div>
-            <div class="hero-meta-line"><span data-lang-en="Base" data-lang-zh="身份">Base</span><span data-lang-en="Doctoral researcher, Robotedge Lab, Universiti Malaya" data-lang-zh="马来亚大学 Robotedge Lab 博士研究者">Doctoral researcher, Robotedge Lab, Universiti Malaya</span></div>
-            <div class="hero-meta-line"><span data-lang-en="Scope" data-lang-zh="范围">Scope</span><span data-lang-en="Research, technical websites, AI workflows, robotics education, prototype demos, and project coordination." data-lang-zh="研究、技术网站、AI 工作流、机器人教育、原型演示与项目协调。">Research, technical websites, AI workflows, robotics education, prototype demos, and project coordination.</span></div>
-            <div class="hero-logos" aria-label="Affiliations">
-              <img src="assets/Robotedge_logo.png" alt="Robotedge Lab logo">
-              <img src="assets/UM_logo.png" alt="Universiti Malaya logo">
-              <img class="logo-icon" src="assets/agenthub_logo_v2.ico" alt="AgentHub logo">
-            </div>
-          </aside>
         </div>
+        <aside class="hero-card" aria-label="Professional identity summary">
+          <h2 data-lang-en="Johnny Chan" data-lang-zh="Johnny Chan">Johnny Chan</h2>
+          <div class="hero-facts">
+            <div class="hero-fact"><span data-lang-en="Role" data-lang-zh="定位">Role</span><b data-lang-en="PhD Candidate in Computer Science, Department of AI, FCSIT, Universiti Malaya" data-lang-zh="马来亚大学 FCSIT 人工智能系，计算机科学博士候选人">PhD Candidate in Computer Science, Department of AI, FCSIT, Universiti Malaya</b></div>
+            <div class="hero-fact"><span data-lang-en="Stack" data-lang-zh="技术栈">Stack</span><b>Python, C++, ROS, Gazebo, Linux, Git, SQL basics, HTML/CSS/JavaScript</b></div>
+            <div class="hero-fact"><span data-lang-en="Edge" data-lang-zh="优势">Edge</span><b data-lang-en="Research discipline plus AI-assisted software workflow and cross-functional technical delivery." data-lang-zh="研究训练、AI 辅助软件工作流，以及跨职能技术交付经验。">Research discipline plus AI-assisted software workflow and cross-functional technical delivery.</b></div>
+          </div>
+        </aside>
       </div>
     </header>
 
     <div class="frame">
-      <section id="research" class="reveal glow-section">
-        <div class="section-head">
-          <h2 data-lang-en="Technical systems under real-world constraints." data-lang-zh="面向真实约束的自主系统研究。">Technical systems under real-world constraints.</h2>
-          <p class="section-intro" data-lang-en="My doctoral work at Robotedge Lab, Universiti Malaya, focuses on autonomous systems that remain useful when sensing, communication, and field conditions are imperfect." data-lang-zh="我在马来亚大学 Robotedge Lab 的博士研究，关注自主系统如何在感知、通信与现场条件不完美时仍保持可用。">My doctoral work at Robotedge Lab, Universiti Malaya, focuses on autonomous systems that remain useful when sensing, communication, and field conditions are imperfect.</p>
-        </div>
-        <div class="sticky-research">
-          <div class="research-steps">
-            <article class="research-step active" data-step="0" data-mode="stack" data-visual-title-en="Autonomous stack" data-visual-title-zh="自主技术栈" data-metric-layer="01" data-metric-focus-en="Stack" data-metric-focus-zh="技术栈" data-metric-output-en="Architecture" data-metric-output-zh="架构" data-caption-en="Layer 01 maps system framing, onboard autonomy, coordination logic, and validation evidence." data-caption-zh="层级 01 对应系统定义、机载自主、协同逻辑与验证证据。">
-              <span data-lang-en="Layer 01" data-lang-zh="层级 01">Layer 01</span>
-              <h3 data-lang-en="Autonomous UAV stack" data-lang-zh="自主无人机技术栈">Autonomous UAV stack</h3>
-              <p data-lang-en="A restrained public view of the stack: system framing, onboard autonomy, coordination logic, experiment design, and validation evidence." data-lang-zh="这里保留公开层面的技术栈表达：系统定义、机载自主、协同逻辑、实验设计与验证证据。">A restrained public view of the stack: system framing, onboard autonomy, coordination logic, experiment design, and validation evidence.</p>
-            </article>
-            <article class="research-step" data-step="1" data-mode="planning" data-visual-title-en="Decision chain" data-visual-title-zh="决策链路" data-metric-layer="02" data-metric-focus-en="Planning" data-metric-focus-zh="规划" data-metric-output-en="Behavior" data-metric-output-zh="行为" data-caption-en="Layer 02 follows perception, planning, and coordination as one decision chain." data-caption-zh="层级 02 将感知、规划与协同作为同一条决策链路呈现。">
-              <span data-lang-en="Layer 02" data-lang-zh="层级 02">Layer 02</span>
-              <h3 data-lang-en="Perception, planning, coordination" data-lang-zh="感知、规划与协同">Perception, planning, coordination</h3>
-              <p data-lang-en="The research connects local decisions, shared context, and mission-level behavior without exposing unpublished mechanisms or project-specific assumptions." data-lang-zh="研究连接局部决策、共享上下文与任务级行为；公开页面不展开未发表机制或具体项目假设。">The research connects local decisions, shared context, and mission-level behavior without exposing unpublished mechanisms or project-specific assumptions.</p>
-            </article>
-            <article class="research-step" data-step="2" data-mode="validation" data-visual-title-en="Evidence path" data-visual-title-zh="证据路径" data-metric-layer="03" data-metric-focus-en="Validation" data-metric-focus-zh="验证" data-metric-output-en="Evidence" data-metric-output-zh="证据" data-caption-en="Layer 03 turns notes, traces, scenarios, and figures into a traceable research record." data-caption-zh="层级 03 将笔记、轨迹、场景与图表整理为可追踪的研究记录。">
-              <span data-lang-en="Layer 03" data-lang-zh="层级 03">Layer 03</span>
-              <h3 data-lang-en="Validation and evidence" data-lang-zh="验证与证据链">Validation and evidence</h3>
-              <p data-lang-en="Research notes, simulation traces, test scenarios, figures, and manuscripts are organized as a traceable evidence path." data-lang-zh="研究笔记、仿真轨迹、测试场景、图表与论文稿件，被组织成可追踪的证据链。">Research notes, simulation traces, test scenarios, figures, and manuscripts are organized as a traceable evidence path.</p>
-            </article>
+      <section id="program" class="reveal">
+        <div class="program-layout">
+          <aside class="program-summary">
+            <div class="section-head">
+              <h2 data-lang-en="Past program." data-lang-zh="过往经历。">Past program.</h2>
+              <p class="section-intro" data-lang-en="A compact timeline of education, lab work, robotics simulation, and technical coordination. The point is continuity, not a generic job-fit checklist." data-lang-zh="教育、实验室工作、机器人仿真与技术协调的简洁时间线。重点是连续性，而不是机械匹配岗位清单。">A compact timeline of education, lab work, robotics simulation, and technical coordination. The point is continuity, not a generic job-fit checklist.</p>
+            </div>
+            <div class="stat-grid" aria-label="Background summary">
+              <div class="stat"><b>2026</b><span data-lang-en="Computer Science PhD, FCSIT UM" data-lang-zh="马来亚大学计算机科学博士">Computer Science PhD, FCSIT UM</span></div>
+              <div class="stat"><b>ROS</b><span data-lang-en="UAV simulation and planning stack" data-lang-zh="无人机仿真与规划技术栈">UAV simulation and planning stack</span></div>
+              <div class="stat"><b>AI</b><span data-lang-en="assisted engineering workflow" data-lang-zh="辅助工程工作流">assisted engineering workflow</span></div>
+              <div class="stat"><b>Git</b><span data-lang-en="documentation and review habit" data-lang-zh="文档与审阅习惯">documentation and review habit</span></div>
+            </div>
+          </aside>
+          <div class="timeline" aria-label="Education and experience timeline">
+            <article class="timeline-card"><time>2026-now</time><div><h3 data-lang-en="Robotedge Laboratory, Universiti Malaya" data-lang-zh="马来亚大学 Robotedge 实验室">Robotedge Laboratory, Universiti Malaya</h3><p data-lang-en="PhD research engineering in Computer Science, focused on UAV autonomy, swarm robotics, ROS/Gazebo simulation, technical documentation, and lab coordination." data-lang-zh="计算机科学博士阶段的研究工程工作，聚焦无人机自主、群体机器人、ROS/Gazebo 仿真、技术文档与实验室协作。">PhD research engineering in Computer Science, focused on UAV autonomy, swarm robotics, ROS/Gazebo simulation, technical documentation, and lab coordination.</p></div></article>
+            <article class="timeline-card"><time>2023-2025</time><div><h3 data-lang-en="Robotics simulation and planning track" data-lang-zh="机器人仿真与规划方向">Robotics simulation and planning track</h3><p data-lang-en="Built and reviewed UAV simulation environments, path-planning workflows, and autonomy study artifacts with Python, C++, ROS Noetic, Gazebo, RViz, and Linux." data-lang-zh="使用 Python、C++、ROS Noetic、Gazebo、RViz 与 Linux 搭建和审阅无人机仿真环境、路径规划流程与自主系统材料。">Built and reviewed UAV simulation environments, path-planning workflows, and autonomy study artifacts with Python, C++, ROS Noetic, Gazebo, RViz, and Linux.</p></div></article>
+            <article class="timeline-card"><time>2021-2025</time><div><h3 data-lang-en="R&D project engineering and coordination" data-lang-zh="研发项目工程与协调">R&D project engineering and coordination</h3><p data-lang-en="Created reporting workflows, supported process optimization, coordinated vendors and internal teams, and produced management-ready technical documentation." data-lang-zh="建立报告工作流，支持工艺优化，协调供应商与内部团队，并输出面向管理评审的技术文档。">Created reporting workflows, supported process optimization, coordinated vendors and internal teams, and produced management-ready technical documentation.</p></div></article>
+            <article class="timeline-card"><time>2012-2019</time><div><h3 data-lang-en="Engineering foundation at Xinjiang University" data-lang-zh="新疆大学工程背景">Engineering foundation at Xinjiang University</h3><p data-lang-en="B.Eng. and M.Eng. training built the baseline for modeling, experiments, technical writing, and engineering problem decomposition." data-lang-zh="本科与硕士阶段训练了建模、实验、技术写作与工程问题拆解的基础能力。">B.Eng. and M.Eng. training built the baseline for modeling, experiments, technical writing, and engineering problem decomposition.</p></div></article>
           </div>
-          <aside class="sticky-visual scroll-stage" aria-label="Autonomous system visual">
+        </div>
+      </section>
+
+      <section id="research" class="reveal">
+        <div class="section-head">
+          <h2 data-lang-en="Research and robotics." data-lang-zh="研究与机器人。">Research and robotics.</h2>
+          <p class="section-intro" data-lang-en="The research layer keeps the site personal: robotics, autonomy, and deployable AI systems remain the center of my technical taste." data-lang-zh="这一层保留我的个人技术品味：机器人、自主系统与可部署 AI 系统仍然是核心。">The research layer keeps the site personal: robotics, autonomy, and deployable AI systems remain the center of my technical taste.</p>
+        </div>
+        <div class="research-layout">
+          <div class="research-steps">
+            <article class="research-step active" data-mode="constraints" data-visual-title-en="Problem framing" data-visual-title-zh="问题定义" data-metric-layer="01" data-metric-focus-en="Requirements" data-metric-focus-zh="需求" data-metric-output-en="Scope map" data-metric-output-zh="范围图" data-caption-en="Layer 01 defines users, constraints, data, and acceptance criteria before implementation." data-caption-zh="层级 01 在实现前定义用户、约束、数据与验收标准。"><span data-lang-en="Layer 01" data-lang-zh="层级 01">Layer 01</span><h3 data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</h3><p data-lang-en="Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit." data-lang-zh="无论是无人机自主系统还是内部业务模块，我都会先明确需求、边界情况与审阅标准。">Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit.</p></article>
+            <article class="research-step" data-mode="stack" data-visual-title-en="Software stack" data-visual-title-zh="软件技术栈" data-metric-layer="02" data-metric-focus-en="Implementation" data-metric-focus-zh="实现" data-metric-output-en="Working module" data-metric-output-zh="可用模块" data-caption-en="Layer 02 connects Python, C++, ROS, simulation tools, and documentation into a reviewable engineering stack." data-caption-zh="层级 02 将 Python、C++、ROS、仿真工具与文档连接为可审阅工程栈。"><span data-lang-en="Layer 02" data-lang-zh="层级 02">Layer 02</span><h3 data-lang-en="Software stack" data-lang-zh="软件技术栈">Software stack</h3><p data-lang-en="My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces." data-lang-zh="我当前最强的技术栈是 Python、机器人工具链、Linux、Git、Markdown 文档，以及技术界面所需的前端基础。">My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces.</p></article>
+            <article class="research-step" data-mode="validation" data-visual-title-en="Evidence path" data-visual-title-zh="证据路径" data-metric-layer="03" data-metric-focus-en="Validation" data-metric-focus-zh="验证" data-metric-output-en="Handoff" data-metric-output-zh="交接" data-caption-en="Layer 03 turns tests, logs, notes, and decisions into a traceable handoff for teammates." data-caption-zh="层级 03 将测试、日志、笔记与决策整理为团队可追踪交接材料。"><span data-lang-en="Layer 03" data-lang-zh="层级 03">Layer 03</span><h3 data-lang-en="Validation and handoff" data-lang-zh="验证与交接">Validation and handoff</h3><p data-lang-en="I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package." data-lang-zh="我把实现、测试记录、技术说明与后续风险作为同一个交付包处理。">I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package.</p></article>
+          </div>
+          <aside class="sticky-visual" aria-label="Autonomous system visual">
             <div class="visual-screen">
-              <div class="visual-topbar"><span data-visual-title data-lang-en="Autonomous stack" data-lang-zh="自主技术栈">Autonomous stack</span><div class="visual-pills" aria-hidden="true"><span class="visual-pill"></span><span class="visual-pill"></span><span class="visual-pill"></span></div></div>
-              <figure class="system-panel" aria-label="Animated sketch of a technical system">
-                <canvas id="system-sketch" aria-hidden="true"></canvas>
-                <div class="visual-mode" aria-hidden="true">
-                  <div class="mode-row active" data-mode-row="stack"><span>Architecture</span><div class="mode-bar" style="--fill: .82"><span></span></div></div>
-                  <div class="mode-row" data-mode-row="planning"><span>Planning</span><div class="mode-bar" style="--fill: .68"><span></span></div></div>
-                  <div class="mode-row" data-mode-row="validation"><span>Evidence</span><div class="mode-bar" style="--fill: .76"><span></span></div></div>
-                </div>
-              </figure>
+              <div class="visual-topbar"><span data-visual-title data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</span><div class="visual-pills" aria-hidden="true"><span class="visual-pill"></span><span class="visual-pill"></span><span class="visual-pill"></span></div></div>
+              <figure class="system-panel" aria-label="Animated sketch of a technical system"><canvas id="system-sketch" aria-hidden="true"></canvas></figure>
               <div>
                 <div class="system-metrics">
                   <div class="metric-card"><span data-lang-en="Layer" data-lang-zh="层级">Layer</span><b data-visual-layer>01</b></div>
-                  <div class="metric-card"><span data-lang-en="Focus" data-lang-zh="重点">Focus</span><b data-visual-focus data-lang-en="Stack" data-lang-zh="技术栈">Stack</b></div>
-                  <div class="metric-card"><span data-lang-en="Output" data-lang-zh="产出">Output</span><b data-visual-output data-lang-en="Architecture" data-lang-zh="架构">Architecture</b></div>
+                  <div class="metric-card"><span data-lang-en="Focus" data-lang-zh="重点">Focus</span><b data-visual-focus data-lang-en="Requirements" data-lang-zh="需求">Requirements</b></div>
+                  <div class="metric-card"><span data-lang-en="Output" data-lang-zh="产出">Output</span><b data-visual-output data-lang-en="Scope map" data-lang-zh="范围图">Scope map</b></div>
                 </div>
-                <p class="system-caption" data-visual-caption data-lang-en="Layer 01 maps system framing, onboard autonomy, coordination logic, and validation evidence." data-lang-zh="层级 01 对应系统定义、机载自主、协同逻辑与验证证据。">Layer 01 maps system framing, onboard autonomy, coordination logic, and validation evidence.</p>
+                <p class="system-caption" data-visual-caption data-lang-en="Layer 01 defines users, constraints, data, and acceptance criteria before implementation." data-lang-zh="层级 01 在实现前定义用户、约束、数据与验收标准。">Layer 01 defines users, constraints, data, and acceptance criteria before implementation.</p>
               </div>
             </div>
           </aside>
@@ -354,85 +715,91 @@
         <div class="phd-brief">
           <span data-lang-en="PhD topic" data-lang-zh="博士研究">PhD topic</span>
           <div>
-            <b data-lang-en="Autonomous systems under real-world constraints" data-lang-zh="真实约束下的自主系统研究">Autonomous systems under real-world constraints</b>
-            <div class="phd-keywords" aria-label="Research keywords">
-              <span class="tag" data-lang-en="autonomous UAV" data-lang-zh="自主无人机">autonomous UAV</span>
-              <span class="tag" data-lang-en="coordination" data-lang-zh="协同">coordination</span>
-              <span class="tag" data-lang-en="planning" data-lang-zh="规划">planning</span>
-              <span class="tag" data-lang-en="field validation" data-lang-zh="现场验证">field validation</span>
-              <span class="tag" data-lang-en="evidence chain" data-lang-zh="证据链">evidence chain</span>
+            <b data-lang-en="Computer Science research area" data-lang-zh="计算机科学研究方向">Computer Science research area</b>
+            <div class="tag-list" aria-label="Research keywords">
+              <span class="tag" data-lang-en="robotics software" data-lang-zh="机器人软件">robotics software</span>
+              <span class="tag" data-lang-en="UAV autonomy" data-lang-zh="无人机自主">UAV autonomy</span>
+              <span class="tag" data-lang-en="swarm robotics" data-lang-zh="群体机器人">swarm robotics</span>
+              <span class="tag" data-lang-en="distributed systems" data-lang-zh="分布式系统">distributed systems</span>
+              <span class="tag" data-lang-en="AI engineering" data-lang-zh="AI 工程">AI engineering</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="projects" class="reveal split-section">
+      <section id="systems" class="reveal">
         <div class="section-head">
-          <h2 data-lang-en="The same discipline, applied to real systems." data-lang-zh="同一种研究纪律，落到真实系统。">The same discipline, applied to real systems.</h2>
-          <p class="section-intro" data-lang-en="A rotating view of selected work across field robotics, applied automation, teaching hardware, AI workflows, and public-facing technical sites." data-lang-zh="这里以循环展示方式呈现部分工作：现场机器人、应用自动化、教学硬件、AI 工作流与公开技术网站。">A rotating view of selected work across field robotics, applied automation, teaching hardware, AI workflows, and public-facing technical sites.</p>
+          <h2 data-lang-en="Selected systems." data-lang-zh="代表性系统。">Selected systems.</h2>
+          <p class="section-intro" data-lang-en="Projects are shown here as practical systems: what I built, what stack was involved, and why it matters for software delivery." data-lang-zh="这里把项目作为实践系统展示：我做了什么、涉及什么技术栈，以及它为什么能证明软件交付能力。">Projects are shown here as practical systems: what I built, what stack was involved, and why it matters for software delivery.</p>
         </div>
-        <div class="showcase-wrap" aria-label="Selected work carousel">
-          <div class="showcase-track">
-            <article class="showcase-card"><div><h3 data-lang-en="Robotedge field robotics" data-lang-zh="Robotedge 现场机器人">Robotedge field robotics</h3><p data-lang-en="Platform and experiment support for lab research: validation planning, testing support, and project communication." data-lang-zh="为实验室研究提供平台与实验支持：验证规划、测试支持与项目沟通。">Platform and experiment support for lab research: validation planning, testing support, and project communication.</p></div><div class="project-meta"><span class="tag">ROS2</span><span class="tag">PX4</span><span class="tag">Gazebo</span><span class="tag">Python</span></div></article>
-            <article class="showcase-card"><div><h3 data-lang-en="Applied automation evaluation" data-lang-zh="应用自动化评估">Applied automation evaluation</h3><p data-lang-en="Technical evaluation, workflow design, and prototype coordination for an applied automation direction." data-lang-zh="面向应用自动化方向的技术评估、流程设计与原型协调。">Technical evaluation, workflow design, and prototype coordination for an applied automation direction.</p></div><div class="project-meta"><span class="tag">OpenCV</span><span class="tag">Python</span><span class="tag">YOLO</span><span class="tag">Excel QA</span></div></article>
-            <article class="showcase-card"><div><h3 data-lang-en="AgentHub teaching hardware" data-lang-zh="AgentHub 教学硬件">AgentHub teaching hardware</h3><p data-lang-en="Teaching hardware that pairs classroom robotics with AI agent workflows, from demo design to delivery." data-lang-zh="将课堂机器人与 AI agent 工作流结合的教学硬件，从演示设计推进到交付。">Teaching hardware that pairs classroom robotics with AI agent workflows, from demo design to delivery.</p></div><div class="project-meta"><span class="tag">Arduino</span><span class="tag">ESP32</span><span class="tag">MicroPython</span><span class="tag">3D print</span></div></article>
-            <article class="showcase-card"><div><h3 data-lang-en="AI agent workflows" data-lang-zh="AI agent 工作流">AI agent workflows</h3><p data-lang-en="Working agent pipelines used daily for research, writing, document handling, and site maintenance." data-lang-zh="用于研究、写作、文档处理与网站维护的日常 agent 流水线。">Working agent pipelines used daily for research, writing, document handling, and site maintenance.</p></div><div class="project-meta"><span class="tag">Codex</span><span class="tag">Claude</span><span class="tag">Markdown</span><span class="tag">Git</span></div></article>
-            <article class="showcase-card"><div><h3 data-lang-en="Websites and technical pages" data-lang-zh="网站与技术页面">Websites and technical pages</h3><p data-lang-en="Static sites, project landing pages, documentation pages, and technical portfolios." data-lang-zh="静态网站、项目落地页、文档页面与技术作品集。">Static sites, project landing pages, documentation pages, and technical portfolios.</p></div><div class="project-meta"><span class="tag">HTML5</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div></article>
-            <article class="showcase-card"><div><h3 data-lang-en="Robotics training programs" data-lang-zh="机器人培训项目">Robotics training programs</h3><p data-lang-en="Project-based robotics training: workshop structure, demo sequences, and course materials." data-lang-zh="基于项目的机器人培训：工作坊结构、演示流程与课程材料。">Project-based robotics training: workshop structure, demo sequences, and course materials.</p></div><div class="project-meta"><span class="tag">Arduino IDE</span><span class="tag">Blockly</span><span class="tag">Slides</span><span class="tag">Lab kits</span></div></article>
-            <article class="showcase-card" aria-hidden="true"><div><h3 data-lang-en="Robotedge field robotics" data-lang-zh="Robotedge 现场机器人">Robotedge field robotics</h3><p data-lang-en="Platform and experiment support for lab research: validation planning, testing support, and project communication." data-lang-zh="为实验室研究提供平台与实验支持：验证规划、测试支持与项目沟通。">Platform and experiment support for lab research: validation planning, testing support, and project communication.</p></div><div class="project-meta"><span class="tag">ROS2</span><span class="tag">PX4</span><span class="tag">Gazebo</span><span class="tag">Python</span></div></article>
-            <article class="showcase-card" aria-hidden="true"><div><h3 data-lang-en="Applied automation evaluation" data-lang-zh="应用自动化评估">Applied automation evaluation</h3><p data-lang-en="Technical evaluation, workflow design, and prototype coordination for an applied automation direction." data-lang-zh="面向应用自动化方向的技术评估、流程设计与原型协调。">Technical evaluation, workflow design, and prototype coordination for an applied automation direction.</p></div><div class="project-meta"><span class="tag">OpenCV</span><span class="tag">Python</span><span class="tag">YOLO</span><span class="tag">Excel QA</span></div></article>
-            <article class="showcase-card" aria-hidden="true"><div><h3 data-lang-en="AgentHub teaching hardware" data-lang-zh="AgentHub 教学硬件">AgentHub teaching hardware</h3><p data-lang-en="Teaching hardware that pairs classroom robotics with AI agent workflows, from demo design to delivery." data-lang-zh="将课堂机器人与 AI agent 工作流结合的教学硬件，从演示设计推进到交付。">Teaching hardware that pairs classroom robotics with AI agent workflows, from demo design to delivery.</p></div><div class="project-meta"><span class="tag">Arduino</span><span class="tag">ESP32</span><span class="tag">MicroPython</span><span class="tag">3D print</span></div></article>
-            <article class="showcase-card" aria-hidden="true"><div><h3 data-lang-en="AI agent workflows" data-lang-zh="AI agent 工作流">AI agent workflows</h3><p data-lang-en="Working agent pipelines used daily for research, writing, document handling, and site maintenance." data-lang-zh="用于研究、写作、文档处理与网站维护的日常 agent 流水线。">Working agent pipelines used daily for research, writing, document handling, and site maintenance.</p></div><div class="project-meta"><span class="tag">Codex</span><span class="tag">Claude</span><span class="tag">Markdown</span><span class="tag">Git</span></div></article>
-            <article class="showcase-card" aria-hidden="true"><div><h3 data-lang-en="Websites and technical pages" data-lang-zh="网站与技术页面">Websites and technical pages</h3><p data-lang-en="Static sites, project landing pages, documentation pages, and technical portfolios." data-lang-zh="静态网站、项目落地页、文档页面与技术作品集。">Static sites, project landing pages, documentation pages, and technical portfolios.</p></div><div class="project-meta"><span class="tag">HTML5</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div></article>
-            <article class="showcase-card" aria-hidden="true"><div><h3 data-lang-en="Robotics training programs" data-lang-zh="机器人培训项目">Robotics training programs</h3><p data-lang-en="Project-based robotics training: workshop structure, demo sequences, and course materials." data-lang-zh="基于项目的机器人培训：工作坊结构、演示流程与课程材料。">Project-based robotics training: workshop structure, demo sequences, and course materials.</p></div><div class="project-meta"><span class="tag">Arduino IDE</span><span class="tag">Blockly</span><span class="tag">Slides</span><span class="tag">Lab kits</span></div></article>
-          </div>
+        <div class="systems-grid" aria-label="Selected project evidence">
+          <article class="system-card">
+            <div class="system-media"><img src="assets/hero_kling_poster.jpg" alt="UAV simulation visual"></div>
+            <div class="system-body"><div><span class="system-role">Robotics software</span><h3 data-lang-en="UAV simulation platform" data-lang-zh="无人机仿真平台">UAV simulation platform</h3><p data-lang-en="Built multi-UAV simulation environments for autonomy, formation, obstacle avoidance, and path-planning study." data-lang-zh="搭建多无人机仿真环境，用于自主、编队、避障与路径规划研究。">Built multi-UAV simulation environments for autonomy, formation, obstacle avoidance, and path-planning study.</p></div><div class="card-tags"><span class="tag">Python</span><span class="tag">C++</span><span class="tag">ROS</span><span class="tag">Gazebo</span></div></div>
+          </article>
+          <article class="system-card">
+            <div class="system-media"><img src="assets/project_flipcounter.png" alt="AI-assisted engineering workflow screenshot"></div>
+            <div class="system-body"><div><span class="system-role">AI workflow</span><h3 data-lang-en="AI-assisted engineering workflow" data-lang-zh="AI 辅助工程工作流">AI-assisted engineering workflow</h3><p data-lang-en="Designed a repeatable workflow for coding support, documentation, experiment tracking, and knowledge management with human review." data-lang-zh="设计可复用工作流，用于代码支持、文档、实验追踪与知识管理，并保留人工审阅。">Designed a repeatable workflow for coding support, documentation, experiment tracking, and knowledge management with human review.</p></div><div class="card-tags"><span class="tag">Codex</span><span class="tag">Claude</span><span class="tag">Markdown</span><span class="tag">Git</span></div></div>
+          </article>
+          <article class="system-card">
+            <div class="system-media"><img src="assets/project_nine_bubbles.png" alt="Personal technical website interface"></div>
+            <div class="system-body"><div><span class="system-role">Frontend evidence</span><h3 data-lang-en="Personal technical website" data-lang-zh="个人技术网站">Personal technical website</h3><p data-lang-en="Implemented a bilingual static site with responsive layout, theme switching, navigation behavior, canvas visualization, and resume download." data-lang-zh="实现双语静态网站，包括响应式布局、主题切换、导航行为、Canvas 可视化与简历下载。">Implemented a bilingual static site with responsive layout, theme switching, navigation behavior, canvas visualization, and resume download.</p></div><div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">UI</span></div></div>
+          </article>
+          <article class="system-card">
+            <div class="system-media"><img src="assets/archive_drive_visual.svg" alt="Industrial vision evaluation visual"></div>
+            <div class="system-body"><div><span class="system-role">Technical evaluation</span><h3 data-lang-en="Industrial vision evaluation" data-lang-zh="工业视觉方案评估">Industrial vision evaluation</h3><p data-lang-en="Supported AI-based industrial vision route evaluation, supplier comparison, reporting, integration planning, and delivery-risk clarification." data-lang-zh="支持 AI 工业视觉路线评估、供应商比较、报告撰写、集成规划与交付风险澄清。">Supported AI-based industrial vision route evaluation, supplier comparison, reporting, integration planning, and delivery-risk clarification.</p></div><div class="card-tags"><span class="tag">AI vision</span><span class="tag">Reports</span><span class="tag">Integration</span></div></div>
+          </article>
         </div>
       </section>
 
-      <section id="services" class="reveal">
+      <section id="teamwork" class="reveal">
         <div class="section-head">
-          <h2 data-lang-en="Capabilities." data-lang-zh="可提供的能力。">Capabilities.</h2>
-          <p class="section-intro" data-lang-en="Six kinds of work I can take on, part-time friendly. Every engagement starts with a short scoping conversation and ends with a documented handoff." data-lang-zh="我可以承担六类工作，适合兼职或混合协作。每次合作从简短范围确认开始，以文档化交付结束。">Six kinds of work I can take on, part-time friendly. Every engagement starts with a short scoping conversation and ends with a documented handoff.</p>
-        </div>
-        <div class="cap-list">
-          <div class="cap open">
-            <button class="cap-toggle" type="button" aria-expanded="true"><h3 data-lang-en="Technical website development" data-lang-zh="技术网站开发">Technical website development</h3><span class="cap-plus" aria-hidden="true">+</span></button>
-            <div class="cap-body"><div class="cap-body-inner"><p data-lang-en="Project pages, portfolios, and documentation sites that explain technical work clearly." data-lang-zh="项目页面、作品集与文档站点，用清晰方式解释技术工作。">Project pages, portfolios, and documentation sites that explain technical work clearly.</p><div class="cap-example" data-lang-en="Recent example: this site, designed and built end to end on GitHub Pages." data-lang-zh="近期例子：这个站点，基于 GitHub Pages 完成设计与实现。">Recent example: this site, designed and built end to end on GitHub Pages.</div></div></div>
-          </div>
-          <div class="cap">
-            <button class="cap-toggle" type="button" aria-expanded="false"><h3 data-lang-en="AI workflow setup" data-lang-zh="AI 工作流搭建">AI workflow setup</h3><span class="cap-plus" aria-hidden="true">+</span></button>
-            <div class="cap-body"><div class="cap-body-inner"><p data-lang-en="Agent-assisted pipelines for research, writing, document processing, and repeated operational tasks." data-lang-zh="面向研究、写作、文档处理与重复运营任务的 agent 辅助流程。">Agent-assisted pipelines for research, writing, document processing, and repeated operational tasks.</p><div class="cap-example" data-lang-en="Built on the same workflows I run daily for my own research and projects." data-lang-zh="基于我自己日常研究与项目中使用的工作流沉淀。">Built on the same workflows I run daily for my own research and projects.</div></div></div>
-          </div>
-          <div class="cap">
-            <button class="cap-toggle" type="button" aria-expanded="false"><h3 data-lang-en="STEM and robotics curriculum" data-lang-zh="STEM 与机器人课程">STEM and robotics curriculum</h3><span class="cap-plus" aria-hidden="true">+</span></button>
-            <div class="cap-body"><div class="cap-body-inner"><p data-lang-en="Lesson plans, workshop structures, and hardware learning paths for robotics programs." data-lang-zh="机器人项目的课程设计、工作坊结构与硬件学习路径。">Lesson plans, workshop structures, and hardware learning paths for robotics programs.</p><div class="cap-example" data-lang-en="Grounded in teaching hardware and lab demo experience." data-lang-zh="来自教学硬件与实验室演示经验。">Grounded in teaching hardware and lab demo experience.</div></div></div>
-          </div>
-          <div class="cap">
-            <button class="cap-toggle" type="button" aria-expanded="false"><h3 data-lang-en="Prototype and demo development" data-lang-zh="原型与演示开发">Prototype and demo development</h3><span class="cap-plus" aria-hidden="true">+</span></button>
-            <div class="cap-body"><div class="cap-body-inner"><p data-lang-en="From concept to a scoped prototype: component list, demonstration flow, and delivery roadmap." data-lang-zh="从概念到有边界的原型：组件清单、演示流程与交付路线。">From concept to a scoped prototype: component list, demonstration flow, and delivery roadmap.</p><div class="cap-example" data-lang-en="Used for applied automation and lab demonstration planning." data-lang-zh="可用于应用自动化与实验室演示规划。">Used for applied automation and lab demonstration planning.</div></div></div>
-          </div>
-          <div class="cap">
-            <button class="cap-toggle" type="button" aria-expanded="false"><h3 data-lang-en="Technical research and vendor evaluation" data-lang-zh="技术调研与供应商评估">Technical research and vendor evaluation</h3><span class="cap-plus" aria-hidden="true">+</span></button>
-            <div class="cap-body"><div class="cap-body-inner"><p data-lang-en="Decision-ready comparisons of tools, hardware, vendors, and feasibility routes." data-lang-zh="面向决策的工具、硬件、供应商与可行路线比较。">Decision-ready comparisons of tools, hardware, vendors, and feasibility routes.</p><div class="cap-example" data-lang-en="Research training applied to procurement: sources checked, trade-offs documented." data-lang-zh="把研究训练用于采购判断：检查来源，记录取舍。">Research training applied to procurement: sources checked, trade-offs documented.</div></div></div>
-          </div>
-          <div class="cap">
-            <button class="cap-toggle" type="button" aria-expanded="false"><h3 data-lang-en="Part-time / hybrid project coordination" data-lang-zh="兼职 / 混合项目协调">Part-time / hybrid project coordination</h3><span class="cap-plus" aria-hidden="true">+</span></button>
-            <div class="cap-body"><div class="cap-body-inner"><p data-lang-en="Keeping requirements, people, vendors, and milestones aligned for technical teams." data-lang-zh="帮助技术团队对齐需求、人员、供应商与里程碑。">Keeping requirements, people, vendors, and milestones aligned for technical teams.</p><div class="cap-example" data-lang-en="Suited to teams that need technical judgment without a full-time hire." data-lang-zh="适合需要技术判断、但暂不需要全职岗位的团队。">Suited to teams that need technical judgment without a full-time hire.</div></div></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="operating-model" class="reveal">
-        <div class="section-head">
-          <h2 data-lang-en="How I run a project." data-lang-zh="我如何推进项目。">How I run a project.</h2>
-          <p class="section-intro" data-lang-en="The same four steps in research and client work: clarify the problem, map constraints, build a usable artifact, hand it off documented." data-lang-zh="研究与客户项目采用同一套节奏：澄清问题、映射约束、构建可用成果、完成文档化交接。">The same four steps in research and client work: clarify the problem, map constraints, build a usable artifact, hand it off documented.</p>
+          <h2 data-lang-en="Get teamwork done." data-lang-zh="把团队协作落到交付。">Get teamwork done.</h2>
+          <p class="section-intro" data-lang-en="My default operating style is simple: clarify scope, build the smallest reviewable version, validate behavior, then leave notes that the next person can use." data-lang-zh="我的默认工作方式很简单：澄清范围，构建最小可审阅版本，验证行为，再留下下一位同事能接上的记录。">My default operating style is simple: clarify scope, build the smallest reviewable version, validate behavior, then leave notes that the next person can use.</p>
         </div>
         <div class="method-rail" aria-hidden="true"><div class="method-line"></div></div>
         <div class="model-flow" aria-label="Project method">
-          <article class="model-step"><h3 data-lang-en="Frame" data-lang-zh="界定">Frame</h3><p data-lang-en="Define the problem, users, constraints, and success criteria before choosing a tool or build path." data-lang-zh="在选择工具或构建路径前，先定义问题、用户、约束与成功标准。">Define the problem, users, constraints, and success criteria before choosing a tool or build path.</p><div class="model-output" data-lang-en="Output: scope brief" data-lang-zh="产出：范围简报">Output: scope brief</div></article>
-          <article class="model-step"><h3 data-lang-en="Design" data-lang-zh="设计">Design</h3><p data-lang-en="Translate the concept into architecture, workflow, curriculum, prototype plan, or page structure." data-lang-zh="把概念转化为架构、工作流、课程、原型计划或页面结构。">Translate the concept into architecture, workflow, curriculum, prototype plan, or page structure.</p><div class="model-output" data-lang-en="Output: project plan" data-lang-zh="产出：项目计划">Output: project plan</div></article>
-          <article class="model-step"><h3 data-lang-en="Build" data-lang-zh="构建">Build</h3><p data-lang-en="Create the visible artifact: website, workflow, demo, report, experiment package, or training module." data-lang-zh="创建可见成果：网站、工作流、演示、报告、实验包或培训模块。">Create the visible artifact: website, workflow, demo, report, experiment package, or training module.</p><div class="model-output" data-lang-en="Output: working artifact" data-lang-zh="产出：可运行成果">Output: working artifact</div></article>
-          <article class="model-step"><h3 data-lang-en="Deliver" data-lang-zh="交付">Deliver</h3><p data-lang-en="Document decisions, prepare handoff material, surface risks, and make the next step clear." data-lang-zh="记录决策，准备交接材料，暴露风险，并明确下一步。">Document decisions, prepare handoff material, surface risks, and make the next step clear.</p><div class="model-output" data-lang-en="Output: reviewable handoff" data-lang-zh="产出：可审阅交接">Output: reviewable handoff</div></article>
+          <article class="model-step"><h3 data-lang-en="Clarify" data-lang-zh="澄清">Clarify</h3><p data-lang-en="Confirm requirement, user flow, input data, edge cases, and acceptance criteria with the product or senior engineer." data-lang-zh="与产品或导师确认需求、用户流程、输入数据、边界情况和验收标准。">Confirm requirement, user flow, input data, edge cases, and acceptance criteria with the product or senior engineer.</p><div class="model-output" data-lang-en="Output: task brief" data-lang-zh="产出：任务简报">Output: task brief</div></article>
+          <article class="model-step"><h3 data-lang-en="Build" data-lang-zh="构建">Build</h3><p data-lang-en="Create a small, readable module first, then improve structure once behavior is visible and reviewable." data-lang-zh="先构建小而清晰的模块，让行为可见可审阅，再逐步改善结构。">Create a small, readable module first, then improve structure once behavior is visible and reviewable.</p><div class="model-output" data-lang-en="Output: working module" data-lang-zh="产出：可用模块">Output: working module</div></article>
+          <article class="model-step"><h3 data-lang-en="Validate" data-lang-zh="验证">Validate</h3><p data-lang-en="Check happy paths, failure cases, logs, data shape, and browser or runtime behavior before handoff." data-lang-zh="交接前检查正常路径、失败情况、日志、数据结构，以及浏览器或运行时行为。">Check happy paths, failure cases, logs, data shape, and browser or runtime behavior before handoff.</p><div class="model-output" data-lang-en="Output: test notes" data-lang-zh="产出：测试记录">Output: test notes</div></article>
+          <article class="model-step"><h3 data-lang-en="Handoff" data-lang-zh="交接">Handoff</h3><p data-lang-en="Write the decision, usage, known limitations, and next step so teammates can continue without guessing." data-lang-zh="记录决策、用法、已知限制和下一步，让队友无需猜测即可继续。">Write the decision, usage, known limitations, and next step so teammates can continue without guessing.</p><div class="model-output" data-lang-en="Output: handoff note" data-lang-zh="产出：交接说明">Output: handoff note</div></article>
+        </div>
+      </section>
+
+      <section id="visual-journal" class="reveal">
+        <div class="visual-journal">
+          <div class="journal-copy">
+            <div class="section-head">
+              <h2 data-lang-en="Visual judgment." data-lang-zh="视觉判断力。">Visual judgment.</h2>
+              <p class="section-intro" data-lang-en="A reserved space for photography and visual notes. It keeps the site from reading only as a technical CV, and gives room to show composition, color, and editing taste." data-lang-zh="这里预留给摄影作品与视觉笔记。它让网站不只是技术简历，也能展示构图、色彩与编辑审美。">A reserved space for photography and visual notes. It keeps the site from reading only as a technical CV, and gives room to show composition, color, and editing taste.</p>
+            </div>
+            <div class="journal-placeholders" aria-label="Visual portfolio placeholders">
+              <div class="journal-chip">
+                <span data-lang-en="Street and travel" data-lang-zh="街头与旅行">Street and travel</span>
+                <b data-lang-en="human scale" data-lang-zh="人的尺度">human scale</b>
+              </div>
+              <div class="journal-chip">
+                <span data-lang-en="Robotics field notes" data-lang-zh="机器人现场笔记">Robotics field notes</span>
+                <b data-lang-en="machines in context" data-lang-zh="机器在场景中">machines in context</b>
+              </div>
+              <div class="journal-chip">
+                <span data-lang-en="Interface details" data-lang-zh="界面细节">Interface details</span>
+                <b data-lang-en="composition and hierarchy" data-lang-zh="构图与层级">composition and hierarchy</b>
+              </div>
+            </div>
+          </div>
+          <div class="journal-grid" aria-label="Photography portfolio preview">
+            <figure class="journal-shot large">
+              <img src="assets/hero_kling_poster.jpg" alt="Cinematic UAV visual used as temporary portfolio cover">
+            </figure>
+            <figure class="journal-shot">
+              <img src="assets/project_flipcounter.png" alt="Interface composition preview">
+            </figure>
+            <figure class="journal-shot">
+              <img src="assets/project_nine_bubbles.png" alt="Visual systems composition preview">
+            </figure>
+            <p class="journal-note" data-lang-en="This block is intentionally ready for real photo sets: 6-12 selected frames, short captions, and a separate gallery page later." data-lang-zh="这个模块已为真实摄影作品集预留：之后可以放入 6-12 张精选照片、短说明，并扩展成独立图库页。">This block is intentionally ready for real photo sets: 6-12 selected frames, short captions, and a separate gallery page later.</p>
+          </div>
         </div>
       </section>
 
@@ -440,16 +807,20 @@
         <div class="contact-panel">
           <div class="contact-main">
             <div>
-              <h2 data-lang-en="Open to technical projects that need research depth and practical delivery." data-lang-zh="开放合作：需要研究深度与实际交付的技术项目。">Open to technical projects that need research depth and practical delivery.</h2>
-              <p data-lang-en="Reach out for technical websites, AI workflow setup, robotics curriculum, prototype demos, vendor evaluation, or part-time hybrid project coordination." data-lang-zh="可联系我讨论技术网站、AI 工作流、机器人课程、原型演示、供应商评估或兼职混合项目协调。">Reach out for technical websites, AI workflow setup, robotics curriculum, prototype demos, vendor evaluation, or part-time hybrid project coordination.</p>
+              <h2 data-lang-en="Get connected with me." data-lang-zh="和我取得联系。">Get connected with me.</h2>
+              <p data-lang-en="Best-fit conversations: robotics software, Python development, internal tools, AI-assisted engineering workflows, technical documentation, and product-minded delivery." data-lang-zh="最适合交流的方向：机器人软件、Python 开发、内部工具、AI 辅助工程工作流、技术文档与产品化交付。">Best-fit conversations: robotics software, Python development, internal tools, AI-assisted engineering workflows, technical documentation, and product-minded delivery.</p>
             </div>
-            <div class="hero-actions"><a class="button secondary" href="mailto:17221419@siswa.um.edu.my" data-lang-en="Email" data-lang-zh="邮件">Email</a><a class="button secondary" href="https://github.com/JC8426" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="contact-actions">
+              <a class="button primary" href="mailto:Johnny8426@outlook.com" data-lang-en="Email me" data-lang-zh="发邮件">Email me</a>
+              <a class="button secondary" href="assets/Chen_Zhe_Software_Engineering_Resume.pdf" data-lang-en="Resume PDF" data-lang-zh="PDF 简历">Resume PDF</a>
+              <a class="button secondary" href="https://github.com/JC8426" target="_blank" rel="noopener">GitHub</a>
+            </div>
           </div>
-          <div class="contact-links">
-            <a class="contact-link" href="#services"><span data-lang-en="Capabilities" data-lang-zh="能力">Capabilities</span><b data-lang-en="What I can take on" data-lang-zh="我可以承担什么">What I can take on</b></a>
-            <a class="contact-link" href="#projects"><span data-lang-en="Evidence" data-lang-zh="证据">Evidence</span><b data-lang-en="Engineering and project work" data-lang-zh="工程与项目工作">Engineering and project work</b></a>
-            <a class="contact-link" href="#research"><span data-lang-en="Research" data-lang-zh="研究">Research</span><b data-lang-en="Technical systems" data-lang-zh="技术系统">Technical systems</b></a>
-            <a class="contact-link" href="https://www.um.edu.my/" target="_blank" rel="noopener"><span data-lang-en="Institution" data-lang-zh="机构">Institution</span><b>Universiti Malaya</b></a>
+          <div class="contact-details">
+            <a class="contact-card" href="mailto:Johnny8426@outlook.com"><span>Email</span><b>Johnny8426@outlook.com</b></a>
+            <a class="contact-card" href="tel:+60166417042"><span>Phone</span><b>+60 16 641 7042</b></a>
+            <a class="contact-card" href="https://github.com/JC8426" target="_blank" rel="noopener"><span>GitHub</span><b>github.com/JC8426</b></a>
+            <a class="contact-card" href="assets/Chen_Zhe_Software_Engineering_Resume.pdf"><span data-lang-en="Resume" data-lang-zh="简历">Resume</span><b data-lang-en="One-page software engineering PDF" data-lang-zh="一页版软件工程简历 PDF">One-page software engineering PDF</b></a>
           </div>
         </div>
       </section>
@@ -458,7 +829,31 @@
 
   <button class="to-top" type="button" data-to-top aria-label="Back to top">Top</button>
 
-  <footer class="site-shell"><span>© <span data-year></span> Johnny Chan</span><span data-lang-en="Research · engineering · delivery" data-lang-zh="研究 · 工程 · 交付">Research · engineering · delivery</span></footer>
+  <footer class="site-shell">
+    <div class="footer-inner">
+      <a class="footer-logo" href="#top" aria-label="Back to top">JC</a>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#program" data-lang-en="Past program" data-lang-zh="过往经历">Past program</a>
+        <a href="#research" data-lang-en="Research" data-lang-zh="研究">Research</a>
+        <a href="#systems" data-lang-en="Systems" data-lang-zh="系统">Systems</a>
+        <a href="#teamwork" data-lang-en="Teamwork" data-lang-zh="协作">Teamwork</a>
+        <a href="#visual-journal" data-lang-en="Visual journal" data-lang-zh="影像">Visual journal</a>
+        <a href="#contact" data-lang-en="Contact" data-lang-zh="联系">Contact</a>
+      </nav>
+      <div class="social-links" aria-label="Social links">
+        <a class="social-link" href="#" aria-label="Xiaohongshu">
+          <img src="https://cdn.simpleicons.org/xiaohongshu/171913" alt="">
+        </a>
+        <a class="social-link" href="#" aria-label="Instagram">
+          <img src="https://cdn.simpleicons.org/instagram/171913" alt="">
+        </a>
+        <a class="social-link" href="#" aria-label="LinkedIn">
+          <span class="social-glyph" aria-hidden="true">in</span>
+        </a>
+      </div>
+      <div class="footer-note">© <span data-year></span> Johnny Chan. <span data-lang-en="Software, AI workflow, robotics." data-lang-zh="软件、AI 工作流、机器人。">Software, AI workflow, robotics.</span></div>
+    </div>
+  </footer>
 
   <script>
     (function () {
@@ -476,15 +871,29 @@
         root.classList.remove('force-light', 'force-dark');
         if (mode === 'light') root.classList.add('force-light');
         if (mode === 'dark') root.classList.add('force-dark');
-        toggle.textContent = mode === 'auto' ? 'Auto' : mode.charAt(0).toUpperCase() + mode.slice(1);
-        toggle.setAttribute('aria-label', 'Theme: ' + toggle.textContent + '. Click to change.');
+        if (toggle) {
+          toggle.textContent = mode === 'auto' ? 'Auto' : mode.charAt(0).toUpperCase() + mode.slice(1);
+          toggle.setAttribute('aria-label', 'Theme: ' + toggle.textContent + '. Click to change.');
+        }
         document.dispatchEvent(new CustomEvent('jc-theme-changed'));
       }
-      function nextTheme(mode) { if (mode === 'auto') return 'light'; if (mode === 'light') return 'dark'; return 'auto'; }
+
+      function nextTheme(mode) {
+        if (mode === 'auto') return 'light';
+        if (mode === 'light') return 'dark';
+        return 'auto';
+      }
+
       let mode = saved || 'auto';
       applyTheme(mode);
       if (year) year.textContent = new Date().getFullYear();
-      toggle.addEventListener('click', function () { mode = nextTheme(mode); localStorage.setItem('jc-theme', mode); applyTheme(mode); });
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          mode = nextTheme(mode);
+          localStorage.setItem('jc-theme', mode);
+          applyTheme(mode);
+        });
+      }
 
       function applyLanguage(lang) {
         document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
@@ -497,6 +906,7 @@
         }
         document.dispatchEvent(new CustomEvent('jc-language-changed'));
       }
+
       let lang = savedLang;
       applyLanguage(lang);
       if (langToggle) {
@@ -507,7 +917,6 @@
         });
       }
 
-      // Mobile menu
       const menuBtn = document.querySelector('[data-menu-toggle]');
       if (nav && menuBtn) {
         menuBtn.addEventListener('click', function () {
@@ -524,17 +933,15 @@
         });
       }
 
-      // Nav condenses after leaving the top (sentinel, no scroll listener)
       const sentinel = document.createElement('div');
       sentinel.style.cssText = 'position:absolute;top:80px;left:0;width:1px;height:1px;';
       document.body.prepend(sentinel);
-      if ('IntersectionObserver' in window) {
+      if (nav && 'IntersectionObserver' in window) {
         new IntersectionObserver(function (entries) {
           nav.classList.toggle('scrolled', !entries[0].isIntersecting);
         }).observe(sentinel);
       }
 
-      // Hero video fallback
       const heroVideo = document.querySelector('.hero-video');
       const heroFallback = document.querySelector('.hero-video-fallback');
       function hideHeroFallback() { if (heroFallback) heroFallback.classList.add('is-hidden'); }
@@ -545,7 +952,6 @@
         heroVideo.addEventListener('error', function () { heroFallback.classList.remove('is-hidden'); });
       }
 
-      // Back to top
       const hero = document.querySelector('.hero');
       if (toTop && hero && 'IntersectionObserver' in window) {
         new IntersectionObserver(function (entries) {
@@ -554,38 +960,34 @@
         toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
       }
 
-      // Capabilities accordion
-      document.querySelectorAll('.cap').forEach(function (cap) {
-        const btn = cap.querySelector('.cap-toggle');
-        btn.addEventListener('click', function () {
-          const open = cap.classList.toggle('open');
-          btn.setAttribute('aria-expanded', String(open));
-        });
-      });
-
-      // Scroll reveals
       const items = document.querySelectorAll('.reveal');
       if (!('IntersectionObserver' in window)) {
         items.forEach(function (item) { item.classList.add('visible'); });
       } else {
         const observer = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
-            if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
           });
         }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
-        items.forEach(function (item, index) { item.style.transitionDelay = Math.min(index * 55, 220) + 'ms'; observer.observe(item); });
+        items.forEach(function (item, index) {
+          item.style.transitionDelay = Math.min(index * 55, 220) + 'ms';
+          observer.observe(item);
+        });
       }
 
-      let sketchMode = 'stack';
-      const steps = Array.from(document.querySelectorAll('.research-step'));
+      let sketchMode = 'constraints';
+      const researchSteps = Array.from(document.querySelectorAll('.research-step'));
       function localizedFrom(node, key) {
         if (!node) return '';
         return node.getAttribute(key + '-' + lang) || node.getAttribute(key + '-en') || '';
       }
       function syncResearchVisual(step) {
         if (!step) return;
-        sketchMode = step.getAttribute('data-mode') || 'stack';
-        steps.forEach(function (item) { item.classList.toggle('active', item === step); });
+        sketchMode = step.getAttribute('data-mode') || 'constraints';
+        researchSteps.forEach(function (item) { item.classList.toggle('active', item === step); });
         const title = document.querySelector('[data-visual-title]');
         const layer = document.querySelector('[data-visual-layer]');
         const focus = document.querySelector('[data-visual-focus]');
@@ -612,33 +1014,33 @@
           caption.setAttribute('data-lang-en', step.getAttribute('data-caption-en') || '');
           caption.setAttribute('data-lang-zh', step.getAttribute('data-caption-zh') || '');
         }
-        document.querySelectorAll('[data-mode-row]').forEach(function (row) {
-          row.classList.toggle('active', row.getAttribute('data-mode-row') === sketchMode);
-        });
         document.dispatchEvent(new CustomEvent('jc-research-mode-changed'));
       }
+
       document.addEventListener('jc-language-changed', function () {
-        syncResearchVisual(document.querySelector('.research-step.active') || steps[0]);
+        syncResearchVisual(document.querySelector('.research-step.active') || researchSteps[0]);
       });
-      syncResearchVisual(steps[0]);
-      if (steps.length && 'IntersectionObserver' in window) {
-        const stepObserver = new IntersectionObserver(function (entries) {
+      syncResearchVisual(researchSteps[0]);
+      if (researchSteps.length && 'IntersectionObserver' in window) {
+        const researchObserver = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            syncResearchVisual(entry.target);
+            if (entry.isIntersecting) syncResearchVisual(entry.target);
           });
-        }, { threshold: 0.5, rootMargin: '-12% 0px -36% 0px' });
-        steps.forEach(function (step) { stepObserver.observe(step); });
+        }, { threshold: 0.55, rootMargin: '-12% 0px -35% 0px' });
+        researchSteps.forEach(function (step) { researchObserver.observe(step); });
       }
 
       const line = document.querySelector('.method-line');
-      if (!reduce && line && 'IntersectionObserver' in window) {
+      const rail = document.querySelector('.method-rail');
+      if (!reduce && line && rail && 'IntersectionObserver' in window) {
         new IntersectionObserver(function (entries, obs) {
-          if (entries[0].isIntersecting) { line.classList.add('drawn'); obs.disconnect(); }
-        }, { threshold: 0.4 }).observe(document.querySelector('.method-rail'));
+          if (entries[0].isIntersecting) {
+            line.classList.add('drawn');
+            obs.disconnect();
+          }
+        }, { threshold: 0.4 }).observe(rail);
       }
 
-      // System sketch
       (function initSystemSketch() {
         const canvas = document.getElementById('system-sketch');
         if (!canvas || !canvas.getContext) return;
@@ -655,27 +1057,75 @@
             dim: cs.getPropertyValue('--subtle').trim()
           };
         }
+
         function size() {
           dpr = Math.min(window.devicePixelRatio || 1, 2);
-          W = panel.clientWidth; H = Math.max(panel.clientHeight - 52, 200);
-          canvas.width = W * dpr; canvas.height = H * dpr;
+          W = panel.clientWidth;
+          H = Math.max(panel.clientHeight - 52, 220);
+          canvas.width = W * dpr;
+          canvas.height = H * dpr;
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
+
         function seed() {
           nodes.length = 0;
           for (let i = 0; i < N; i++) {
             nodes.push({
-              x: 20 + Math.random() * (W - 40),
-              y: 20 + Math.random() * (H - 40),
+              x: 20 + Math.random() * Math.max(W - 40, 1),
+              y: 20 + Math.random() * Math.max(H - 40, 1),
               vx: (Math.random() - 0.5) * 0.5,
               vy: (Math.random() - 0.5) * 0.5
             });
           }
         }
+
         let dropIdx = -1, dropUntil = 0, nextDrop = performance.now() + 4000;
         function draw(now) {
           ctx.clearRect(0, 0, W, H);
-          if (sketchMode === 'planning') {
+          if (sketchMode === 'constraints') {
+            ctx.globalAlpha = 0.16;
+            ctx.strokeStyle = palette.link;
+            ctx.lineWidth = 1;
+            for (let x = W * 0.12; x < W * 0.9; x += 34) {
+              ctx.beginPath();
+              ctx.moveTo(x, H * 0.14);
+              ctx.lineTo(x + W * 0.08, H * 0.88);
+              ctx.stroke();
+            }
+            ctx.globalAlpha = 0.9;
+            const zones = [
+              [W * 0.25, H * 0.32, 46],
+              [W * 0.62, H * 0.48, 66],
+              [W * 0.44, H * 0.72, 52]
+            ];
+            zones.forEach(function (z, i) {
+              ctx.globalAlpha = 0.12 + i * 0.04;
+              ctx.fillStyle = palette.link;
+              ctx.beginPath();
+              ctx.arc(z[0], z[1], z[2], 0, Math.PI * 2);
+              ctx.fill();
+              ctx.globalAlpha = 0.72;
+              ctx.strokeStyle = palette.link;
+              ctx.stroke();
+              ctx.globalAlpha = 1;
+              ctx.fillStyle = palette.node;
+              ctx.beginPath();
+              ctx.arc(z[0], z[1], 4, 0, Math.PI * 2);
+              ctx.fill();
+            });
+            ctx.globalAlpha = 0.58;
+            ctx.strokeStyle = palette.dim;
+            ctx.setLineDash([5, 7]);
+            ctx.beginPath();
+            ctx.moveTo(W * 0.18, H * 0.82);
+            ctx.bezierCurveTo(W * 0.34, H * 0.58, W * 0.56, H * 0.64, W * 0.78, H * 0.24);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1;
+            return;
+          }
+
+          if (sketchMode === 'stack') {
             const points = [
               [W * 0.12, H * 0.62],
               [W * 0.28, H * 0.42],
@@ -687,7 +1137,10 @@
             ctx.strokeStyle = palette.link;
             ctx.lineWidth = 1;
             for (let y = H * 0.18; y < H * 0.82; y += 34) {
-              ctx.beginPath(); ctx.moveTo(W * 0.08, y); ctx.lineTo(W * 0.92, y); ctx.stroke();
+              ctx.beginPath();
+              ctx.moveTo(W * 0.08, y);
+              ctx.lineTo(W * 0.92, y);
+              ctx.stroke();
             }
             ctx.globalAlpha = 1;
             ctx.strokeStyle = palette.link;
@@ -704,12 +1157,13 @@
             });
             return;
           }
+
           if (sketchMode === 'validation') {
             const rows = [
               ['scenario', 0.78],
               ['trace', 0.64],
               ['figure', 0.86],
-              ['manuscript', 0.58]
+              ['handoff', 0.58]
             ];
             rows.forEach(function (row, index) {
               const y = 34 + index * 52;
@@ -737,12 +1191,18 @@
             ctx.globalAlpha = 1;
             return;
           }
+
           const linkDist = Math.min(W, H) * 0.42;
-          if (now > nextDrop) { dropIdx = Math.floor(Math.random() * N); dropUntil = now + 2600; nextDrop = now + 6500 + Math.random() * 3000; }
+          if (now > nextDrop) {
+            dropIdx = Math.floor(Math.random() * N);
+            dropUntil = now + 2600;
+            nextDrop = now + 6500 + Math.random() * 3000;
+          }
           if (now > dropUntil) dropIdx = -1;
           for (let i = 0; i < N; i++) {
             const a = nodes[i];
-            a.x += a.vx; a.y += a.vy;
+            a.x += a.vx;
+            a.y += a.vy;
             if (a.x < 14 || a.x > W - 14) a.vx *= -1;
             if (a.y < 14 || a.y > H - 14) a.vy *= -1;
           }
@@ -755,7 +1215,10 @@
                 ctx.globalAlpha = (1 - d / linkDist) * 0.72;
                 ctx.strokeStyle = palette.link;
                 ctx.lineWidth = 1;
-                ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(nodes[i].x, nodes[i].y);
+                ctx.lineTo(nodes[j].x, nodes[j].y);
+                ctx.stroke();
               }
             }
           }
@@ -763,16 +1226,24 @@
           for (let i = 0; i < N; i++) {
             ctx.beginPath();
             ctx.arc(nodes[i].x, nodes[i].y, 3, 0, Math.PI * 2);
-            if (i === dropIdx) { ctx.strokeStyle = palette.dim; ctx.stroke(); }
-            else { ctx.fillStyle = palette.node; ctx.fill(); }
+            if (i === dropIdx) {
+              ctx.strokeStyle = palette.dim;
+              ctx.stroke();
+            } else {
+              ctx.fillStyle = palette.node;
+              ctx.fill();
+            }
           }
         }
+
         let running = false, rafId = 0;
         function loop(now) { if (!running) return; draw(now); rafId = requestAnimationFrame(loop); }
         function start() { if (running || reduce) return; running = true; rafId = requestAnimationFrame(loop); }
         function stop() { running = false; cancelAnimationFrame(rafId); }
 
-        readPalette(); size(); seed();
+        readPalette();
+        size();
+        seed();
         draw(performance.now());
         if (!reduce && 'IntersectionObserver' in window) {
           new IntersectionObserver(function (entries) {
