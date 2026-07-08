@@ -355,10 +355,12 @@
       background: color-mix(in srgb, var(--surface-strong) 68%, transparent);
       padding: 22px;
       box-shadow: 0 14px 50px rgb(16 24 40 / 0.05);
+      overflow: hidden;
     }
     .timeline-card time { color: var(--subtle); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
     .timeline-card h3 { margin: 0 0 8px; font-size: clamp(21px, 2vw, 28px); line-height: 1.08; letter-spacing: -0.045em; }
-    .timeline-card p { color: var(--muted); font-size: 15px; }
+    .timeline-card p { color: var(--muted); font-size: 15px; overflow-wrap: break-word; word-break: break-word; }
+    .timeline-card div { min-width: 0; }
 
     .research-layout { display: grid; grid-template-columns: minmax(0, 0.88fr) minmax(360px, 0.82fr); gap: clamp(38px, 6vw, 92px); align-items: start; }
     .research-steps { display: grid; gap: clamp(44px, 9vh, 96px); padding-top: 12px; }
@@ -895,7 +897,7 @@
         </div>
         <div class="systems-grid" aria-label="Selected project evidence">
           <article class="system-card">
-            <div class="system-media"><img src="assets/project_flipcounter.png" alt="AI-assisted engineering workflow screenshot"></div>
+            <div class="system-media"><img src="assets/engineering_portfolio_workflow.png" alt="AI-assisted engineering workflow screenshot showing task planning, prompt structure, and review notes"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">AI-assisted workflow</span>
@@ -912,7 +914,7 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media"><img src="assets/project_nine_bubbles.png" alt="Web project interface screenshot"></div>
+            <div class="system-media"><img src="assets/volary_website_screenshot.png" alt="Volary UAV autonomy website screenshot"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">Web projects</span>
@@ -1098,17 +1100,17 @@
             <div class="taste-panel active" data-taste-panel="parallax" role="tabpanel">
               <div class="parallax-gallery" aria-label="Personal taste photo stream">
                 <div class="parallax-col">
-                  <figure class="parallax-shot tall"><img src="assets/portfolio/lab-session-1133-frame-02.jpg" alt="Lab session capture"></figure>
-                  <figure class="parallax-shot"><img src="assets/portfolio/lab-dng-preview-8855.jpg" alt="Photography preview"></figure>
+                  <figure class="parallax-shot tall"><img src="assets/taste/lab-session-1133-frame-02.jpg" alt="Lab session capture"></figure>
+                  <figure class="parallax-shot"><img src="assets/taste/lab-dng-preview-8855.jpg" alt="Photography preview"></figure>
                 </div>
                 <div class="parallax-col">
-                  <figure class="parallax-shot"><img src="assets/portfolio/lab-meeting-whiteboard-8878.jpg" alt="Meeting whiteboard notes"></figure>
-                  <figure class="parallax-shot tall"><img src="assets/portfolio/lab-meeting-review-1123.jpg" alt="Review session"></figure>
+                  <figure class="parallax-shot"><img src="assets/taste/lab-meeting-whiteboard-8878.jpg" alt="Meeting whiteboard notes"></figure>
+                  <figure class="parallax-shot tall"><img src="assets/taste/lab-meeting-review-1123.jpg" alt="Review session"></figure>
                 </div>
                 <div class="parallax-col">
-                  <figure class="parallax-shot wide"><img src="assets/portfolio/lab-public-service-photo-16.jpg" alt="Public service event"></figure>
-                  <figure class="parallax-shot"><img src="assets/portfolio/lab-presentation-room-1118.jpg" alt="Presentation room"></figure>
-                  <figure class="parallax-shot"><img src="assets/portfolio/lab-session-1134-frame-04.jpg" alt="Lab work frame"></figure>
+                  <figure class="parallax-shot wide"><img src="assets/taste/lab-public-service-photo-16.jpg" alt="Public service event"></figure>
+                  <figure class="parallax-shot"><img src="assets/taste/lab-presentation-room-1118.jpg" alt="Presentation room"></figure>
+                  <figure class="parallax-shot"><img src="assets/taste/lab-session-1134-frame-04.jpg" alt="Lab work frame"></figure>
                 </div>
               </div>
             </div>
