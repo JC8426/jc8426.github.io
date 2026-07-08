@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Material visual archive placeholder</title>
+  <desc id="desc">Abstract close-up of workshop materials, tools, and mechanical details.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ede6d8"/>
+      <stop offset=".5" stop-color="#c1c8be"/>
+      <stop offset="1" stop-color="#6f766b"/>
+    </linearGradient>
+    <pattern id="grain" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#24231f" opacity=".1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="1100" fill="url(#bg)"/>
+  <rect width="800" height="1100" fill="url(#grain)" opacity=".8"/>
+  <rect x="96" y="150" width="608" height="186" rx="28" fill="#24231f" opacity=".68"/>
+  <rect x="142" y="204" width="260" height="22" rx="11" fill="#f8f3e8" opacity=".62"/>
+  <rect x="142" y="252" width="404" height="18" rx="9" fill="#f8f3e8" opacity=".32"/>
+  <circle cx="604" cy="244" r="46" fill="none" stroke="#f8f3e8" stroke-opacity=".42" stroke-width="12"/>
+  <path d="M160 500h480" stroke="#24231f" stroke-opacity=".36" stroke-width="34" stroke-linecap="round"/>
+  <path d="M220 426l340 258" stroke="#24231f" stroke-opacity=".22" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="274" cy="600" r="72" fill="none" stroke="#24231f" stroke-opacity=".42" stroke-width="18"/>
+  <circle cx="520" cy="594" r="94" fill="none" stroke="#24231f" stroke-opacity=".28" stroke-width="22"/>
+  <path d="M274 528v144M202 600h144M520 500v188M426 594h188" stroke="#24231f" stroke-opacity=".34" stroke-width="12" stroke-linecap="round"/>
+  <rect x="106" y="804" width="246" height="94" rx="22" fill="#f8f3e8" opacity=".42" stroke="#24231f" stroke-opacity=".12"/>
+  <rect x="404" y="804" width="288" height="94" rx="22" fill="#f8f3e8" opacity=".3" stroke="#24231f" stroke-opacity=".12"/>
+  <text x="80" y="1010" fill="#24231f" fill-opacity=".58" font-family="ui-monospace, monospace" font-size="22" letter-spacing="4">MATERIAL / MACHINE / DETAIL</text>
+</svg>
