@@ -329,8 +329,9 @@
       display: grid;
       grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
       gap: clamp(24px, 5vw, 72px);
-      align-items: start;
+      align-items: stretch;
     }
+    .program-layout > :last-child { align-self: start; }
     .program-summary {
       position: sticky;
       top: 112px;
@@ -889,8 +890,8 @@
     <div class="frame">
       <section id="systems" class="reveal">
         <div class="section-head">
-          <h2 data-lang-en="Projects that prove the work." data-lang-zh="证明能力的项目。">Projects that prove the work.</h2>
-          <p class="section-intro" data-lang-en="This is the evidence layer: each project shows the context, stack, responsibility, and delivery habits behind the CV keywords." data-lang-zh="这是证据层：每个项目展示简历关键词背后的场景、技术栈、职责与交付习惯。">This is the evidence layer: each project shows the context, stack, responsibility, and delivery habits behind the CV keywords.</p>
+          <h2 data-lang-en="Projects that work." data-lang-zh="能跑起来的项目。">Projects that work.</h2>
+          <p class="section-intro" data-lang-en="Each card captures context, stack, responsibility, and delivery habits — the real story behind a CV keyword." data-lang-zh="每张卡片记录场景、技术栈、职责与交付习惯 —— 简历关键词背后真实的样子。">Each card captures context, stack, responsibility, and delivery habits — the real story behind a CV keyword.</p>
         </div>
         <div class="systems-grid" aria-label="Selected project evidence">
           <article class="system-card">
@@ -911,12 +912,12 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media"><img src="assets/project_nine_bubbles.png" alt="Personal technical website interface"></div>
+            <div class="system-media"><img src="assets/project_nine_bubbles.png" alt="Web project interface screenshot"></div>
             <div class="system-body">
               <div>
-                <span class="system-role">Frontend evidence</span>
-                <h3 data-lang-en="Personal Engineering Portfolio" data-lang-zh="个人工程作品集">Personal Engineering Portfolio</h3>
-                <p data-lang-en="A bilingual static portfolio designed to prove practical implementation, deployment awareness, information hierarchy, and iteration discipline." data-lang-zh="一个双语静态作品集，用来证明实际实现、部署意识、信息层级和迭代习惯。">A bilingual static portfolio designed to prove practical implementation, deployment awareness, information hierarchy, and iteration discipline.</p>
+                <span class="system-role">Web projects</span>
+                <h3 data-lang-en="Web Projects" data-lang-zh="网页项目">Web Projects</h3>
+                <p data-lang-en="Bilingual static pages, theme switching, language toggles, canvas animations — practical HTML/CSS/JS work proof, not slideware." data-lang-zh="双语静态页面、主题切换、语言切换、Canvas 动画——实际 HTML/CSS/JS 作品证明，不是幻灯片。">Bilingual static pages, theme switching, language toggles, canvas animations — practical HTML/CSS/JS work proof, not slideware.</p>
                 <div class="proof-grid">
                   <div class="proof-block"><b>Stack</b><span>HTML, CSS, JavaScript, GitHub Pages</span></div>
                   <div class="proof-block"><b>Role</b><span data-lang-en="Implemented layout, theme switch, language switch, navigation behavior, canvas visualization, and CV downloads." data-lang-zh="实现布局、主题切换、语言切换、导航行为、Canvas 可视化和简历下载。">Implemented layout, theme switch, language switch, navigation behavior, canvas visualization, and CV downloads.</span></div>
@@ -928,7 +929,7 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/lab-coordinate-whiteboard-1131.jpg" alt="Johnny Chan explaining UAV autonomy and lab workflow on a whiteboard"></div>
+            <div class="system-media"><img src="assets/portfolio/lab-coordinate-room-1129.jpg" alt="Johnny Chan discussing lab workflow with team members in a coordination room"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">Lab coordination</span>
@@ -967,8 +968,8 @@
         <div class="program-layout">
           <aside class="program-summary">
             <div class="section-head">
-              <h2 data-lang-en="About the shift." data-lang-zh="关于这次转向。">About the shift.</h2>
-              <p class="section-intro" data-lang-en="I started from mechanical engineering, moved through R&D coordination, and now work in computer science because I care about systems that can actually run, fail, be debugged, and be maintained." data-lang-zh="我从机械工程出发，经历研发协调，现在转向计算机科学，因为我关注的是能够运行、出错、被调试并持续维护的系统。">I started from mechanical engineering, moved through R&D coordination, and now work in computer science because I care about systems that can actually run, fail, be debugged, and be maintained.</p>
+              <h2 data-lang-en="Involving Route." data-lang-zh="来时路。">Involving Route.</h2>
+              <p class="section-intro" data-lang-en="Time flies. Ability enhanced. Future comes." data-lang-zh="时光飞逝。能力渐进。未来已来。">Time flies. Ability enhanced. Future comes.</p>
             </div>
             <div class="stat-grid" aria-label="Background summary">
               <div class="stat"><b>Build</b><span data-lang-en="turn requirements into working modules" data-lang-zh="把需求转成可用模块">turn requirements into working modules</span></div>
@@ -993,14 +994,14 @@
         </div>
         <div class="research-layout">
           <div class="research-steps">
-            <article class="research-step active" data-mode="constraints" data-visual-title-en="Problem framing" data-visual-title-zh="问题定义" data-metric-layer="01" data-metric-focus-en="Requirements" data-metric-focus-zh="需求" data-metric-output-en="Scope map" data-metric-output-zh="范围图" data-caption-en="Layer 01 defines users, constraints, data, and acceptance criteria before implementation." data-caption-zh="层级 01 在实现前定义用户、约束、数据与验收标准。"><span data-lang-en="Layer 01" data-lang-zh="层级 01">Layer 01</span><h3 data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</h3><p data-lang-en="Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit." data-lang-zh="无论是无人机自主系统还是内部业务模块，我都会先明确需求、边界情况与审阅标准。">Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit.</p></article>
-            <article class="research-step" data-mode="stack" data-visual-title-en="Software stack" data-visual-title-zh="软件技术栈" data-metric-layer="02" data-metric-focus-en="Implementation" data-metric-focus-zh="实现" data-metric-output-en="Working module" data-metric-output-zh="可用模块" data-caption-en="Layer 02 connects Python, C++, ROS, simulation tools, and documentation into a reviewable engineering stack." data-caption-zh="层级 02 将 Python、C++、ROS、仿真工具与文档连接为可审阅工程栈。"><span data-lang-en="Layer 02" data-lang-zh="层级 02">Layer 02</span><h3 data-lang-en="Software stack" data-lang-zh="软件技术栈">Software stack</h3><p data-lang-en="My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces." data-lang-zh="我当前最强的技术栈是 Python、机器人工具链、Linux、Git、Markdown 文档，以及技术界面所需的前端基础。">My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces.</p></article>
-            <article class="research-step" data-mode="validation" data-visual-title-en="Evidence path" data-visual-title-zh="证据路径" data-metric-layer="03" data-metric-focus-en="Validation" data-metric-focus-zh="验证" data-metric-output-en="Handoff" data-metric-output-zh="交接" data-caption-en="Layer 03 turns tests, logs, notes, and decisions into a traceable handoff for teammates." data-caption-zh="层级 03 将测试、日志、笔记与决策整理为团队可追踪交接材料。"><span data-lang-en="Layer 03" data-lang-zh="层级 03">Layer 03</span><h3 data-lang-en="Validation and handoff" data-lang-zh="验证与交接">Validation and handoff</h3><p data-lang-en="I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package." data-lang-zh="我把实现、测试记录、技术说明与后续风险作为同一个交付包处理。">I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package.</p></article>
+            <article class="research-step active" data-mode="constraints" data-visual-title-en="Problem framing" data-visual-title-zh="问题定义" data-metric-layer="01" data-metric-focus-en="Requirements" data-metric-focus-zh="需求" data-metric-output-en="Scope map" data-metric-output-zh="范围图" data-caption-en="Layer 01 defines users, constraints, data, and acceptance criteria before implementation." data-caption-zh="层级 01 在实现前定义用户、约束、数据与验收标准。" data-image="assets/portfolio/search_and_rescue-1024x576.jpg"><span data-lang-en="Layer 01" data-lang-zh="层级 01">Layer 01</span><h3 data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</h3><p data-lang-en="Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit." data-lang-zh="无论是无人机自主系统还是内部业务模块，我都会先明确需求、边界情况与审阅标准。">Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit.</p></article>
+            <article class="research-step" data-mode="stack" data-visual-title-en="Software stack" data-visual-title-zh="软件技术栈" data-metric-layer="02" data-metric-focus-en="Implementation" data-metric-focus-zh="实现" data-metric-output-en="Working module" data-metric-output-zh="可用模块" data-caption-en="Layer 02 connects Python, C++, ROS, simulation tools, and documentation into a reviewable engineering stack." data-caption-zh="层级 02 将 Python、C++、ROS、仿真工具与文档连接为可审阅工程栈。" data-image="assets/portfolio/robotics-linux-debug-9114.jpg"><span data-lang-en="Layer 02" data-lang-zh="层级 02">Layer 02</span><h3 data-lang-en="Software stack" data-lang-zh="软件技术栈">Software stack</h3><p data-lang-en="My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces." data-lang-zh="我当前最强的技术栈是 Python、机器人工具链、Linux、Git、Markdown 文档，以及技术界面所需的前端基础。">My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces.</p></article>
+            <article class="research-step" data-mode="validation" data-visual-title-en="Evidence path" data-visual-title-zh="证据路径" data-metric-layer="03" data-metric-focus-en="Validation" data-metric-focus-zh="验证" data-metric-output-en="Handoff" data-metric-output-zh="交接" data-caption-en="Layer 03 turns tests, logs, notes, and decisions into a traceable handoff for teammates." data-caption-zh="层级 03 将测试、日志、笔记与决策整理为团队可追踪交接材料。" data-image="assets/portfolio/uav-field-test-9115.jpg"><span data-lang-en="Layer 03" data-lang-zh="层级 03">Layer 03</span><h3 data-lang-en="Validation and handoff" data-lang-zh="验证与交接">Validation and handoff</h3><p data-lang-en="I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package." data-lang-zh="我把实现、测试记录、技术说明与后续风险作为同一个交付包处理。">I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package.</p></article>
           </div>
           <aside class="sticky-visual" aria-label="Autonomous system visual">
             <div class="visual-screen">
               <div class="visual-topbar"><span data-visual-title data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</span><div class="visual-pills" aria-hidden="true"><span class="visual-pill"></span><span class="visual-pill"></span><span class="visual-pill"></span></div></div>
-              <figure class="system-panel" aria-label="Animated sketch of a technical system"><canvas id="system-sketch" aria-hidden="true"></canvas></figure>
+              <figure class="system-panel" aria-label="Research layer visual"><img id="system-image" src="assets/portfolio/search_and_rescue-1024x576.jpg" alt="Research layer visual" style="width:100%;height:100%;min-height:310px;object-fit:cover;display:block;"></figure>
               <div>
                 <div class="system-metrics">
                   <div class="metric-card"><span data-lang-en="Layer" data-lang-zh="层级">Layer</span><b data-visual-layer>01</b></div>
@@ -1087,92 +1088,27 @@
             <div>
               <div class="section-head">
                 <h2 data-lang-en="Taste my taste." data-lang-zh="共同品味。">Taste my taste.</h2>
-                <p class="section-intro" data-lang-en="Three proposals for the visual layer: draggable cards, a parallax photo stream, and an Apple-style carousel. I am keeping all three here so the final direction can be chosen by feel." data-lang-zh="这里先放三种视觉层提案：可拖拽卡片、视差照片流，以及 Apple 风格轮播。三种都先保留，用实际观感决定最终方向。">Three proposals for the visual layer: draggable cards, a parallax photo stream, and an Apple-style carousel. I am keeping all three here so the final direction can be chosen by feel.</p>
-              </div>
-              <div class="taste-switcher" role="tablist" aria-label="Taste section layout proposals">
-                <button class="taste-tab active" type="button" role="tab" aria-selected="true" data-taste-tab="draggable" data-lang-en="Draggable" data-lang-zh="拖拽">Draggable</button>
-                <button class="taste-tab" type="button" role="tab" aria-selected="false" data-taste-tab="parallax" data-lang-en="Parallax" data-lang-zh="视差">Parallax</button>
-                <button class="taste-tab" type="button" role="tab" aria-selected="false" data-taste-tab="apple" data-lang-en="Apple cards" data-lang-zh="苹果卡片">Apple cards</button>
+                <p class="section-intro" data-lang-en="A visual layer shaped by photography, work environment, and personal aesthetic — this is where taste lives, not where work gets proven." data-lang-zh="由摄影、工作环境与个人审美构成的视觉层——品味栖居之所，而非工作证据。">A visual layer shaped by photography, work environment, and personal aesthetic — this is where taste lives, not where work gets proven.</p>
               </div>
             </div>
-            <p class="taste-note" data-lang-en="For now, this section uses public-safe lab coordination and robotics images. The final version can later expand into a dedicated photography portfolio." data-lang-zh="目前这一区块先使用适合公开展示的实验室协调与机器人素材。最终版本之后可以扩展成独立摄影作品集。">For now, this section uses public-safe lab coordination and robotics images. The final version can later expand into a dedicated photography portfolio.</p>
+            <p class="taste-note" data-lang-en="This section uses lab environment, photography experiments, and daily captures that reflect how I see and compose. No overlap with the project evidence above." data-lang-zh="本区块使用实验室环境、摄影实验与日常捕捉，反映我如何观看与构图。与上方项目证据区无重复。">This section uses lab environment, photography experiments, and daily captures that reflect how I see and compose. No overlap with the project evidence above.</p>
           </aside>
 
           <div class="taste-workbench">
-            <div class="taste-panel active" data-taste-panel="draggable" role="tabpanel">
-              <div class="draggable-stage" data-draggable-stage>
-                <figure class="taste-card" data-drag-card style="--x: 6%; --y: 6%; --r: -6deg;">
-                  <img src="assets/portfolio/lab-coordinate-whiteboard-1131.jpg" alt="Johnny Chan explaining UAV autonomy beside a whiteboard">
-                  <figcaption data-lang-en="Whiteboard framing" data-lang-zh="白板定义">Whiteboard framing</figcaption>
-                </figure>
-                <figure class="taste-card" data-drag-card style="--x: 34%; --y: 4%; --r: 4deg;">
-                  <img src="assets/portfolio/uav-hardware-lineup-9112.jpg" alt="UAV hardware lineup in the lab">
-                  <figcaption data-lang-en="Hardware texture" data-lang-zh="硬件质感">Hardware texture</figcaption>
-                </figure>
-                <figure class="taste-card" data-drag-card style="--x: 58%; --y: 12%; --r: -3deg;">
-                  <img src="assets/portfolio/uav-simulation-rviz-gazebo-9117.jpg" alt="UAV simulation screenshot with Gazebo and RViz">
-                  <figcaption data-lang-en="Simulation proof" data-lang-zh="仿真证据">Simulation proof</figcaption>
-                </figure>
-                <figure class="taste-card" data-drag-card style="--x: 10%; --y: 39%; --r: 5deg;">
-                  <img src="assets/portfolio/lab-coordinate-discussion-1119.jpg" alt="Johnny Chan coordinating a whiteboard discussion">
-                  <figcaption data-lang-en="Discussion layer" data-lang-zh="讨论层">Discussion layer</figcaption>
-                </figure>
-                <figure class="taste-card" data-drag-card style="--x: 36%; --y: 37%; --r: -4deg;">
-                  <img src="assets/portfolio/lab-presentation-ethics-1117.jpg" alt="Johnny Chan presenting beside a Robotedge ethics whiteboard">
-                  <figcaption data-lang-en="Public impact" data-lang-zh="公开影响">Public impact</figcaption>
-                </figure>
-                <figure class="taste-card" data-drag-card style="--x: 62%; --y: 40%; --r: 6deg;">
-                  <img src="assets/portfolio/robotics-linux-debug-9114.jpg" alt="Linux robotics debugging display">
-                  <figcaption data-lang-en="Debugging view" data-lang-zh="调试视角">Debugging view</figcaption>
-                </figure>
-              </div>
-            </div>
-
-            <div class="taste-panel" data-taste-panel="parallax" role="tabpanel" hidden>
-              <div class="parallax-gallery" aria-label="Parallax photo stream proposal">
+            <div class="taste-panel active" data-taste-panel="parallax" role="tabpanel">
+              <div class="parallax-gallery" aria-label="Personal taste photo stream">
                 <div class="parallax-col">
-                  <figure class="parallax-shot tall"><img src="assets/portfolio/lab-coordinate-discussion-1119.jpg" alt="Whiteboard coordination discussion"></figure>
-                  <figure class="parallax-shot"><img src="assets/portfolio/uav-front-evidence-9118.jpg" alt="Front view of UAV prototype"></figure>
+                  <figure class="parallax-shot tall"><img src="assets/portfolio/lab-session-1133-frame-02.jpg" alt="Lab session capture"></figure>
+                  <figure class="parallax-shot"><img src="assets/portfolio/lab-dng-preview-8855.jpg" alt="Photography preview"></figure>
                 </div>
                 <div class="parallax-col">
-                  <figure class="parallax-shot"><img src="assets/portfolio/robotedge-lab-hardware-9129.jpg" alt="Robotedge lab drone hardware"></figure>
-                  <figure class="parallax-shot tall"><img src="assets/portfolio/lab-presentation-ethics-1117.jpg" alt="Lab presentation beside ethics whiteboard"></figure>
+                  <figure class="parallax-shot"><img src="assets/portfolio/lab-meeting-whiteboard-8878.jpg" alt="Meeting whiteboard notes"></figure>
+                  <figure class="parallax-shot tall"><img src="assets/portfolio/lab-meeting-review-1123.jpg" alt="Review session"></figure>
                 </div>
                 <div class="parallax-col">
-                  <figure class="parallax-shot wide"><img src="assets/portfolio/uav-simulation-rviz-gazebo-9117.jpg" alt="Gazebo and RViz UAV simulation"></figure>
-                  <figure class="parallax-shot"><img src="assets/portfolio/lab-coordinate-room-1129.jpg" alt="Lab coordination room discussion"></figure>
-                  <figure class="parallax-shot"><img src="assets/portfolio/uav-flight-under-net-9120.jpg" alt="UAV flying under indoor net"></figure>
-                </div>
-              </div>
-            </div>
-
-            <div class="taste-panel" data-taste-panel="apple" role="tabpanel" hidden>
-              <div class="apple-carousel" aria-label="Apple-style photo card proposal">
-                <div class="apple-track" data-apple-track tabindex="0">
-                  <figure class="apple-card">
-                    <img src="assets/portfolio/lab-coordinate-discussion-1119.jpg" alt="Whiteboard coordination with a lab member">
-                    <figcaption data-lang-en="Coordination as evidence, not decoration." data-lang-zh="协调不是装饰，是证据。">Coordination as evidence, not decoration.</figcaption>
-                  </figure>
-                  <figure class="apple-card">
-                    <img src="assets/portfolio/lab-coordinate-whiteboard-1131.jpg" alt="Johnny Chan presenting UAV autonomy on a whiteboard">
-                    <figcaption data-lang-en="A clear frame for robotics and autonomy." data-lang-zh="把机器人与自主系统讲清楚。">A clear frame for robotics and autonomy.</figcaption>
-                  </figure>
-                  <figure class="apple-card">
-                    <img src="assets/portfolio/uav-hardware-lineup-9112.jpg" alt="UAV hardware lineup with shallow depth of field">
-                    <figcaption data-lang-en="The hardware layer keeps the work grounded." data-lang-zh="硬件层让工作保持真实。">The hardware layer keeps the work grounded.</figcaption>
-                  </figure>
-                  <figure class="apple-card">
-                    <img src="assets/portfolio/uav-simulation-rviz-gazebo-9117.jpg" alt="Robotics simulation screenshot">
-                    <figcaption data-lang-en="Simulation gives the portfolio a software proof path." data-lang-zh="仿真让作品集有软件证据链。">Simulation gives the portfolio a software proof path.</figcaption>
-                  </figure>
-                  <figure class="apple-card">
-                    <img src="assets/portfolio/lab-presentation-ethics-1117.jpg" alt="Johnny Chan presenting beside Robotedge ethics notes">
-                    <figcaption data-lang-en="The personal layer shows how I communicate work." data-lang-zh="个人层展示我如何沟通工作。">The personal layer shows how I communicate work.</figcaption>
-                  </figure>
-                </div>
-                <div class="apple-controls">
-                  <button class="apple-nav" type="button" data-apple-prev aria-label="Previous card">&lt;</button>
-                  <button class="apple-nav" type="button" data-apple-next aria-label="Next card">&gt;</button>
+                  <figure class="parallax-shot wide"><img src="assets/portfolio/lab-public-service-photo-16.jpg" alt="Public service event"></figure>
+                  <figure class="parallax-shot"><img src="assets/portfolio/lab-presentation-room-1118.jpg" alt="Presentation room"></figure>
+                  <figure class="parallax-shot"><img src="assets/portfolio/lab-session-1134-frame-04.jpg" alt="Lab work frame"></figure>
                 </div>
               </div>
             </div>
@@ -1296,94 +1232,6 @@
         });
       }
 
-      const tasteTabs = Array.from(document.querySelectorAll('[data-taste-tab]'));
-      const tastePanels = Array.from(document.querySelectorAll('[data-taste-panel]'));
-      function selectTastePanel(name) {
-        tasteTabs.forEach(function (tab) {
-          const active = tab.getAttribute('data-taste-tab') === name;
-          tab.classList.toggle('active', active);
-          tab.setAttribute('aria-selected', String(active));
-        });
-        tastePanels.forEach(function (panel) {
-          const active = panel.getAttribute('data-taste-panel') === name;
-          panel.hidden = !active;
-          panel.classList.toggle('active', active);
-        });
-      }
-      tasteTabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          selectTastePanel(tab.getAttribute('data-taste-tab'));
-        });
-      });
-      if (tasteTabs.length) {
-        const activeTaste = document.querySelector('[data-taste-tab].active') || tasteTabs[0];
-        selectTastePanel(activeTaste.getAttribute('data-taste-tab'));
-      }
-
-      let dragZ = 10;
-      document.querySelectorAll('[data-drag-card]').forEach(function (card) {
-        let active = false;
-        let startX = 0;
-        let startY = 0;
-        let baseX = 0;
-        let baseY = 0;
-        let nextX = 0;
-        let nextY = 0;
-
-        function applyDrag(x, y) {
-          card.style.setProperty('--drag-x', x + 'px');
-          card.style.setProperty('--drag-y', y + 'px');
-        }
-
-        card.addEventListener('pointerdown', function (event) {
-          if (window.matchMedia('(max-width: 680px)').matches) return;
-          active = true;
-          startX = event.clientX;
-          startY = event.clientY;
-          nextX = baseX;
-          nextY = baseY;
-          card.classList.add('dragging');
-          card.style.zIndex = String(++dragZ);
-          card.setPointerCapture(event.pointerId);
-        });
-
-        card.addEventListener('pointermove', function (event) {
-          if (!active) return;
-          event.preventDefault();
-          nextX = baseX + event.clientX - startX;
-          nextY = baseY + event.clientY - startY;
-          applyDrag(nextX, nextY);
-        });
-
-        function endDrag(event) {
-          if (!active) return;
-          active = false;
-          baseX = nextX;
-          baseY = nextY;
-          card.classList.remove('dragging');
-          try { card.releasePointerCapture(event.pointerId); } catch (error) {}
-        }
-
-        card.addEventListener('pointerup', endDrag);
-        card.addEventListener('pointercancel', endDrag);
-      });
-
-      const appleTrack = document.querySelector('[data-apple-track]');
-      const applePrev = document.querySelector('[data-apple-prev]');
-      const appleNext = document.querySelector('[data-apple-next]');
-      function appleScrollStep() {
-        if (!appleTrack) return 360;
-        return Math.max(280, Math.min(appleTrack.clientWidth * 0.86, 560));
-      }
-      if (appleTrack && applePrev && appleNext) {
-        applePrev.addEventListener('click', function () {
-          appleTrack.scrollBy({ left: -appleScrollStep(), behavior: reduce ? 'auto' : 'smooth' });
-        });
-        appleNext.addEventListener('click', function () {
-          appleTrack.scrollBy({ left: appleScrollStep(), behavior: reduce ? 'auto' : 'smooth' });
-        });
-      }
-
       const menuBtn = document.querySelector('[data-menu-toggle]');
       if (nav && menuBtn) {
         menuBtn.addEventListener('click', function () {
@@ -1481,6 +1329,11 @@
           caption.setAttribute('data-lang-en', step.getAttribute('data-caption-en') || '');
           caption.setAttribute('data-lang-zh', step.getAttribute('data-caption-zh') || '');
         }
+        const sysImg = document.getElementById('system-image');
+        const imgSrc = step.getAttribute('data-image');
+        if (sysImg && imgSrc && sysImg.getAttribute('src') !== imgSrc) {
+          sysImg.setAttribute('src', imgSrc);
+        }
         document.dispatchEvent(new CustomEvent('jc-research-mode-changed'));
       }
 
@@ -1508,221 +1361,8 @@
         }, { threshold: 0.4 }).observe(rail);
       }
 
-      (function initSystemSketch() {
-        const canvas = document.getElementById('system-sketch');
-        if (!canvas || !canvas.getContext) return;
-        const ctx = canvas.getContext('2d');
-        const panel = canvas.parentElement;
-        let W = 0, H = 0, dpr = 1, palette = {};
-        const N = 14, nodes = [];
-
-        function readPalette() {
-          const cs = getComputedStyle(document.body);
-          palette = {
-            node: cs.getPropertyValue('--text').trim(),
-            link: cs.getPropertyValue('--accent').trim(),
-            dim: cs.getPropertyValue('--subtle').trim()
-          };
-        }
-
-        function size() {
-          dpr = Math.min(window.devicePixelRatio || 1, 2);
-          W = panel.clientWidth;
-          H = Math.max(panel.clientHeight - 52, 220);
-          canvas.width = W * dpr;
-          canvas.height = H * dpr;
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-
-        function seed() {
-          nodes.length = 0;
-          for (let i = 0; i < N; i++) {
-            nodes.push({
-              x: 20 + Math.random() * Math.max(W - 40, 1),
-              y: 20 + Math.random() * Math.max(H - 40, 1),
-              vx: (Math.random() - 0.5) * 0.5,
-              vy: (Math.random() - 0.5) * 0.5
-            });
-          }
-        }
-
-        let dropIdx = -1, dropUntil = 0, nextDrop = performance.now() + 4000;
-        function draw(now) {
-          ctx.clearRect(0, 0, W, H);
-          if (sketchMode === 'constraints') {
-            ctx.globalAlpha = 0.16;
-            ctx.strokeStyle = palette.link;
-            ctx.lineWidth = 1;
-            for (let x = W * 0.12; x < W * 0.9; x += 34) {
-              ctx.beginPath();
-              ctx.moveTo(x, H * 0.14);
-              ctx.lineTo(x + W * 0.08, H * 0.88);
-              ctx.stroke();
-            }
-            ctx.globalAlpha = 0.9;
-            const zones = [
-              [W * 0.25, H * 0.32, 46],
-              [W * 0.62, H * 0.48, 66],
-              [W * 0.44, H * 0.72, 52]
-            ];
-            zones.forEach(function (z, i) {
-              ctx.globalAlpha = 0.12 + i * 0.04;
-              ctx.fillStyle = palette.link;
-              ctx.beginPath();
-              ctx.arc(z[0], z[1], z[2], 0, Math.PI * 2);
-              ctx.fill();
-              ctx.globalAlpha = 0.72;
-              ctx.strokeStyle = palette.link;
-              ctx.stroke();
-              ctx.globalAlpha = 1;
-              ctx.fillStyle = palette.node;
-              ctx.beginPath();
-              ctx.arc(z[0], z[1], 4, 0, Math.PI * 2);
-              ctx.fill();
-            });
-            ctx.globalAlpha = 0.58;
-            ctx.strokeStyle = palette.dim;
-            ctx.setLineDash([5, 7]);
-            ctx.beginPath();
-            ctx.moveTo(W * 0.18, H * 0.82);
-            ctx.bezierCurveTo(W * 0.34, H * 0.58, W * 0.56, H * 0.64, W * 0.78, H * 0.24);
-            ctx.stroke();
-            ctx.setLineDash([]);
-            ctx.globalAlpha = 1;
-            return;
-          }
-
-          if (sketchMode === 'stack') {
-            const points = [
-              [W * 0.12, H * 0.62],
-              [W * 0.28, H * 0.42],
-              [W * 0.44, H * 0.56],
-              [W * 0.62, H * 0.34],
-              [W * 0.82, H * 0.48]
-            ];
-            ctx.globalAlpha = 0.14;
-            ctx.strokeStyle = palette.link;
-            ctx.lineWidth = 1;
-            for (let y = H * 0.18; y < H * 0.82; y += 34) {
-              ctx.beginPath();
-              ctx.moveTo(W * 0.08, y);
-              ctx.lineTo(W * 0.92, y);
-              ctx.stroke();
-            }
-            ctx.globalAlpha = 1;
-            ctx.strokeStyle = palette.link;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(points[0][0], points[0][1]);
-            for (let i = 1; i < points.length; i++) ctx.lineTo(points[i][0], points[i][1]);
-            ctx.stroke();
-            points.forEach(function (point, index) {
-              ctx.beginPath();
-              ctx.arc(point[0], point[1], index === 2 ? 7 : 5, 0, Math.PI * 2);
-              ctx.fillStyle = index === 2 ? palette.link : palette.node;
-              ctx.fill();
-            });
-            return;
-          }
-
-          if (sketchMode === 'validation') {
-            const rows = [
-              ['scenario', 0.78],
-              ['trace', 0.64],
-              ['figure', 0.86],
-              ['handoff', 0.58]
-            ];
-            rows.forEach(function (row, index) {
-              const y = 34 + index * 52;
-              ctx.globalAlpha = 1;
-              ctx.strokeStyle = palette.dim;
-              ctx.lineWidth = 1;
-              ctx.strokeRect(W * 0.12, y, W * 0.76, 34);
-              ctx.fillStyle = palette.node;
-              ctx.beginPath();
-              ctx.arc(W * 0.17, y + 17, 4, 0, Math.PI * 2);
-              ctx.fill();
-              ctx.globalAlpha = 0.62;
-              ctx.strokeStyle = palette.link;
-              ctx.beginPath();
-              ctx.moveTo(W * 0.24, y + 17);
-              ctx.lineTo(W * (0.24 + row[1] * 0.52), y + 17);
-              ctx.stroke();
-            });
-            ctx.globalAlpha = 0.22;
-            ctx.strokeStyle = palette.link;
-            ctx.beginPath();
-            ctx.moveTo(W * 0.17, 68);
-            ctx.lineTo(W * 0.17, 34 + rows.length * 52 - 18);
-            ctx.stroke();
-            ctx.globalAlpha = 1;
-            return;
-          }
-
-          const linkDist = Math.min(W, H) * 0.42;
-          if (now > nextDrop) {
-            dropIdx = Math.floor(Math.random() * N);
-            dropUntil = now + 2600;
-            nextDrop = now + 6500 + Math.random() * 3000;
-          }
-          if (now > dropUntil) dropIdx = -1;
-          for (let i = 0; i < N; i++) {
-            const a = nodes[i];
-            a.x += a.vx;
-            a.y += a.vy;
-            if (a.x < 14 || a.x > W - 14) a.vx *= -1;
-            if (a.y < 14 || a.y > H - 14) a.vy *= -1;
-          }
-          for (let i = 0; i < N; i++) {
-            for (let j = i + 1; j < N; j++) {
-              if (i === dropIdx || j === dropIdx) continue;
-              const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
-              const d = Math.hypot(dx, dy);
-              if (d < linkDist) {
-                ctx.globalAlpha = (1 - d / linkDist) * 0.72;
-                ctx.strokeStyle = palette.link;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(nodes[i].x, nodes[i].y);
-                ctx.lineTo(nodes[j].x, nodes[j].y);
-                ctx.stroke();
-              }
-            }
-          }
-          ctx.globalAlpha = 1;
-          for (let i = 0; i < N; i++) {
-            ctx.beginPath();
-            ctx.arc(nodes[i].x, nodes[i].y, 3, 0, Math.PI * 2);
-            if (i === dropIdx) {
-              ctx.strokeStyle = palette.dim;
-              ctx.stroke();
-            } else {
-              ctx.fillStyle = palette.node;
-              ctx.fill();
-            }
-          }
-        }
-
-        let running = false, rafId = 0;
-        function loop(now) { if (!running) return; draw(now); rafId = requestAnimationFrame(loop); }
-        function start() { if (running || reduce) return; running = true; rafId = requestAnimationFrame(loop); }
-        function stop() { running = false; cancelAnimationFrame(rafId); }
-
-        readPalette();
-        size();
-        seed();
-        draw(performance.now());
-        if (!reduce && 'IntersectionObserver' in window) {
-          new IntersectionObserver(function (entries) {
-            entries[0].isIntersecting ? start() : stop();
-          }, { threshold: 0.1 }).observe(panel);
-          document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
-        }
-        window.addEventListener('resize', function () { size(); seed(); draw(performance.now()); });
-        document.addEventListener('jc-theme-changed', function () { readPalette(); if (!running) draw(performance.now()); });
-        document.addEventListener('jc-research-mode-changed', function () { draw(performance.now()); });
-        const darkMq = window.matchMedia('(prefers-color-scheme: dark)');
-        if (darkMq.addEventListener) darkMq.addEventListener('change', function () { readPalette(); if (!running) draw(performance.now()); });
+      (function () {
+        /* system-sketch canvas replaced by data-image on research-step — see syncResearchVisual */
       })();
     })();
   </script>
