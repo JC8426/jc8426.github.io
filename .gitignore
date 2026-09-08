@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.next/
+.wrangler/
+.DS_Store
+*.log
+.env
+.env.*
+.playwright-cli/
+.openai/
+output/
+tmp/
+deliverables/
+generated_cv/
+assets/RCAP2026_asset/
+index_backup_*.html
