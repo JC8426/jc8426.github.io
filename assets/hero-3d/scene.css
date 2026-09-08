@@ -1,0 +1,29 @@
+/* Scoped test branch: only the hero is replaced. Main page content is unchanged. */
+.hero #drone-scene{position:absolute;inset:0;z-index:0;outline:none;pointer-events:none}
+#drone-scene canvas{display:block;width:100%;height:100%}
+.hero.has-3d::before{z-index:1;background:linear-gradient(180deg,rgba(3,8,12,.03) 25%,rgba(3,8,12,.08) 50%,rgba(3,8,12,.8) 100%);pointer-events:none}
+.hero.has-3d::after{z-index:2;height:8%;pointer-events:none}
+.hero.has-3d .hero-media{visibility:hidden}
+.hero .scene-toolbar{position:absolute;top:98px;left:32px;right:32px;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:14px;color:#f1f3f2;pointer-events:none}
+.scene-toolbar>span{font:10px/1.5 ui-monospace,monospace;letter-spacing:.2em;padding:9px 14px;border:1px solid #ffffff30;border-radius:30px;background:#121c2690;backdrop-filter:blur(14px)}
+.scene-buttons{display:flex;gap:6px;pointer-events:auto;padding:5px;background:#121c2690;backdrop-filter:blur(14px);border:1px solid #ffffff30;border-radius:30px}
+.scene-buttons button{font:10px/1.4 ui-monospace,monospace;border:0;border-radius:20px;background:transparent;color:inherit;padding:9px 12px;cursor:pointer}
+.scene-buttons button:hover,.scene-buttons button[aria-pressed=true]{background:#ffffff25}
+.scene-buttons button:focus-visible{outline:2px solid white;outline-offset:2px}
+.hero.has-3d .hero-content{position:relative;z-index:3;pointer-events:none;height:auto;min-height:0;grid-template-columns:1fr;padding:0 0 35px;gap:0}
+.hero.has-3d .hero-content>div{max-width:720px}
+.hero.has-3d .hero-content h1{font-size:clamp(38px,4.7vw,70px);max-width:720px}
+.hero.has-3d .hero-lead{font-size:15px;max-width:540px;margin-top:12px}
+.hero.has-3d .hero-card{display:none}
+.hero.has-3d .hero-actions{margin-top:18px;pointer-events:auto}
+.hero .scene-help{position:absolute;top:153px;right:32px;z-index:5;max-width:430px;margin:0;color:white;background:#121c2688;border-radius:9px;padding:8px 12px;font:10px/1.7 ui-monospace,monospace;opacity:0;pointer-events:none;transition:opacity .25s}
+.hero.exploring .scene-help{opacity:1}
+.hero.exploring .hero-content{opacity:.16;transition:opacity .25s}
+.hero.exploring .hero-actions{pointer-events:none}
+.hero.exploring #drone-scene canvas{cursor:grab;touch-action:none}
+.hero.exploring #drone-scene canvas:active{cursor:grabbing}
+.hero.exploring::before{opacity:.25}
+@media(max-width:650px){.hero .scene-toolbar{top:86px;left:16px;right:16px;align-items:flex-start;flex-direction:column;gap:8px}.scene-buttons button{padding:8px 10px}.hero .scene-help{top:178px;left:16px;right:16px}.hero.has-3d .hero-content{width:calc(100% - 32px);padding-bottom:26px}.hero.has-3d .hero-actions{flex-direction:row;gap:6px}.hero.has-3d .hero-actions .button{width:auto;min-height:34px;padding:0 10px;font-size:9px}.hero.has-3d .hero-lead{font-size:13px;max-width:35ch}}
+@media(prefers-reduced-motion:reduce){.hero.exploring .hero-content,.hero .scene-help{transition:none}}
+
+.hero.exploring #drone-scene{pointer-events:auto}

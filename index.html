@@ -8,6 +8,8 @@
   <meta name="theme-color" content="#11140f" media="(prefers-color-scheme: dark)">
   <title>Johnny Chan - Engineering Portfolio</title>
   <link rel="icon" type="image/x-icon" href="assets/agenthub_logo_v2.ico">
+  <link rel="stylesheet" href="assets/hero-3d/scene.css">
+  <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js"}}</script>
   <style>
     :root {
       color-scheme: light dark;
@@ -865,6 +867,16 @@
 
   <main id="top" class="site-shell">
     <header class="hero">
+      <div id="drone-scene" role="region" aria-label="Interactive drone environment" aria-describedby="scene-help" tabindex="-1"></div>
+      <div class="scene-toolbar">
+        <span data-scene-status role="status">Loading 3D…</span>
+        <div class="scene-buttons">
+          <button type="button" data-scene-explore aria-pressed="false" data-lang-en="Explore scene" data-lang-zh="浏览场景">Explore scene</button>
+          <button type="button" data-scene-motion aria-pressed="false">Pause flight</button>
+          <button type="button" data-scene-reset data-lang-en="Reset view" data-lang-zh="重置视角">Reset view</button>
+        </div>
+      </div>
+      <p class="scene-help" id="scene-help" data-lang-en="Drag to orbit · Scroll to zoom · Right-drag to pan · R resets · Esc exits" data-lang-zh="拖动旋转 · 滚轮缩放 · 右键拖动平移 · R 重置 · Esc 退出">Drag to orbit · Scroll to zoom · Right-drag to pan · R resets · Esc exits</p>
       <div class="hero-media" aria-hidden="true">
         <div class="hero-video-fallback" aria-hidden="true"></div>
         <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/hero_kling_poster.jpg">
@@ -1239,6 +1251,7 @@
     </div>
   </footer>
 
+  <script type="module" src="assets/hero-3d/scene.js"></script>
   <script>
     (function () {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
