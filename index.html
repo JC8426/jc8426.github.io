@@ -868,15 +868,16 @@
   <main id="top" class="site-shell">
     <header class="hero">
       <div id="drone-scene" role="region" aria-label="Interactive drone environment" aria-describedby="scene-help" tabindex="-1"></div>
-      <div class="scene-toolbar">
-        <span data-scene-status role="status">Loading 3D…</span>
-        <div class="scene-buttons">
-          <button type="button" data-scene-explore aria-pressed="false" data-lang-en="Explore scene" data-lang-zh="浏览场景">Explore scene</button>
-          <button type="button" data-scene-motion aria-pressed="false">Pause flight</button>
-          <button type="button" data-scene-reset data-lang-en="Reset view" data-lang-zh="重置视角">Reset view</button>
-        </div>
+      <div class="scene-toolbar"><span data-scene-status role="status">Loading fleet…</span><button type="button" data-scene-explore aria-pressed="false" data-lang-en="Explore fleet" data-lang-zh="探索集群">Explore fleet</button></div>
+      <aside class="flight-telemetry" aria-label="Simulated aircraft telemetry"><span class="telemetry-caption" data-lang-en="SCENE SIMULATION" data-lang-zh="场景模拟">SCENE SIMULATION</span><strong data-unit-heading>U01</strong><dl><div><dt data-lang-en="Ground clearance" data-lang-zh="离地高度">Ground clearance</dt><dd data-flight-altitude>—</dd></div><div><dt data-lang-en="Speed" data-lang-zh="速度">Speed</dt><dd data-flight-speed>—</dd></div><div><dt data-lang-en="Distance" data-lang-zh="累计航程">Distance</dt><dd data-flight-distance>—</dd></div></dl><span data-flight-state>Formation</span></aside>
+      <div class="fleet-dock" aria-label="Fleet controls">
+        <div class="unit-selector" role="group" aria-label="Select aircraft"><button type="button" data-unit="0" aria-pressed="true">U01</button><button type="button" data-unit="1" aria-pressed="false">U02</button><button type="button" data-unit="2" aria-pressed="false">U03</button><button type="button" data-unit="3" aria-pressed="false">U04</button><button type="button" data-unit="4" aria-pressed="false">U05</button></div>
+        <div class="view-selector" role="group" aria-label="Camera view"><button type="button" data-camera="overview" aria-pressed="true" data-lang-en="Fleet" data-lang-zh="全景">Fleet</button><button type="button" data-camera="follow" aria-pressed="false" data-lang-en="Follow" data-lang-zh="跟随">Follow</button><button type="button" data-camera="free" aria-pressed="false" data-lang-en="Free" data-lang-zh="自由">Free</button><button type="button" data-camera="fpv" aria-pressed="false" data-lang-en="Onboard" data-lang-zh="机载">Onboard</button></div>
+        <div class="pilot-controls"><button type="button" data-scene-motion aria-pressed="false">Pause</button><button type="button" data-manual aria-pressed="false" data-lang-en="Pilot" data-lang-zh="操控">Pilot</button><button type="button" data-rejoin data-lang-en="Rejoin" data-lang-zh="归队">Rejoin</button><button type="button" data-scene-reset data-lang-en="Reset view" data-lang-zh="重置视角">Reset view</button></div>
+        <label class="speed-control"><span data-lang-en="Pace" data-lang-zh="速度倍率">Pace</span><input aria-label="Flight pace" type="range" min="0.2" max="1.5" step="0.1" value="0.6" data-flight-pace><output data-pace-output>0.6×</output></label>
       </div>
-      <p class="scene-help" id="scene-help" data-lang-en="Drag to orbit · Scroll to zoom · Right-drag to pan · R resets · Esc exits" data-lang-zh="拖动旋转 · 滚轮缩放 · 右键拖动平移 · R 重置 · Esc 退出">Drag to orbit · Scroll to zoom · Right-drag to pan · R resets · Esc exits</p>
+      <p class="scene-help" id="scene-help" data-lang-en="Select a drone · Drag to orbit · Wheel to zoom · Pilot: WASD / QE yaw / RF height · Esc exits" data-lang-zh="选择无人机 · 拖动环绕 · 滚轮缩放 · 操控：WASD移动 / QE转向 / RF升降 · Esc退出">Select a drone · Drag to orbit · Wheel to zoom · Pilot: WASD / QE yaw / RF height · Esc exits</p>
+      <div class="pilot-pad" aria-label="Touch flight controls"><button type="button" data-command="forward" aria-label="Fly forward">↑</button><button type="button" data-command="back" aria-label="Fly backward">↓</button><button type="button" data-command="left" aria-label="Fly left">←</button><button type="button" data-command="right" aria-label="Fly right">→</button><button type="button" data-command="rise" aria-label="Ascend">＋</button><button type="button" data-command="fall" aria-label="Descend">−</button><button type="button" data-command="yawLeft" aria-label="Yaw left">↶</button><button type="button" data-command="yawRight" aria-label="Yaw right">↷</button></div>
       <div class="hero-media" aria-hidden="true">
         <div class="hero-video-fallback" aria-hidden="true"></div>
         <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/hero_kling_poster.jpg">
