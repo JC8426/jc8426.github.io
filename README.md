@@ -10,6 +10,7 @@ Personal website for Johnny Chan (Zhe Chen), a Computer Science PhD researcher a
 
 - Bilingual English / Chinese portfolio with light and dark themes.
 - UAV simulation, robotics coordination, and selected software projects.
+- Software and data case study: an anonymized Python/SQLite workflow prototype and retrospective log analysis.
 - RCAP Beijing 2026 field experience: GameController interface analysis, goalkeeper behavior review, and exploratory research.
 - Downloadable English and Chinese robotics solutions resumes.
 
@@ -28,6 +29,7 @@ Open [localhost:8080](http://localhost:8080). Run this command from the reposito
 ```text
 index.html              Main portfolio, including styles and interactions
 rcap-2026.html           Bilingual RCAP case study
+software-data.html       Software implementation and data-analysis case study
 assets/                 Images, videos, icons, and public resume PDFs
 assets/rcap-2026/        Selected competition photos
 scripts/check-site.py   Static-page and asset validation
@@ -45,6 +47,10 @@ scripts/check-site.py   Static-page and asset validation
 GitHub Pages serves the root of the `main` branch. A push to `main` updates the published site through GitHub Pages. There is no application backend or required secret configuration.
 
 Some local workspaces may contain experimental framework previews, generated documents, or raw assets. Those are not required for the GitHub Pages website and are not part of the published source workflow.
+
+## Reproduce the data figures
+
+`assets/data-analysis/log-summary.json` contains anonymous run IDs, aggregate counts and elapsed-state observations. The original team logs are not distributed. Install Matplotlib in an isolated Python environment and run `python3 scripts/plot_log_analysis.py` to rebuild the two PNG/SVG figures and CSV. This summary supports record counts and internal-state timelines, not packet-loss or latency estimates. The analysis was prepared on 8 September 2026 from archived August logs.
 
 ## Content and attribution
 

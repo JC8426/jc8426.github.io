@@ -1,0 +1,562 @@
+{
+  "analysis_date": "2026-09-08",
+  "origin": "New retrospective analysis of archived 2026-08-18/21/22 logs; not an original competition deliverable",
+  "file_count": 14,
+  "total_records": 17509,
+  "entry_counts": {
+    "metadata": 14,
+    "action": 3401,
+    "gameState": 3401,
+    "statusMessage": 3672,
+    "end": 13,
+    "teamMessage": 7008
+  },
+  "limitations": [
+    "gameState is controller internal state, not outgoing control packet or robot reception",
+    "statusMessage is incoming robot return data, not controller game-state broadcast",
+    "Record counts do not measure packet loss, latency, uptime, or performance improvement",
+    "Archive groups are directory labels, not independently verified runtime binary versions",
+    "No personal authorship or deployment success can be inferred from logs alone"
+  ],
+  "runs": [
+    {
+      "run_id": "Run 01",
+      "records": 626,
+      "last_event_elapsed_s": 4003.024568,
+      "entry_counts": {
+        "metadata": 1,
+        "action": 28,
+        "gameState": 28,
+        "statusMessage": 568,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 80.426969,
+          "state": "initial"
+        },
+        {
+          "elapsed_s": 479.189551,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 513.78912,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 542.2893,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 563.914508,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 601.530711,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 602.647608,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 4001.472023,
+          "state": "set"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 02",
+      "records": 883,
+      "last_event_elapsed_s": 19017.153409,
+      "entry_counts": {
+        "metadata": 1,
+        "teamMessage": 881,
+        "end": 1
+      },
+      "internal_state_transitions": []
+    },
+    {
+      "run_id": "Run 03",
+      "records": 2020,
+      "last_event_elapsed_s": 436.294058,
+      "entry_counts": {
+        "metadata": 1,
+        "statusMessage": 414,
+        "teamMessage": 1528,
+        "action": 38,
+        "gameState": 38,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 66.84355,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 85.33497,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 86.332637,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 97.009709,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 122.642898,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 123.451246,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 184.45066,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 245.800485,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 248.683825,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 269.66695,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 288.775182,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 291.067414,
+          "state": "playing"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 04",
+      "records": 1,
+      "last_event_elapsed_s": 0.0,
+      "entry_counts": {
+        "metadata": 1
+      },
+      "internal_state_transitions": []
+    },
+    {
+      "run_id": "Run 05",
+      "records": 32,
+      "last_event_elapsed_s": 22.364941,
+      "entry_counts": {
+        "metadata": 1,
+        "statusMessage": 22,
+        "action": 4,
+        "gameState": 4,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 1.977219,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 2.919155,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 4.102187,
+          "state": "playing"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 06",
+      "records": 36,
+      "last_event_elapsed_s": 40.734037,
+      "entry_counts": {
+        "metadata": 1,
+        "action": 17,
+        "gameState": 17,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 2.997049,
+          "state": "initial"
+        },
+        {
+          "elapsed_s": 3.59626,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 4.304704,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 4.813066,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 38.404922,
+          "state": "ready"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 07",
+      "records": 1112,
+      "last_event_elapsed_s": 343.28201,
+      "entry_counts": {
+        "metadata": 1,
+        "statusMessage": 232,
+        "teamMessage": 824,
+        "action": 27,
+        "gameState": 27,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 115.984657,
+          "state": "initial"
+        },
+        {
+          "elapsed_s": 120.459318,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 135.042557,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 137.747234,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 155.992507,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 194.80059,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 196.167142,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 211.758827,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 225.34218,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 228.8503,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 253.908526,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 270.433501,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 273.416697,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 293.849869,
+          "state": "ready"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 08",
+      "records": 2,
+      "last_event_elapsed_s": 12280.140613,
+      "entry_counts": {
+        "metadata": 1,
+        "end": 1
+      },
+      "internal_state_transitions": []
+    },
+    {
+      "run_id": "Run 09",
+      "records": 3211,
+      "last_event_elapsed_s": 1285.627637,
+      "entry_counts": {
+        "metadata": 1,
+        "statusMessage": 494,
+        "action": 901,
+        "gameState": 901,
+        "teamMessage": 913,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 120.548371,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 144.264601,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 145.989525,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 319.755344,
+          "state": "initial"
+        },
+        {
+          "elapsed_s": 384.697493,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 409.495943,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 410.086934,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 430.911896,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 449.470222,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 450.074601,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 495.97019,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 537.753033,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 538.794735,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 598.202677,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 604.835987,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 608.885758,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 609.902368,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 1086.964052,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 1088.162306,
+          "state": "initial"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 10",
+      "records": 2026,
+      "last_event_elapsed_s": 1209.256135,
+      "entry_counts": {
+        "metadata": 1,
+        "statusMessage": 1251,
+        "action": 264,
+        "gameState": 264,
+        "teamMessage": 245,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 1.132732,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 45.106505,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 46.297669,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 315.598056,
+          "state": "ready"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 11",
+      "records": 1963,
+      "last_event_elapsed_s": 156.971714,
+      "entry_counts": {
+        "metadata": 1,
+        "statusMessage": 157,
+        "teamMessage": 600,
+        "action": 602,
+        "gameState": 602,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 1.323052,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 27.934273,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 29.598234,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 57.342415,
+          "state": "initial"
+        },
+        {
+          "elapsed_s": 58.564677,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 99.850651,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 101.7005,
+          "state": "playing"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 12",
+      "records": 807,
+      "last_event_elapsed_s": 537.299015,
+      "entry_counts": {
+        "metadata": 1,
+        "teamMessage": 566,
+        "statusMessage": 145,
+        "action": 47,
+        "gameState": 47,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 404.377364,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 445.033115,
+          "state": "initial"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 13",
+      "records": 2867,
+      "last_event_elapsed_s": 250.098651,
+      "entry_counts": {
+        "metadata": 1,
+        "action": 883,
+        "gameState": 883,
+        "teamMessage": 863,
+        "statusMessage": 236,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 3.240264,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 35.964588,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 36.81073,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 243.638476,
+          "state": "ready"
+        }
+      ]
+    },
+    {
+      "run_id": "Run 14",
+      "records": 1923,
+      "last_event_elapsed_s": 152.616273,
+      "entry_counts": {
+        "metadata": 1,
+        "teamMessage": 588,
+        "statusMessage": 153,
+        "action": 590,
+        "gameState": 590,
+        "end": 1
+      },
+      "internal_state_transitions": [
+        {
+          "elapsed_s": 3.056297,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 3.706428,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 4.4395,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 40.386842,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 72.516413,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 73.574485,
+          "state": "playing"
+        },
+        {
+          "elapsed_s": 111.536366,
+          "state": "ready"
+        },
+        {
+          "elapsed_s": 115.456316,
+          "state": "set"
+        },
+        {
+          "elapsed_s": 116.094753,
+          "state": "playing"
+        }
+      ]
+    }
+  ]
+}
