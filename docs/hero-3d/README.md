@@ -9,7 +9,17 @@ Run `python3 -m http.server 8080 --bind 127.0.0.1` from the repository root.
 - Fleet experiment: http://127.0.0.1:8080/
 - Original video comparison: http://127.0.0.1:8080/?hero=video
 
-## Revision 4 (current)
+## Revision 5 (current)
+
+The homepage uses an offline GLB with shared near/far body LOD, one active terrain, transferable/reused terrain buffers and direct ASTC KTX2 uploads (native JPEG fallbacks where ASTC is unavailable). Desert lighting uses a licensed 1K pure-sky HDR. The navigation camera is higher and fits the fleet and target; cyan routes have a dark pixel-width halo and a stable target badge.
+
+Repeated low-frequency scan illumination and normal lumps are removed from sand shading. The trial periodic ripple overlay was removed following user feedback. Fine grains and irregular mineral variation remain. Terrain self-shadow acne is avoided while retaining aircraft shadows.
+
+The 500 MB Chrome-tab budget is separate from the scene estimate: final-build observations and limitations are recorded in [revision 5 verification](revision5-verification.md). Intermediate runtime-transcoding builds exceeded the budget and were rejected. Runtime no longer downloads or instantiates a Basis/WASM transcoder. Refresh, teardown and video fallback explicitly release 3D resources.
+
+[Model and build pipeline](../../assets/hero-3d/drone/README.md) · [HDR source](../../assets/hero-3d/lighting/README.md) · [Implementation plan](revision5-plan.md).
+
+## Revision 4 (historical baseline)
 
 Default mode runs the supplied closed figure-eight route at 2.4 horizontal scene m/s at the default pace. XY coordinates map to world XZ. The supplied Z=1 is interpreted as +1 m relative to the previous 4.3 m cruise clearance, so nominal patrol clearance is 5.3 m above local ground. This is visual terrain following, not a flight controller.
 
