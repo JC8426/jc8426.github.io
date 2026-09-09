@@ -11,12 +11,12 @@ import {loadTerrain,disposeGraph} from './terrain-loader.js';
 import {createDesertEnvironment,createLunarEnvironment,DESERT_SUN} from './lighting.js';
 import {constrainSeparation} from './separation.mjs';
 import {textureBytes,waypointFrame} from './resources.mjs';
-import {manualStep,SPEED_MULTIPLIER,fleetCenter,clampWaypoint,advanceWaypoint,formationTarget,flightKey,acceptsFlightInput,FORMATIONS,assignFormation,patrolPose,nearestPatrolDistance} from './flight-state.mjs';
+import {manualStep,SPEED_MULTIPLIER,swarmCenter,clampWaypoint,advanceWaypoint,formationTarget,flightKey,acceptsFlightInput,FORMATIONS,assignFormation,patrolPose,nearestPatrolDistance} from './flight-state.mjs?v=7';
 
 const hero=document.querySelector('.hero'),host=document.querySelector('#drone-scene');
 const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)'),darkMedia=matchMedia('(prefers-color-scheme: dark)');
-const state={selected:0,mode:'overview',exploring:false,paused:reduce.matches,pace:1.5,dark:false,ready:false};
+const state={selected:0,mode:'follow',exploring:false,paused:reduce.matches,pace:1.5,dark:false,ready:false};
 let renderer,scene,camera,controls,world,sky,stars,keyLight,fillLight,environmentTarget;
 let terrainAbort,themeRevision=0,lightingDark=null,resizeObserver,visibilityObserver;
 let separationState={intervened:false,minDistance:Infinity};
@@ -28,16 +28,16 @@ const environmentHeight=(x,z,lunar)=>lunar?groundHeight(x,z,true):glacierHeight(
 const floor=(x,z)=>environmentHeight(x,z,state.dark),selected=()=>units[state.selected];
 let waypointArmed=false,mission=null,goalMarker,routeLine,routeHalo;
 let rejoining=false,patrolDistance=0,shotTime=0,shotIndex=0,slots=FORMATIONS.a.map(p=>[...p]),slotGoal=slots,formation='a';
-const shots=[{mode:'overview',duration:15},{mode:'broadcast',duration:12},{mode:'follow',duration:11},{mode:'fpv',duration:7},{mode:'overview',duration:12}];
-let broadcastPosition=new T.Vector3(55,32,-55),fleetSpeed=0,statsElapsed=0,statsFrames=0;
+const shots=[{mode:'follow',duration:9},{mode:'overview',duration:15},{mode:'broadcast',duration:12},{mode:'fpv',duration:7},{mode:'overview',duration:12}];
+let broadcastPosition=new T.Vector3(55,32,-55),swarmSpeed=0,statsElapsed=0,statsFrames=0;
 const query=new URLSearchParams(location.search),diagnostic=query.has('heroStats'),inspection=query.has('heroInspect');
 const desiredTheme=()=>inspection?query.get('heroInspect')==='moon':document.body.classList.contains('force-dark')||(!document.body.classList.contains('force-light')&&darkMedia.matches);
 function updateVisibility(){
- for(const u of units){u.root.visible=!(state.mode==='fpv'&&u===selected())&&!(!state.exploring&&state.mode==='follow'&&u!==selected());u.marker.visible=state.exploring&&u===selected()&&state.mode!=='fpv';u.label.visible=state.exploring&&state.mode!=='fpv';}
+ for(const u of units){u.root.visible=!(state.mode==='fpv'&&u===selected());u.marker.visible=state.exploring&&u===selected()&&state.mode!=='fpv';u.label.visible=state.exploring&&state.mode!=='fpv';}
 }
 function setFormation(name){
  if(!FORMATIONS[name]||!state.ready)return;
- const center=fleetCenter(units.map(u=>u.root.position));
+ const center=swarmCenter(units.map(u=>u.root.position));
  slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);slotGoal=assignFormation(slots,FORMATIONS[name]);formation=name;
  for(const u of units)u.manual=false;
  if(mission){mission.center=center;mission.slots=slots;mission.goal=clampWaypoint(mission.goal,WORLD_LIMIT,slotGoal);mission.yaw=Math.atan2(mission.goal.x-center.x,mission.goal.z-center.z);if(Math.hypot(mission.goal.x-center.x,mission.goal.z-center.z)>.01&&mission.status==='holding')mission.status='traveling';refreshRoute();}
@@ -63,7 +63,7 @@ function waypointLabels(){
  if(!mission)return;
  if(mission.status==='manual-hold'){output.hidden=true;host.dataset.mission='manual-hold';return;}
  const distance=Math.hypot(mission.goal.x-mission.center.x,mission.goal.z-mission.center.z);
- const name=mission.status==='cancelled'?tr('Target cancelled · holding','航点已取消 · 悬停'):mission.status==='holding'?tr('Arrived · holding formation','已到达 · 编队悬停'):state.paused?tr('Waypoint paused','航点已暂停'):tr('Fleet en route','编队前往航点');
+ const name=mission.status==='cancelled'?tr('Target cancelled · holding','航点已取消 · 悬停'):mission.status==='holding'?tr('Arrived · holding formation','已到达 · 编队悬停'):state.paused?tr('Waypoint paused','航点已暂停'):tr('Swarm en route','编队前往航点');
  output.textContent=`${name}  /  X ${mission.goal.x.toFixed(1)} · Z ${mission.goal.z.toFixed(1)}  /  ${distance.toFixed(1)} m`;
  host.dataset.mission=mission.status;
 }
@@ -87,8 +87,8 @@ function refreshRoute(){
  const points=[];for(let i=0;i<=48;i++){const t=i/48,x=T.MathUtils.lerp(mission.start.x,mission.goal.x,t),z=T.MathUtils.lerp(mission.start.z,mission.goal.z,t);points.push(x,floor(x,z)+4.3,z);}
  routeLine.geometry.dispose();routeLine.geometry=routeHalo.geometry=new LineGeometry().setPositions(points);routeLine.computeLineDistances();
 }
-function sendFleet(point){
- const center=fleetCenter(units.map(u=>u.root.position));slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);
+function sendSwarm(point){
+ const center=swarmCenter(units.map(u=>u.root.position));slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);
  const goal=clampWaypoint(point,WORLD_LIMIT,slots);
  slotGoal=slots.map(p=>[...p]);
  mission={center,start:{...center},goal,slots,status:'traveling',yaw:Math.atan2(goal.x-center.x,goal.z-center.z)};
@@ -97,7 +97,7 @@ function sendFleet(point){
 }
 function cancelWaypoint(){
  waypointArmed=false;
- if(mission){mission.center=fleetCenter(units.map(u=>u.root.position));mission.goal={...mission.center};mission.slots=units.map(u=>[u.root.position.x-mission.center.x,u.root.position.z-mission.center.z]);mission.status='cancelled';slots=mission.slots;slotGoal=slots.map(p=>[...p]);}
+ if(mission){mission.center=swarmCenter(units.map(u=>u.root.position));mission.goal={...mission.center};mission.slots=units.map(u=>[u.root.position.x-mission.center.x,u.root.position.z-mission.center.z]);mission.status='cancelled';slots=mission.slots;slotGoal=slots.map(p=>[...p]);}
  if(goalMarker){goalMarker.visible=false;routeLine.visible=false;}labels();render();
 }
 function labels(){
@@ -106,8 +106,8 @@ function labels(){
  $('[data-scene-motion]').setAttribute('aria-pressed',String(state.paused));
  $('[data-scene-explore]').textContent=state.exploring?tr('Exit exploration','退出探索'):tr('Browse scene','浏览场景');
  $('[data-scene-explore]').setAttribute('aria-pressed',String(state.exploring));
- $('[data-unit-heading]').textContent=state.exploring?`U0${state.selected+1}`:tr('FLEET / 05','集群 / 05');
- $('.fleet-dock').inert=!state.exploring;
+ $('[data-unit-heading]').textContent=state.exploring?`U0${state.selected+1}`:tr('SWARM / 05','集群 / 05');
+ $('.swarm-dock').inert=!state.exploring;
  all('[data-formation]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.formation===formation)));
  $('[data-altitude-label]').textContent=state.exploring?tr('Ground clearance','离地高度'):tr('Mean clearance','平均净空');
  $('[data-speed-label]').textContent=state.exploring?tr('Speed','速度'):tr('Mean speed','平均速度');
@@ -123,7 +123,7 @@ function explore(on){
  if(!state.ready)return;
  if(on&&!state.exploring)entryScroll=window.scrollY;state.exploring=on;hero.classList.toggle('exploring',on);document.body.classList.toggle('scene-exploring',on);host.tabIndex=on?0:-1;if(!on)window.scrollTo({top:entryScroll,behavior:'instant'});
  renderer.domElement.style.touchAction=on?'none':'pan-y';controls.enabled=on&&state.mode!=='fpv';if(!on){
- const center=fleetCenter(units.map(u=>u.root.position));patrolDistance=nearestPatrolDistance(center);rejoining=true;
+ const center=swarmCenter(units.map(u=>u.root.position));patrolDistance=nearestPatrolDistance(center);rejoining=true;
  slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);slotGoal=assignFormation(slots,FORMATIONS[formation]);
  waypointArmed=false;mission=null;goalMarker.visible=routeLine.visible=false;for(const u of units)u.manual=false;state.paused=reduce.matches;shotIndex=0;shotTime=0;view('overview');}else if(state.mode==='broadcast')view('overview');
  updateVisibility();keys.clear();pressed.clear();touch.clear();labels();if(on)host.focus({preventScroll:true});
@@ -134,7 +134,7 @@ function view(mode){
 }
 function beginPilot(){
  if(!state.ready||state.loading||!state.exploring)return;
- const center=fleetCenter(units.map(u=>u.root.position));slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);slotGoal=slots.map(p=>[...p]);
+ const center=swarmCenter(units.map(u=>u.root.position));slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);slotGoal=slots.map(p=>[...p]);
  mission={center,start:{...center},goal:{...center},slots,status:'manual-hold',yaw:selected().yaw};
  for(const u of units)u.manual=u===selected();
  goalMarker.visible=routeLine.visible=false;waypointArmed=false;state.paused=false;keys.clear();pressed.clear();touch.clear();labels();
@@ -171,11 +171,11 @@ async function syncTheme(){
 }
 function cameraTargets(){
  const p=selected().root.position,yaw=selected().yaw;
- if(state.mode==='overview'){const center=fleetCenter(units.map(u=>u.root.position));targetGoal.set(center.x,floor(center.x,center.z)+3,center.z);if(state.exploring&&(waypointArmed||mission)){
+ if(state.mode==='overview'){const center=swarmCenter(units.map(u=>u.root.position));targetGoal.set(center.x,floor(center.x,center.z)+3,center.z);if(state.exploring&&(waypointArmed||mission)){
  const framing=waypointFrame(center,waypointArmed?null:mission?.goal,camera.aspect);targetGoal.set(framing.target.x,floor(framing.target.x,framing.target.z)+3,framing.target.z);cameraGoal.set(0,framing.height,framing.back).add(targetGoal);
  }else{cameraGoal.set(state.exploring?5:28,state.exploring?11:13,state.exploring?38:60);if(camera.aspect<.8)cameraGoal.multiplyScalar(1.35);cameraGoal.add(targetGoal);}}
- else if(state.mode==='broadcast'){const center=fleetCenter(units.map(u=>u.root.position));targetGoal.set(center.x,floor(center.x,center.z)+4,center.z);cameraGoal.copy(broadcastPosition);}
- else if(state.mode==='follow'){targetGoal.copy(p).add(new T.Vector3(0,.24,0));cameraGoal.set(4.5,2.8,7.5).applyAxisAngle(new T.Vector3(0,1,0),yaw).add(p);}
+ else if(state.mode==='broadcast'){const center=swarmCenter(units.map(u=>u.root.position));targetGoal.set(center.x,floor(center.x,center.z)+4,center.z);cameraGoal.copy(broadcastPosition);}
+ else if(state.mode==='follow'){targetGoal.copy(p).add(new T.Vector3(0,.24,0));cameraGoal.set(4.5,2.8,8.5);if(state.exploring)cameraGoal.applyAxisAngle(new T.Vector3(0,1,0),yaw);cameraGoal.add(p);}
  else if(state.mode==='fpv'){cameraGoal.set(0,.3,1).applyAxisAngle(new T.Vector3(0,1,0),yaw).add(p);targetGoal.set(Math.sin(yaw)*20,1,Math.cos(yaw)*20).add(cameraGoal);}
  else{targetGoal.copy(controls.target);cameraGoal.copy(camera.position);}
 }
@@ -185,14 +185,14 @@ function stepCamera(dt){
  if(!state.exploring&&!state.paused&&!reduce.matches){
   shotTime+=dt;
   if(shotTime>shots[shotIndex].duration){
-   shotTime=0;shotIndex=(shotIndex+1)%shots.length;state.selected=(state.selected+1)%5;state.mode=shots[shotIndex].mode;
-   const center=fleetCenter(units.map(u=>u.root.position));broadcastPosition.set(center.x+42,floor(center.x+42,center.z-38)+25,center.z-38);
-   updateVisibility();cameraTargets();camera.position.copy(cameraGoal);controls.target.copy(targetGoal);camera.lookAt(targetGoal);host.dataset.camera=state.mode;labels();
+   const previousMode=state.mode;shotTime=0;shotIndex=(shotIndex+1)%shots.length;state.selected=(state.selected+1)%5;state.mode=shots[shotIndex].mode;if(state.mode==='follow')state.selected=0;
+   const center=swarmCenter(units.map(u=>u.root.position));broadcastPosition.set(center.x+42,floor(center.x+42,center.z-38)+25,center.z-38);
+   updateVisibility();cameraTargets();if(previousMode==='follow'&&state.mode==='overview'){transition=4;}else{camera.position.copy(cameraGoal);controls.target.copy(targetGoal);camera.lookAt(targetGoal);}host.dataset.camera=state.mode;host.dataset.shotHistory=((host.dataset.shotHistory||'')+','+state.mode).split(',').slice(-6).join(',');labels();
   }
  }
  cameraTargets();
  cameraGoal.y=Math.max(cameraGoal.y,floor(cameraGoal.x,cameraGoal.z)+1.4);
- if(!state.exploring){transition=Math.max(0,transition-dt);camera.position.lerp(cameraGoal,1-Math.exp(-dt*3));controls.target.lerp(targetGoal,1-Math.exp(-dt*4));camera.lookAt(controls.target);return;}
+ if(!state.exploring){const pullback=transition>0?.9:3;transition=Math.max(0,transition-dt);camera.position.lerp(cameraGoal,1-Math.exp(-dt*pullback));controls.target.lerp(targetGoal,1-Math.exp(-dt*4));camera.lookAt(controls.target);return;}
  if(state.mode==='fpv'){camera.position.lerp(cameraGoal,1-Math.exp(-dt*9));controls.target.lerp(targetGoal,1-Math.exp(-dt*9));camera.lookAt(controls.target);return;}
  if(transition>0){const b=1-Math.exp(-dt*5);camera.position.lerp(cameraGoal,b);controls.target.lerp(targetGoal,b);transition-=dt;camera.lookAt(controls.target);}
  else if(state.mode==='follow'||state.mode==='overview'){const delta=targetGoal.clone().sub(controls.target);camera.position.add(delta);controls.target.copy(targetGoal);}
@@ -203,7 +203,7 @@ function stepCamera(dt){
 function updateHud(u,speed){
  const clearance=state.exploring?u.root.position.y-floor(u.root.position.x,u.root.position.z):units.reduce((a,v)=>a+v.root.position.y-floor(v.root.position.x,v.root.position.z),0)/units.length;
  $('[data-flight-altitude]').textContent=clearance.toFixed(1)+' m';
- $('[data-flight-speed]').textContent=(state.exploring?speed:fleetSpeed).toFixed(2)+' m/s';
+ $('[data-flight-speed]').textContent=(state.exploring?speed:swarmSpeed).toFixed(2)+' m/s';
  $('[data-flight-distance]').textContent=state.exploring?u.distance.toFixed(1)+' m':(patrolPose(patrolDistance).progress*100).toFixed(0)+'%';
  $('[data-flight-state]').textContent=state.paused?tr('Paused','已暂停'):u.manual?tr('Manual control','手动操控'):mission?mission.status==='traveling'?tr('To waypoint','前往航点'):tr('Holding formation','编队悬停'):rejoining?tr('Returning to patrol','返回巡航'):tr('Figure-eight patrol','8 字巡航');
  const protection=$('[data-separation-state]');if(protection)protection.textContent=separationState.intervened?tr('Spacing protection · hold','间距保护 · 停止接近'):tr('Min spacing · ','最小机距 · ')+(Number.isFinite(separationState.minDistance)?separationState.minDistance.toFixed(1)+' m':tr('ready','就绪'));
@@ -218,7 +218,7 @@ function animate(now){
  statsElapsed+=elapsed;if(statsElapsed>5){statsElapsed=elapsed;statsFrames=0;}
  if(!state.paused){clock+=dt*state.pace*SPEED_MULTIPLIER;if(!mission&&!rejoining)patrolDistance+=dt*2*state.pace*SPEED_MULTIPLIER;
   const blend=1-Math.exp(-dt*1.5);slots=slots.map((p,i)=>p.map((v,j)=>T.MathUtils.lerp(v,slotGoal[i][j],blend)));if(mission){mission.slots=slots;mission.center=clampWaypoint(mission.center,WORLD_LIMIT,slots);}
- }let speed=0;fleetSpeed=0;
+ }let speed=0;swarmSpeed=0;
  if(mission&&mission.status==='traveling'&&!state.paused){mission.yaw=Math.atan2(mission.goal.x-mission.center.x,mission.goal.z-mission.center.z);const next=advanceWaypoint(mission.center,mission.goal,dt,2*state.pace*SPEED_MULTIPLIER);mission.center=clampWaypoint(next,WORLD_LIMIT,slots);if(Math.hypot(mission.center.x-mission.goal.x,mission.center.z-mission.goal.z)<.01)mission.status='holding';}
  for(const u of units){const before=previous[u.index];
   if(!state.paused){
@@ -236,16 +236,16 @@ function animate(now){
   slots=previousSlots.map((p,i)=>p.map((v,j)=>v+(slots[i][j]-v)*fraction));
   if(mission&&previousMission){mission.center={x:previousMission.center.x+(mission.center.x-previousMission.center.x)*fraction,z:previousMission.center.z+(mission.center.z-previousMission.center.z)*fraction};mission.slots=slots;if(previousMission.status==='traveling')mission.status=Math.hypot(mission.center.x-mission.goal.x,mission.center.z-mission.goal.z)<.01?'holding':'traveling';}
  }
- for(const u of units){const accepted=separationState.positions[u.index];u.root.position.set(accepted.x,Math.max(accepted.y,floor(accepted.x,accepted.z)+1.25),accepted.z);const distance=previous[u.index].distanceTo(u.root.position);u.distance+=distance;fleetSpeed+=dt>0?distance/dt/units.length:0;if(u===selected())speed=dt>0?distance/dt:0;}
+ for(const u of units){const accepted=separationState.positions[u.index];u.root.position.set(accepted.x,Math.max(accepted.y,floor(accepted.x,accepted.z)+1.25),accepted.z);const distance=previous[u.index].distanceTo(u.root.position);u.distance+=distance;swarmSpeed+=dt>0?distance/dt/units.length:0;if(u===selected())speed=dt>0?distance/dt:0;}
  if(rejoining){const c=patrolPose(patrolDistance);rejoining=!units.every(u=>{const p=formationTarget(u.index,c,slotGoal);return Math.hypot(u.root.position.x-p.x,u.root.position.z-p.z)<.15;});}
  pressed.clear();
- const lightCenter=fleetCenter(units.map(u=>u.root.position)),ground=floor(lightCenter.x,lightCenter.z);keyLight.position.set(lightCenter.x+(state.dark?-52:DESERT_SUN.x*65),ground+(state.dark?22:DESERT_SUN.y*65),lightCenter.z+(state.dark?26:DESERT_SUN.z*65));keyLight.target.position.set(lightCenter.x,ground,lightCenter.z);
+ const lightCenter=swarmCenter(units.map(u=>u.root.position)),ground=floor(lightCenter.x,lightCenter.z);keyLight.position.set(lightCenter.x+(state.dark?-52:DESERT_SUN.x*65),ground+(state.dark?22:DESERT_SUN.y*65),lightCenter.z+(state.dark?26:DESERT_SUN.z*65));keyLight.target.position.set(lightCenter.x,ground,lightCenter.z);
  updateGlacier(world,clock);stepCamera(dt);hudTime+=dt;if(hudTime>.15){hudTime=0;updateHud(selected(),speed);}if(!state.paused||state.exploring||transition>0){render();statsFrames++;}
 }
 async function init(){
  state.dark=desiredTheme();
  renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance',preserveDrawingBuffer:inspection});renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<650?1.25:1.65));renderer.toneMapping=T.ACESFilmicToneMapping;renderer.outputColorSpace=T.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
- host.dataset.revision='v6-cinematic-swarm';host.dataset.astc=String(renderer.extensions.has('WEBGL_compressed_texture_astc'));host.appendChild(renderer.domElement);renderer.domElement.style.touchAction='pan-y';renderer.domElement.setAttribute('aria-label','Selectable five-aircraft fleet');
+ host.dataset.revision='v7-project-in-loop';host.dataset.shotHistory=state.mode;host.dataset.astc=String(renderer.extensions.has('WEBGL_compressed_texture_astc'));host.appendChild(renderer.domElement);renderer.domElement.style.touchAction='pan-y';renderer.domElement.setAttribute('aria-label','Selectable five-aircraft swarm');
  scene=new T.Scene();camera=new T.PerspectiveCamera(40,1,.12,1800);camera.layers.enable(1);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=2.3;controls.maxDistance=300;controls.maxPolarAngle=Math.PI*.48;controls.minPolarAngle=.08;controls.enabled=false;
  sky=new Sky();sky.scale.setScalar(1400);const un=sky.material.uniforms;un.turbidity.value=2.3;un.rayleigh.value=2.1;un.mieCoefficient.value=.004;un.sunPosition.value.copy(DESERT_SUN);scene.add(sky);
  keyLight=new T.DirectionalLight('#fff2dd',3);keyLight.position.set(-24,30,18);keyLight.castShadow=true;keyLight.shadow.mapSize.set(2048,2048);Object.assign(keyLight.shadow.camera,{left:-40,right:40,top:40,bottom:-40,near:.5,far:200});keyLight.shadow.bias=-.0002;keyLight.shadow.normalBias=.035;scene.add(keyLight,keyLight.target);
@@ -254,7 +254,7 @@ async function init(){
  await loadResearchDroneAsset();if(failed||state.destroyed){clearResearchDroneAsset();return;}
  const prototype=createResearchDrone();
  for(let i=0;i<5;i++){const root=prototype.root.clone(true);root.userData.unitId=i;const pose={...formationTarget(i,patrolPose(0),slots),height:5.3};root.position.set(pose.x,floor(pose.x,pose.z)+pose.height,pose.z);scene.add(root);const rotors=root.children.slice(1,5);const marker=new T.Mesh(new T.RingGeometry(1.55,1.57,80),new T.MeshBasicMaterial({color:'#b4c58b',side:T.DoubleSide,transparent:true,opacity:.55,depthWrite:false}));marker.rotation.x=-Math.PI/2;marker.position.y=-.7;marker.visible=i===0;marker.layers.set(1);root.add(marker);const label=unitLabel(`U0${i+1}`);label.layers.set(1);root.add(label);units.push({root,index:i,manual:false,yaw:0,distance:0,rotors,marker,label});}
- makeWaypointVisuals();all('.fleet-dock button,.fleet-dock input,.scene-camera-rail button,[data-scene-explore]').forEach(b=>b.disabled=false);state.ready=true;camera.position.set(5,14,34);controls.target.set(0,3,-4);controls.update();host.dataset.ready='true';host.dataset.units='5';hero.classList.add('has-3d');const video=$('.hero-video');if(video){video.pause();video.querySelectorAll('source').forEach(source=>source.removeAttribute('src'));video.removeAttribute('src');video.load();}
+ makeWaypointVisuals();all('.swarm-dock button,.swarm-dock input,.scene-camera-rail button,[data-scene-explore]').forEach(b=>b.disabled=false);state.ready=true;camera.position.set(5,14,34);controls.target.set(0,3,-4);controls.update();host.dataset.ready='true';host.dataset.units='5';hero.classList.add('has-3d');const video=$('.hero-video');if(video){video.pause();video.querySelectorAll('source').forEach(source=>source.removeAttribute('src'));video.removeAttribute('src');video.load();}
  await syncTheme();if(failed||state.destroyed)return;hero.classList.remove('scene-loading');resize();cameraTargets();camera.position.copy(cameraGoal);controls.target.copy(targetGoal);controls.update();updateVisibility();render();labels();updateHud(selected(),0);
  resizeObserver=new ResizeObserver(resize);resizeObserver.observe(host);visibilityObserver=new IntersectionObserver(e=>{active=e[0].isIntersecting;last=performance.now();},{threshold:0});visibilityObserver.observe(host);
  let down=null,dragged=false;
@@ -264,7 +264,7 @@ async function init(){
  renderer.domElement.addEventListener('pointercancel',()=>{down=null;dragged=true;});
  renderer.domElement.addEventListener('click',e=>{
   if(dragged||state.loading||!world)return;const b=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1);ray.setFromCamera(pointer,camera);
-  if(waypointArmed){const hits=ray.intersectObjects(world.userData.grounds,false);if(hits.length)sendFleet(hits[0].point);else $('[data-waypoint-status]').textContent=tr('Choose a point on the terrain.','请在地面上选择航点。');return;}
+  if(waypointArmed){const hits=ray.intersectObjects(world.userData.grounds,false);if(hits.length)sendSwarm(hits[0].point);else $('[data-waypoint-status]').textContent=tr('Choose a point on the terrain.','请在地面上选择航点。');return;}
   const hits=ray.intersectObjects(units.filter(u=>u.root.visible).map(u=>u.root),true);for(const hit of hits){let o=hit.object;while(o&&o.userData.unitId===undefined)o=o.parent;if(o){choose(o.userData.unitId);break;}}
  });
  if(inspection){state.paused=true;state.mode='free';const {installInspection}=await import('./inspection.js');installInspection({T,hero,scene,world,camera,controls,units,renderer,render,query,floor});}
@@ -273,7 +273,7 @@ async function init(){
 function releaseScene(){
  state.destroyed=true;state.ready=false;themeRevision++;resizeObserver?.disconnect();visibilityObserver?.disconnect();lightingDark=null;cancelAnimationFrame(frame);terrainAbort?.abort();controls?.dispose();keyLight?.shadow.dispose();disposeGraph(scene);world=null;units=[];clearResearchDroneAsset();environmentTarget?.dispose();environmentTarget=null;scene=null;renderer?.dispose();renderer?.forceContextLoss();renderer?.domElement.remove();renderer=null;goalMarker=routeLine=routeHalo=sky=stars=keyLight=fillLight=controls=camera=null;
 }
-function fallback(message){if(failed)return;failed=true;releaseScene();state.ready=false;hero.classList.remove('has-3d','exploring','scene-loading');document.body.classList.remove('scene-exploring');host.dataset.ready='false';host.style.display='none';$('[data-scene-status]').textContent=tr('Video fallback','视频备用模式');all('.fleet-dock button,.fleet-dock input,.scene-camera-rail button,[data-scene-explore]').forEach(b=>b.disabled=true);const video=$('.hero-video');if(video){video.querySelectorAll('source').forEach(source=>{source.src=source.dataset.src;});video.load();video.play().catch(()=>{});}console.warn(message);}
+function fallback(message){if(failed)return;failed=true;releaseScene();state.ready=false;hero.classList.remove('has-3d','exploring','scene-loading');document.body.classList.remove('scene-exploring');host.dataset.ready='false';host.style.display='none';$('[data-scene-status]').textContent=tr('Video fallback','视频备用模式');all('.swarm-dock button,.swarm-dock input,.scene-camera-rail button,[data-scene-explore]').forEach(b=>b.disabled=true);const video=$('.hero-video');if(video){video.querySelectorAll('source').forEach(source=>{source.src=source.dataset.src;});video.load();video.play().catch(()=>{});}console.warn(message);}
 all('[data-unit]').forEach(b=>b.addEventListener('click',()=>{explore(true);choose(Number(b.dataset.unit));}));all('[data-camera]').forEach(b=>b.addEventListener('click',()=>{explore(true);view(b.dataset.camera);host.focus({preventScroll:true});}));
 $('[data-waypoint]').addEventListener('click',()=>{if(!state.ready)return;explore(true);waypointArmed=!waypointArmed;if(waypointArmed)view('overview');labels();host.focus({preventScroll:true});});
 $('[data-cancel-waypoint]').addEventListener('click',cancelWaypoint);
@@ -296,7 +296,7 @@ document.addEventListener('jc-theme-changed',syncTheme);document.addEventListene
 window.addEventListener('pagehide',()=>{keys.clear();pressed.clear();touch.clear();releaseScene();});
 window.addEventListener('pageshow',e=>{
  if(!e.persisted)return;
- state.destroyed=false;state.ready=false;state.exploring=false;state.mode='overview';state.selected=0;state.paused=reduce.matches;failed=false;mission=null;rejoining=false;patrolDistance=clock=shotTime=shotIndex=last=0;
+ state.destroyed=false;state.ready=false;state.exploring=false;state.mode='follow';state.selected=0;state.paused=reduce.matches;failed=false;mission=null;rejoining=false;patrolDistance=clock=shotTime=shotIndex=last=0;
  slots=FORMATIONS.a.map(p=>[...p]);slotGoal=slots;formation='a';hero.classList.remove('has-3d','exploring');hero.classList.add('scene-loading');document.body.classList.remove('scene-exploring');host.style.display='';
  init().catch(fallback);
 });

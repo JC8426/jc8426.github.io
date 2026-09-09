@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Johnny Chan's robotics solutions portfolio: UAV autonomy, humanoid robot soccer, technical coordination, and AI-assisted engineering.">
-  <meta name="theme-color" content="#f6f7f2" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#11140f" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Johnny Chan’s projects and research notes on UAV coordination, robotics software, data analysis and agent-assisted engineering.">
+  <meta name="theme-color" content="#d4e5e9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#272b2e" media="(prefers-color-scheme: dark)">
   <title>Johnny Chan - Engineering Portfolio</title>
   <link rel="icon" type="image/x-icon" href="assets/agenthub_logo_v2.ico">
-  <link rel="stylesheet" href="assets/hero-3d/scene.css">
+  <link rel="stylesheet" href="assets/hero-3d/scene.css?v=7">
   <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js"}}</script>
   <style>
     :root {
@@ -843,14 +843,17 @@
       .method-line { transform: scaleX(1); }
     }
   </style>
+  <link rel="stylesheet" href="assets/site-refinement.css">
+  <link rel="stylesheet" href="assets/project-loop.css">
+  <link rel="stylesheet" href="assets/narrative.css">
 </head>
 <body>
   <nav class="nav" aria-label="Primary navigation">
     <div class="nav-inner">
       <a class="brand" href="#top" aria-label="Johnny Chan homepage"><span class="brand-mark">JC</span><span>Johnny Chan</span></a>
       <div class="nav-links" id="nav-links" aria-label="Page sections">
-        <a href="#systems" data-lang-en="Project" data-lang-zh="项目">Project</a>
-        <a href="#about" data-lang-en="Abstract" data-lang-zh="摘要">Abstract</a>
+        <a href="#systems" data-lang-en="Projects" data-lang-zh="项目">Projects</a>
+        <a href="#about" data-lang-en="Journey" data-lang-zh="经历">Journey</a>
         <a href="#research" data-lang-en="Research" data-lang-zh="研究">Research</a>
         <a href="#workflow" data-lang-en="Workflow" data-lang-zh="工作流">Workflow</a>
         <a href="#notes" data-lang-en="Notes" data-lang-zh="笔记">Notes</a>
@@ -868,12 +871,12 @@
   <main id="top" class="site-shell">
     <header class="hero scene-loading">
       <div id="drone-scene" role="region" aria-label="Interactive drone environment" aria-describedby="scene-help" tabindex="-1"></div>
-      <div class="scene-toolbar"><span data-scene-status role="status">Loading fleet…</span><button type="button" data-scene-explore aria-pressed="false" data-lang-en="Browse scene" data-lang-zh="浏览场景">Browse scene</button></div>
+      <div class="scene-toolbar"><span data-scene-status role="status">Loading swarm…</span><button type="button" data-scene-explore aria-pressed="false" data-lang-en="Browse scene" data-lang-zh="浏览场景">Browse scene</button></div>
       <aside class="flight-telemetry" aria-label="Simulated aircraft telemetry"><span class="telemetry-caption" data-lang-en="SCENE SIMULATION" data-lang-zh="场景模拟">SCENE SIMULATION</span><strong data-unit-heading>U01</strong><dl><div><dt data-altitude-label data-lang-en="Ground clearance" data-lang-zh="离地高度">Ground clearance</dt><dd data-flight-altitude>—</dd></div><div><dt data-speed-label data-lang-en="Speed" data-lang-zh="速度">Speed</dt><dd data-flight-speed>—</dd></div><div><dt data-distance-label data-lang-en="Distance" data-lang-zh="累计航程">Distance</dt><dd data-flight-distance>—</dd></div></dl><span data-flight-state>Formation</span><span class="separation-readout" data-separation-state>—</span></aside>
       <aside class="scene-camera-rail" aria-label="Scene camera shortcuts"><span class="camera-rail-caption" data-lang-en="EXPLORE VIEWS" data-lang-zh="探索视角">EXPLORE VIEWS</span>
-        <div class="view-selector" role="group" aria-label="Camera view"><button type="button" data-camera="overview" aria-pressed="true" data-lang-en="Fleet" data-lang-zh="全景">Fleet</button><button type="button" data-camera="follow" aria-pressed="false" data-lang-en="Follow" data-lang-zh="跟随">Follow</button><button type="button" data-camera="free" aria-pressed="false" data-lang-en="Free" data-lang-zh="自由">Free</button><button type="button" data-camera="fpv" aria-pressed="false" data-lang-en="Onboard" data-lang-zh="机载">Onboard</button></div>
+        <div class="view-selector" role="group" aria-label="Camera view"><button type="button" data-camera="overview" aria-pressed="true" data-lang-en="Swarm" data-lang-zh="全景">Swarm</button><button type="button" data-camera="follow" aria-pressed="false" data-lang-en="Follow" data-lang-zh="跟随">Follow</button><button type="button" data-camera="free" aria-pressed="false" data-lang-en="Free" data-lang-zh="自由">Free</button><button type="button" data-camera="fpv" aria-pressed="false" data-lang-en="Onboard" data-lang-zh="机载">Onboard</button></div>
       </aside>
-      <div class="fleet-dock" aria-label="Fleet controls" inert>
+      <div class="swarm-dock" aria-label="Swarm controls" inert>
         <div class="unit-selector" role="group" aria-label="Select aircraft"><button type="button" data-unit="0" aria-pressed="true">U01</button><button type="button" data-unit="1" aria-pressed="false">U02</button><button type="button" data-unit="2" aria-pressed="false">U03</button><button type="button" data-unit="3" aria-pressed="false">U04</button><button type="button" data-unit="4" aria-pressed="false">U05</button></div>
         <div class="pilot-controls"><button type="button" data-waypoint aria-pressed="false">Set waypoint</button><button type="button" data-cancel-waypoint disabled data-lang-en="Cancel target" data-lang-zh="取消航点">Cancel target</button><button type="button" data-scene-motion aria-pressed="false">Pause</button><button type="button" data-manual aria-pressed="false" data-lang-en="Pilot" data-lang-zh="操控">Pilot</button><button type="button" data-rejoin data-lang-en="Rejoin" data-lang-zh="归队">Rejoin</button><button type="button" data-scene-reset data-lang-en="Reset view" data-lang-zh="重置视角">Reset view</button></div>
         <div class="formation-selector" role="group" aria-label="Formation"><button type="button" data-formation="a" aria-pressed="true" data-lang-en="A formation" data-lang-zh="A 型">A formation</button><button type="button" data-formation="line" aria-pressed="false" data-lang-en="Line" data-lang-zh="一字型">Line</button><button type="button" data-formation="s" aria-pressed="false" data-lang-en="S shape" data-lang-zh="S 型">S shape</button><button type="button" data-formation="matrix" aria-pressed="false" data-lang-en="Matrix" data-lang-zh="矩阵型">Matrix</button></div>
@@ -911,290 +914,74 @@
     </header>
 
     <div class="frame">
-      <section id="systems" class="reveal">
-        <div class="section-head">
-          <h2 data-lang-en="Selected engineering work." data-lang-zh="工程实践与项目。">Selected engineering work.</h2>
-          <p class="section-intro" data-lang-en="Robotics systems, technical analysis, and practical delivery." data-lang-zh="机器人系统、技术分析与实际交付。">Robotics systems, technical analysis, and practical delivery.</p>
-        </div>
-        <div class="systems-grid" aria-label="Selected project evidence">
-          <article class="system-card">
-            <div class="system-media contain"><a href="software-data.html"><img src="assets/portfolio/thumbs/archive-composition-1024.webp" alt="Event-composition analysis across fourteen anonymized log files" loading="lazy"></a></div>
-            <div class="system-body"><div><span class="system-role">Software &amp; Data Analysis</span>
-              <h3 data-lang-en="Platform Workflows &amp; Log Analysis" data-lang-zh="平台工作流与日志分析">Platform Workflows &amp; Log Analysis</h3>
-              <p data-lang-en="A Python/SQLite request-review prototype and a reproducible audit of 17,509 archived log entries." data-lang-zh="Python／SQLite 请求审核原型，以及17,509条归档日志的可复查分析。">A Python/SQLite request-review prototype and a reproducible audit of 17,509 archived log entries.</p>
-              <div class="proof-grid"><div class="proof-block"><b>Build</b><span data-lang-en="HTTP APIs, roles, confirmation workflow and audit records." data-lang-zh="HTTP API、角色权限、确认流程与操作记录。">HTTP APIs, roles, confirmation workflow and audit records.</span></div><div class="proof-block"><b>Analyze</b><span data-lang-en="Event classification, state timelines and data-quality checks." data-lang-zh="事件分类、状态时间线与数据质量检查。">Event classification, state timelines and data-quality checks.</span></div></div>
-              <p><a class="button secondary" href="software-data.html" data-lang-en="Explore software &amp; data →" data-lang-zh="查看软件与数据案例 →">Explore software &amp; data →</a></p>
-            </div><div class="card-tags"><span class="tag">Python</span><span class="tag">SQLite</span><span class="tag">Data analysis</span></div></div>
-          </article>
+<section id="systems" class="reveal project-surface" data-project-loop>
+ <div class="section-head"><h2 data-lang-en="Project in Loop" data-lang-zh="Project in Loop">Project in Loop</h2><p class="section-intro" data-lang-en="A closer look at the systems I build, study and help bring together." data-lang-zh="看看我搭建、研究和参与推进的系统。">A closer look at the systems I build, study and help bring together.</p></div>
+ <div class="project-toolbar"><div class="project-filters" data-project-filters aria-label="Project categories"></div><div class="project-controls"><button type="button" data-project-prev aria-label="Previous projects">←</button><button type="button" data-project-play aria-pressed="false">Play loop</button><button type="button" data-project-next aria-label="Next projects">→</button></div></div>
+ <div class="project-track" data-project-track tabindex="0" aria-label="Project cards"></div>
+ <div class="project-footer"><span data-project-position aria-live="off">01 / 08</span><a href="projects.html" data-lang-en="Search all projects ↗" data-lang-zh="搜索全部项目 ↗">Search all projects ↗</a></div>
+ <noscript><p><a href="software-data.html">Software &amp; data</a> · <a href="uav-simulation.html">UAV simulation</a> · <a href="rcap-2026.html">RCAP Beijing 2026</a> · <a href="robotedge-lab.html">Robotedge</a> · <a href="agenthub.html">AgentHub</a> · <a href="volary-dashboard.html">Dashboard</a> · <a href="volary-uav.html">Volary UAV</a> · <a href="remote-monitoring.html">Remote monitoring</a></p></noscript>
+</section>
 
-          <article class="system-card">
-            <div class="system-media contain"><img src="assets/portfolio/thumbs/uav-simulation-rviz-gazebo-9117-1024.webp" alt="Gazebo and RViz simulation screenshot for UAV autonomy" loading="lazy" decoding="async"></div>
-            <div class="system-body">
-              <div>
-                <span class="system-role">Robotics software</span>
-                <h3 data-lang-en="UAV Simulation Platform" data-lang-zh="无人机仿真平台">UAV Simulation Platform</h3>
-                <p data-lang-en="Simulation work for UAV autonomy, formation behavior, obstacle avoidance, and path-planning study." data-lang-zh="面向无人机自主、编队行为、避障和路径规划研究的仿真工作。">Simulation work for UAV autonomy, formation behavior, obstacle avoidance, and path-planning study.</p>
-                <div class="proof-grid">
-                  <div class="proof-block"><b>Stack</b><span>Python, C++, ROS Noetic, Gazebo, RViz, Linux</span></div>
-                  <div class="proof-block"><b>Role</b><span data-lang-en="Built and reviewed simulation workflows and planning study artifacts." data-lang-zh="搭建并审阅仿真流程和规划研究材料。">Built and reviewed simulation workflows and planning study artifacts.</span></div>
-                </div>
-              </div>
-              <div class="card-tags"><span class="tag">Python</span><span class="tag">C++</span><span class="tag">ROS</span><span class="tag">Gazebo</span><span class="tag">RViz</span></div>
-            </div>
-          </article>
-          <article class="system-card">
-            <div class="system-media"><a href="rcap-2026.html"><img src="assets/portfolio/thumbs/team-and-robots-1024.webp" alt="Robotedge team with five humanoid robots at the Beijing competition venue" loading="lazy"></a></div>
-            <div class="system-body"><div>
-              <span class="system-role">Humanoid robot soccer · Aug 2026</span>
-              <h3>RCAP Beijing 2026</h3>
-              <p data-lang-en="Competition participation, software analysis, and research exploration with the Robotedge team." data-lang-zh="随 Robotedge 团队参与赛事，开展软件分析与研究探索。">Competition participation, software analysis, and research exploration with the Robotedge team.</p>
-              <div class="proof-grid"><div class="proof-block"><b>Focus</b><span data-lang-en="GameController interfaces, behavior logic, and multi-robot coordination." data-lang-zh="比赛控制接口、行为逻辑与多机器人协同。">GameController interfaces, behavior logic, and multi-robot coordination.</span></div><div class="proof-block"><b>Output</b><span data-lang-en="Log comparisons, code analysis, and exploratory research notes." data-lang-zh="日志对比、代码分析与探索性研究笔记。">Log comparisons, code analysis, and exploratory research notes.</span></div></div>
-              <p><a class="button secondary" href="rcap-2026.html" data-lang-en="Read the case study →" data-lang-zh="查看项目案例 →">Read the case study →</a></p>
-            </div><div class="card-tags"><span class="tag">ROS 2</span><span class="tag">C++</span><span class="tag">System analysis</span></div></div>
-          </article>
+<section id="about" class="reveal narrative-section"><div class="journey-layout"><aside class="journey-intro"><span data-lang-en="EDUCATION &amp; PRACTICE" data-lang-zh="学习与实践" class="narrative-kicker">EDUCATION &amp; PRACTICE</span><h2 data-lang-en="Along the way." data-lang-zh="一路走来。" >Along the way.</h2><p data-lang-en="From machines to software, I keep returning to the same question: how does this work outside the model?" data-lang-zh="从机械到软件，我始终关心同一个问题：走出模型之后，它会怎样运行？" >From machines to software, I keep returning to the same question: how does this work outside the model?</p><div class="journey-year" aria-hidden="true" data-journey-year>2012</div><p data-lang-en="These periods overlap. The work grew across disciplines." data-lang-zh="这些经历在时间上交叠，也让我逐步跨越学科边界。" class="journey-footnote">These periods overlap. The work grew across disciplines.</p></aside><ol class="journey-track" aria-label="Education and work over time"><li class="journey-stop" data-journey-era="2012"><span class="journey-dot" aria-hidden="true"></span><time>2012–2019</time><h3 data-lang-en="Physical systems" data-lang-zh="从实体系统开始" >Physical systems</h3><p data-lang-en="Mechanical engineering taught me to connect a model with the machine in front of me: its tolerances, loads, and failure modes." data-lang-zh="机械工程让我学会把模型与眼前的机器联系起来：公差、载荷，以及它可能怎样失效。" >Mechanical engineering taught me to connect a model with the machine in front of me: its tolerances, loads, and failure modes.</p><div data-lang-en="Mechanics · Experiments · Constraints" data-lang-zh="机械 · 实验 · 约束" class="journey-skills">Mechanics · Experiments · Constraints</div></li><li class="journey-stop" data-journey-era="2021"><span class="journey-dot" aria-hidden="true"></span><time>2021–2025</time><h3 data-lang-en="Working across disciplines" data-lang-zh="在不同团队之间推进项目" >Working across disciplines</h3><p data-lang-en="R&amp;D coordination brought suppliers, design, technical teams, and production into the same conversation. I learned to make requirements clear enough for someone else to act on." data-lang-zh="研发协调把供应商、设计、技术与生产带到同一张桌上。我逐渐学会把需求说明白，让接手的人能够继续往前做。" >R&amp;D coordination brought suppliers, design, technical teams, and production into the same conversation. I learned to make requirements clear enough for someone else to act on.</p><div data-lang-en="Requirements · Suppliers · Delivery" data-lang-zh="需求 · 供应商 · 交付" class="journey-skills">Requirements · Suppliers · Delivery</div></li><li class="journey-stop" data-journey-era="2023"><span class="journey-dot" aria-hidden="true"></span><time>2023–2025</time><h3 data-lang-en="Making robots run" data-lang-zh="让机器人真正跑起来" >Making robots run</h3><p data-lang-en="ROS, Linux, Python, and C++ became everyday tools. Setting up simulations and tracing runtime problems brought software into the centre of my work." data-lang-zh="ROS、Linux、Python 和 C++ 成为日常工具。搭建仿真、追踪运行问题，让软件逐渐成为我的工作重心。" >ROS, Linux, Python, and C++ became everyday tools. Setting up simulations and tracing runtime problems brought software into the centre of my work.</p><div data-lang-en="ROS · Simulation · Debugging" data-lang-zh="ROS · 仿真 · 调试" class="journey-skills">ROS · Simulation · Debugging</div></li><li class="journey-stop" data-journey-era="2026"><span class="journey-dot" aria-hidden="true"></span><time>2026–</time><span data-lang-en="CURRENT" data-lang-zh="当前" class="journey-now">CURRENT</span><h3 data-lang-en="Bringing the pieces together" data-lang-zh="把这些经历带入研究" >Bringing the pieces together</h3><p data-lang-en="My current work at Universiti Malaya brings together UAV autonomy, swarm research, and AI-assisted software development. Each experiment gives me another reason to revisit the system." data-lang-zh="现在，我在马来亚大学把无人机自主、集群研究与 AI 辅助软件开发结合起来。每一轮实验，都让我重新审视系统中的一个具体问题。" >My current work at Universiti Malaya brings together UAV autonomy, swarm research, and AI-assisted software development. Each experiment gives me another reason to revisit the system.</p><div data-lang-en="Swarm autonomy · Agentic workflows" data-lang-zh="集群自主 · Agentic 工作流" class="journey-skills">Swarm autonomy · Agentic workflows</div></li></ol></div></section>
 
-          <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/thumbs/lab-coordinate-room-1129-1024.webp" alt="Johnny Chan presenting and coordinating in a Robotedge lab meeting room" loading="lazy" decoding="async"></div>
-            <div class="system-body">
-              <div>
-                <span class="system-role">Lab coordination</span>
-                <h3 data-lang-en="Robotedge AI Robotics Lab Coordinate" data-lang-zh="Robotedge AI 机器人实验室协调">Robotedge AI Robotics Lab Coordinate</h3>
-                <p data-lang-en="Coordination work across lab planning, technical discussion, research framing, meeting notes, and project follow-up." data-lang-zh="围绕实验室规划、技术讨论、研究定义、会议记录和项目跟进展开的协调工作。">Coordination work across lab planning, technical discussion, research framing, meeting notes, and project follow-up.</p>
-                <div class="proof-grid">
-                  <div class="proof-block"><b>Stack</b><span>Planning docs, meeting notes, research maps, AI workflow</span></div>
-                  <div class="proof-block"><b>Role</b><span data-lang-en="Helped translate broad robotics ideas into tasks, records, and reviewable next steps." data-lang-zh="帮助把宽泛的机器人想法转化为任务、记录和可审阅的下一步。">Helped translate broad robotics ideas into tasks, records, and reviewable next steps.</span></div>
-                </div>
-              </div>
-              <div class="card-tags"><span class="tag">Robotedge</span><span class="tag">Coordination</span><span class="tag">AI robotics</span><span class="tag">Documentation</span><span class="tag">Planning</span></div>
-            </div>
-          </article>
-          <article class="system-card">
-            <div class="system-media contain"><img src="assets/portfolio/thumbs/agenthub-product-render-1024.webp" alt="AgentHub product render showing a web-based AI kit concept" loading="lazy" decoding="async"></div>
-            <div class="system-body">
-              <div>
-                <span class="system-role">Web-based AI kit</span>
-                <h3 data-lang-en="AgentHub Learning Kit" data-lang-zh="AgentHub 学习套件">AgentHub Learning Kit</h3>
-                <p data-lang-en="A collaborative AI education kit with a web-based student onboarding demo and product-facing hardware render." data-lang-zh="一个协作开发的 AI 教学套件，包含基于网页的学生快速入门 Demo 和产品化硬件渲染图。">A collaborative AI education kit with a web-based student onboarding demo and product-facing hardware render.</p>
-                <div class="proof-grid">
-                  <div class="proof-block"><b>Stack</b><span>HTML, CSS, JavaScript, product demo assets</span></div>
-                  <div class="proof-block"><b>Role</b><span data-lang-en="Supported product framing, demo validation, documentation, and visual/product material organization." data-lang-zh="支持产品定义、Demo 验证、文档和视觉/产品材料整理。">Supported product framing, demo validation, documentation, and visual/product material organization.</span></div>
-                </div>
-              </div>
-              <div class="card-tags"><span class="tag">AgentHub</span><span class="tag">Web demo</span><span class="tag">AI kit</span><span class="tag">Product render</span><span class="tag">PM support</span></div>
-            </div>
-          </article>
-          <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/thumbs/personal-dashboard-1024.webp" alt="Volary dashboard homepage screenshot" loading="lazy" decoding="async"></div>
-            <div class="system-body">
-              <div>
-                <span class="system-role">Dashboard system</span>
-                <h3 data-lang-en="Personal Dashboard" data-lang-zh="个人仪表盘">Personal Dashboard</h3>
-                <p data-lang-en="A Volary dashboard homepage for founder-side planning, weekly rhythm, task entry, and project launch." data-lang-zh="一个面向 Volary Founder 日常管理的仪表盘首页，用于周节奏、任务录入和项目启动。">A Volary dashboard homepage for founder-side planning, weekly rhythm, task entry, and project launch.</p>
-                <div class="proof-grid">
-                  <div class="proof-block"><b>Stack</b><span>HTML, CSS, JavaScript, local dashboard UI</span></div>
-                  <div class="proof-block"><b>Role</b><span data-lang-en="Designed the homepage structure, navigation, daily task module, weekly pulse, and launcher layout." data-lang-zh="设计首页结构、导航、每日任务模块、周脉搏和项目启动区布局。">Designed the homepage structure, navigation, daily task module, weekly pulse, and launcher layout.</span></div>
-                </div>
-              </div>
-              <div class="card-tags"><span class="tag">Dashboard</span><span class="tag">Volary</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-            </div>
-          </article>
-          <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/thumbs/volary-main-1024.webp" alt="Volary brand website homepage screenshot" loading="lazy" decoding="async"></div>
-            <div class="system-body">
-              <div>
-                <span class="system-role">Brand portal</span>
-                <h3 data-lang-en="Brand Website Development" data-lang-zh="品牌网站开发">Brand Website Development</h3>
-                <p data-lang-en="A public-facing UAV brand portal being shaped for Malaysian drone practitioners, buyers, partners, and service conversations." data-lang-zh="面向马来西亚无人机从业者、潜在客户、合作伙伴和服务沟通的 UAV 品牌门户。">A public-facing UAV brand portal being shaped for Malaysian drone practitioners, buyers, partners, and service conversations.</p>
-                <div class="proof-grid">
-                  <div class="proof-block"><b>Stack</b><span>HTML, CSS, JavaScript, custom domain</span></div>
-                  <div class="proof-block"><b>Role</b><span data-lang-en="Owns positioning, page structure, visual direction, content iteration, and static-site deployment." data-lang-zh="负责定位、页面结构、视觉方向、内容迭代和静态站点部署。">Owns positioning, page structure, visual direction, content iteration, and static-site deployment.</span></div>
-                </div>
-              </div>
-              <div class="card-tags"><span class="tag">Volary</span><span class="tag">Brand site</span><span class="tag">UAV services</span><span class="tag">Domain deployment</span></div>
-            </div>
-          </article>
-          <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/thumbs/ai-agriculture-1024.webp" alt="AI agriculture monitoring and irrigation concept" loading="lazy" decoding="async"></div>
-            <div class="system-body">
-              <div>
-                <span class="system-role">AI + agriculture systems</span>
-                <h3 data-lang-en="Remote Monitoring Logic" data-lang-zh="远程监测系统逻辑">Remote Monitoring Logic</h3>
-                <p data-lang-en="Final project work around lower-machine sensing, remote transmission, MySQL-style storage, and monitoring interfaces, with logic transferable from mine gas detection to agriculture irrigation." data-lang-zh="围绕下位机传感、远程传输、MySQL 式存储和监测界面的毕业项目工作，其逻辑可从矿井气体检测迁移到农业灌溉。">Final project work around lower-machine sensing, remote transmission, MySQL-style storage, and monitoring interfaces, with logic transferable from mine gas detection to agriculture irrigation.</p>
-                <div class="proof-grid">
-                  <div class="proof-block"><b>Stack</b><span>Embedded logic, sensors, MySQL, monitoring UI</span></div>
-                  <div class="proof-block"><b>Role</b><span data-lang-en="Mapped the sensing-to-database-to-interface pipeline and understood its agriculture transfer logic." data-lang-zh="梳理传感到数据库再到界面的链路，并理解其向农业场景迁移的逻辑。">Mapped the sensing-to-database-to-interface pipeline and understood its agriculture transfer logic.</span></div>
-                </div>
-              </div>
-              <div class="card-tags"><span class="tag">MySQL</span><span class="tag">Sensors</span><span class="tag">Monitoring</span><span class="tag">Agriculture</span><span class="tag">Data pipeline</span></div>
-            </div>
-          </article>
-        </div>
-      </section>
-      <section id="about" class="reveal">
-        <div class="program-layout">
-          <aside class="program-summary">
-            <div class="section-head">
-              <h2 data-lang-en="Involving Route." data-lang-zh="来时路。">Involving Route.</h2>
-              <p class="section-intro" data-lang-en="Time flies. Ability enhanced. Future comes." data-lang-zh="时光飞逝。能力渐进。未来已来。">Time flies. Ability enhanced. Future comes.</p>
-            </div>
-            <div class="stat-grid" aria-label="Background summary">
-              <div class="stat"><b>Build</b><span data-lang-en="turn requirements into working modules" data-lang-zh="把需求转成可用模块">turn requirements into working modules</span></div>
-              <div class="stat"><b>Fix</b><span data-lang-en="debug workflows instead of blaming tools" data-lang-zh="调试流程，而不是抱怨工具">debug workflows instead of blaming tools</span></div>
-              <div class="stat"><b>Write</b><span data-lang-en="leave documentation people can use" data-lang-zh="留下别人能用的文档">leave documentation people can use</span></div>
-              <div class="stat"><b>Ship</b><span data-lang-en="prefer reviewable delivery over vague progress" data-lang-zh="偏好可审阅交付，而不是模糊进展">prefer reviewable delivery over vague progress</span></div>
-            </div>
-          </aside>
-          <div class="timeline" aria-label="Education and experience timeline">
-            <article class="timeline-card"><time>2012-2019</time><div><h3 data-lang-en="Mechanical engineering gave me system instincts" data-lang-zh="机械工程给了我系统直觉">Mechanical engineering gave me system instincts</h3><p data-lang-en="The training was physical, experimental, and constraint-driven: model the system, understand failure, and document what changed." data-lang-zh="这段训练是物理的、实验的、受约束的：建模系统、理解失败，并记录发生了什么变化。">The training was physical, experimental, and constraint-driven: model the system, understand failure, and document what changed.</p></div></article>
-            <article class="timeline-card"><time>2021-2025</time><div><h3 data-lang-en="R&D coordination taught me delivery reality" data-lang-zh="研发协调让我理解真实交付">R&D coordination taught me delivery reality</h3><p data-lang-en="I worked across technical, supplier, design, and production stakeholders, where unclear requirements and missing records quickly become real delivery risk." data-lang-zh="我和技术、供应商、设计、生产团队协作，看到模糊需求和缺失记录如何迅速变成交付风险。">I worked across technical, supplier, design, and production stakeholders, where unclear requirements and missing records quickly become real delivery risk.</p></div></article>
-            <article class="timeline-card"><time>2023-2025</time><div><h3 data-lang-en="Robotics made the software layer unavoidable" data-lang-zh="机器人让我无法绕开软件层">Robotics made the software layer unavoidable</h3><p data-lang-en="ROS, Gazebo, RViz, Python, and C++ turned abstract autonomy ideas into runnable workflows that need setup, debugging, validation, and handoff." data-lang-zh="ROS、Gazebo、RViz、Python 与 C++ 把抽象的自主系统想法变成需要配置、调试、验证和交接的可运行流程。">ROS, Gazebo, RViz, Python, and C++ turned abstract autonomy ideas into runnable workflows that need setup, debugging, validation, and handoff.</p></div></article>
-            <article class="timeline-card"><time>2026-now</time><div><h3 data-lang-en="Computer Science is now the operating layer" data-lang-zh="计算机科学成为现在的工作层">Computer Science is now the operating layer</h3><p data-lang-en="At Universiti Malaya, my work connects robotics research, AI-assisted engineering, documentation, and practical software delivery." data-lang-zh="在马来亚大学，我把机器人研究、AI 辅助工程、技术文档与实际软件交付连接起来。">At Universiti Malaya, my work connects robotics research, AI-assisted engineering, documentation, and practical software delivery.</p></div></article>
-          </div>
-        </div>
-      </section>
+<section id="research" class="reveal narrative-section"><div class="section-head"><h2 data-lang-en="Research Interests." data-lang-zh="研究兴趣。" >Research Interests.</h2><p data-lang-en="Autonomous systems that can coordinate, adapt, and be tested." data-lang-zh="能够协同、适应环境，并接受实验检验的自主系统。" class="section-intro">Autonomous systems that can coordinate, adapt, and be tested.</p></div><div class="research-papers"><article class="research-paper"><span class="research-index" aria-hidden="true">01</span><div class="research-copy"><span data-lang-en="Research question · Distributed autonomy" data-lang-zh="研究问题 · 分布式自主" class="narrative-kicker">Research question · Distributed autonomy</span><h3 data-lang-en="EASY coordination" data-lang-zh="EASY 协同" >EASY coordination</h3><p data-lang-en="How can local decisions produce intelligent swarm behaviour?" data-lang-zh="局部决策如何形成智能集群行为？" class="research-question">How can local decisions produce intelligent swarm behaviour?</p><p data-lang-en="I am interested in how UAVs coordinate with limited communication and partial information. My research questions connect distributed decision-making, formation behaviour, and the constraints of local trajectory planning." data-lang-zh="我关注无人机如何在通信受限、信息不完整的条件下协同。研究问题涉及分布式决策、编队行为，以及局部轨迹规划的约束。" >I am interested in how UAVs coordinate with limited communication and partial information. My research questions connect distributed decision-making, formation behaviour, and the constraints of local trajectory planning.</p></div><figure><img src="assets/portfolio/thumbs/search_and_rescue-1024x576-1024.webp" alt="Search and rescue robotics scenario" loading="lazy" decoding="async" width="640" height="420"></figure></article><article class="research-paper"><span class="research-index" aria-hidden="true">02</span><div class="research-copy"><span data-lang-en="Method · Baselines and simulation" data-lang-zh="研究方法 · 基线与仿真" class="narrative-kicker">Method · Baselines and simulation</span><h3 data-lang-en="Hypothesis-driven ROS simulation" data-lang-zh="以假设驱动 ROS 仿真" >Hypothesis-driven ROS simulation</h3><p data-lang-en="From a research question to a repeatable experiment." data-lang-zh="从研究问题到可重复的实验。" class="research-question">From a research question to a repeatable experiment.</p><p data-lang-en="I use the open-source EGO-Planner implementation as a baseline for my UAV research. ROS, Gazebo, and RViz help me set up scenarios, inspect trajectories, and compare behaviour as I change the assumptions." data-lang-zh="我的无人机研究以开源 EGO-Planner 实现为基线。借助 ROS、Gazebo 与 RViz，我搭建场景、检查轨迹，并在改变假设后比较系统行为。" >I use the open-source EGO-Planner implementation as a baseline for my UAV research. ROS, Gazebo, and RViz help me set up scenarios, inspect trajectories, and compare behaviour as I change the assumptions.</p></div><figure><img src="assets/portfolio/thumbs/robotics-linux-debug-9114-1024.webp" alt="Robotics software and Linux debugging setup" loading="lazy" decoding="async" width="640" height="420"></figure></article><article class="research-paper"><span class="research-index" aria-hidden="true">03</span><div class="research-copy"><span data-lang-en="Evaluation · Constraints and failure analysis" data-lang-zh="评估 · 约束与失效分析" class="narrative-kicker">Evaluation · Constraints and failure analysis</span><h3 data-lang-en="Real-world constraints and iterative validation" data-lang-zh="真实约束与迭代验证" >Real-world constraints and iterative validation</h3><p data-lang-en="What survives the move from simulation to hardware?" data-lang-zh="从仿真走向硬件，哪些假设仍然成立？" class="research-question">What survives the move from simulation to hardware?</p><p data-lang-en="Sensing uncertainty, latency, compute limits, and hardware variation shape the questions I want to test. I use logs and repeatable checks to trace failures and decide what the next experiment should examine." data-lang-zh="感知不确定性、时延、算力限制与硬件差异，决定了我想要检验的问题。我通过日志和可重复的检查追踪失败，并据此确定下一轮实验的重点。" >Sensing uncertainty, latency, compute limits, and hardware variation shape the questions I want to test. I use logs and repeatable checks to trace failures and decide what the next experiment should examine.</p></div><figure><img src="assets/portfolio/thumbs/uav-field-test-9115-1024.webp" alt="UAV field testing equipment" loading="lazy" decoding="async" width="640" height="420"></figure></article></div></section>
 
-      <section id="research" class="reveal">
-        <div class="section-head">
-          <h2 data-lang-en="Research Interests." data-lang-zh="研究兴趣。">Research Interests.</h2>
-          <p class="section-intro" data-lang-en="Curiosity makes me a robotics system problem solver." data-lang-zh="好奇心让我成为机器人系统问题解决者。">Curiosity makes me a robotics system problem solver.</p>
-        </div>
-        <div class="research-layout">
-          <div class="research-steps">
-            <article class="research-step active" data-mode="constraints" data-visual-title-en="Problem framing" data-visual-title-zh="问题定义" data-metric-layer="01" data-metric-focus-en="Requirements" data-metric-focus-zh="需求" data-metric-output-en="Scope map" data-metric-output-zh="范围图" data-caption-en="Layer 01 defines users, constraints, data, and acceptance criteria before implementation." data-caption-zh="层级 01 在实现前定义用户、约束、数据与验收标准。" data-image="assets/portfolio/search_and_rescue-1024x576.jpg"><span data-lang-en="Layer 01" data-lang-zh="层级 01">Layer 01</span><h3 data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</h3><p data-lang-en="Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit." data-lang-zh="无论是无人机自主系统还是内部业务模块，我都会先明确需求、边界情况与审阅标准。">Whether the domain is UAV autonomy or an internal business module, I start by making requirements, edge cases, and review criteria explicit.</p></article>
-            <article class="research-step" data-mode="stack" data-visual-title-en="Software stack" data-visual-title-zh="软件技术栈" data-metric-layer="02" data-metric-focus-en="Implementation" data-metric-focus-zh="实现" data-metric-output-en="Working module" data-metric-output-zh="可用模块" data-caption-en="Layer 02 connects Python, C++, ROS, simulation tools, and documentation into a reviewable engineering stack." data-caption-zh="层级 02 将 Python、C++、ROS、仿真工具与文档连接为可审阅工程栈。" data-image="assets/portfolio/robotics-linux-debug-9114.jpg"><span data-lang-en="Layer 02" data-lang-zh="层级 02">Layer 02</span><h3 data-lang-en="Software stack" data-lang-zh="软件技术栈">Software stack</h3><p data-lang-en="My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces." data-lang-zh="我当前最强的技术栈是 Python、机器人工具链、Linux、Git、Markdown 文档，以及技术界面所需的前端基础。">My strongest current stack is Python with robotics tooling, Linux, Git, Markdown documentation, and front-end basics for technical interfaces.</p></article>
-            <article class="research-step" data-mode="validation" data-visual-title-en="Evidence path" data-visual-title-zh="证据路径" data-metric-layer="03" data-metric-focus-en="Validation" data-metric-focus-zh="验证" data-metric-output-en="Handoff" data-metric-output-zh="交接" data-caption-en="Layer 03 turns tests, logs, notes, and decisions into a traceable handoff for teammates." data-caption-zh="层级 03 将测试、日志、笔记与决策整理为团队可追踪交接材料。" data-image="assets/portfolio/uav-field-test-9115.jpg"><span data-lang-en="Layer 03" data-lang-zh="层级 03">Layer 03</span><h3 data-lang-en="Validation and handoff" data-lang-zh="验证与交接">Validation and handoff</h3><p data-lang-en="I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package." data-lang-zh="我把实现、测试记录、技术说明与后续风险作为同一个交付包处理。">I treat implementation, test notes, technical explanation, and follow-up risks as one delivery package.</p></article>
-          </div>
-          <aside class="sticky-visual" aria-label="Autonomous system visual">
-            <div class="visual-screen">
-              <div class="visual-topbar"><span data-visual-title data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</span><div class="visual-pills" aria-hidden="true"><span class="visual-pill"></span><span class="visual-pill"></span><span class="visual-pill"></span></div></div>
-              <figure class="system-panel" aria-label="Research layer visual"><img id="system-image" src="assets/portfolio/thumbs/search_and_rescue-1024x576-1024.webp" alt="Research layer visual" style="width:100%;height:100%;min-height:310px;object-fit:cover;display:block;" loading="lazy" decoding="async"></figure>
-              <div>
-                <div class="system-metrics">
-                  <div class="metric-card"><span data-lang-en="Layer" data-lang-zh="层级">Layer</span><b data-visual-layer>01</b></div>
-                  <div class="metric-card"><span data-lang-en="Focus" data-lang-zh="重点">Focus</span><b data-visual-focus data-lang-en="Requirements" data-lang-zh="需求">Requirements</b></div>
-                  <div class="metric-card"><span data-lang-en="Output" data-lang-zh="产出">Output</span><b data-visual-output data-lang-en="Scope map" data-lang-zh="范围图">Scope map</b></div>
-                </div>
-                <p class="system-caption" data-visual-caption data-lang-en="Layer 01 defines users, constraints, data, and acceptance criteria before implementation." data-lang-zh="层级 01 在实现前定义用户、约束、数据与验收标准。">Layer 01 defines users, constraints, data, and acceptance criteria before implementation.</p>
-              </div>
-            </div>
-          </aside>
-        </div>
-        <div class="phd-brief">
-          <span data-lang-en="PhD topic" data-lang-zh="博士研究">PhD topic</span>
-          <div>
-            <b data-lang-en="Computer Science research area" data-lang-zh="计算机科学研究方向">Computer Science research area</b>
-            <div class="tag-list" aria-label="Research keywords">
-              <span class="tag" data-lang-en="robotics software" data-lang-zh="机器人软件">robotics software</span>
-              <span class="tag" data-lang-en="UAV autonomy" data-lang-zh="无人机自主">UAV autonomy</span>
-              <span class="tag" data-lang-en="swarm robotics" data-lang-zh="群体机器人">swarm robotics</span>
-              <span class="tag" data-lang-en="distributed systems" data-lang-zh="分布式系统">distributed systems</span>
-              <span class="tag" data-lang-en="AI engineering" data-lang-zh="AI 工程">AI engineering</span>
-            </div>
-          </div>
-        </div>
-      </section>
+<section id="workflow" class="reveal narrative-section"><div class="section-head"><h2 data-lang-en="How I work with agents." data-lang-zh="我怎样使用 Agent。" >How I work with agents.</h2><p data-lang-en="I define the task. Agents help me build and investigate. The results guide the next decision." data-lang-zh="我定义任务，Agent 协助实现与排查，再由结果决定下一步。" class="section-intro">I define the task. Agents help me build and investigate. The results guide the next decision.</p></div><div class="agent-loop"><div class="loop-control"><span data-lang-en="HUMAN DIRECTION" data-lang-zh="人的判断" class="narrative-kicker">HUMAN DIRECTION</span><h3 data-lang-en="Intent → scope → acceptance" data-lang-zh="意图 → 范围 → 验收" >Intent → scope → acceptance</h3><p data-lang-en="I set the requirements, choose the trade-offs, and review the outcome." data-lang-zh="我主导需求、权衡取舍，并审阅最终结果。" >I set the requirements, choose the trade-offs, and review the outcome.</p></div><div class="loop-stages"><details class="loop-stage" open><summary><span class="loop-number">01</span><span data-lang-en="Frame the work" data-lang-zh="定义工作" class="loop-title">Frame the work</span><span class="loop-toggle" aria-hidden="true">−</span></summary><p data-lang-en="A task an agent can act on." data-lang-zh="把任务写到可以执行。" class="loop-lead">A task an agent can act on.</p><p data-lang-en="I provide the relevant files, constraints, expected behaviour, and a clear stopping point. Independent tasks can run in parallel; shared decisions stay connected." data-lang-zh="我提供相关文件、约束、预期行为和完成条件。独立任务可以并行，共享决策则保持同步。" >I provide the relevant files, constraints, expected behaviour, and a clear stopping point. Independent tasks can run in parallel; shared decisions stay connected.</p><div data-lang-en="Requirements → task brief" data-lang-zh="需求 → 任务说明" class="loop-artifact">Requirements → task brief</div></details><details class="loop-stage" open><summary><span class="loop-number">02</span><span data-lang-en="Build &amp; investigate" data-lang-zh="实现与排查" class="loop-title">Build &amp; investigate</span><span class="loop-toggle" aria-hidden="true">−</span></summary><p data-lang-en="Code, experiments, and a record of changes." data-lang-zh="代码、实验，以及修改记录。" class="loop-lead">Code, experiments, and a record of changes.</p><p data-lang-en="I use coding agents to implement changes, inspect failures, and draft technical notes. Git keeps the changes inspectable so I can review what was actually produced." data-lang-zh="我使用编程 Agent 实现改动、检查失败并草拟技术说明。通过 Git 保留可检查的变更，便于审阅实际产出。" >I use coding agents to implement changes, inspect failures, and draft technical notes. Git keeps the changes inspectable so I can review what was actually produced.</p><div data-lang-en="Task brief → working change" data-lang-zh="任务说明 → 可运行改动" class="loop-artifact">Task brief → working change</div></details><details class="loop-stage" open><summary><span class="loop-number">03</span><span data-lang-en="Test &amp; decide" data-lang-zh="检验与判断" class="loop-title">Test &amp; decide</span><span class="loop-toggle" aria-hidden="true">−</span></summary><p data-lang-en="The next step comes from the result." data-lang-zh="根据结果决定下一步。" class="loop-lead">The next step comes from the result.</p><p data-lang-en="I check the behaviour against the original task, read the test output, and look at the interface or experiment. Findings return to the task brief; an accepted result gets documented for reuse." data-lang-zh="我对照原始任务检查行为、阅读测试输出，并查看界面或实验结果。发现的问题回到任务说明中，验收后的结果则整理为可复用文档。" >I check the behaviour against the original task, read the test output, and look at the interface or experiment. Findings return to the task brief; an accepted result gets documented for reuse.</p><div data-lang-en="Evidence → revision or delivery" data-lang-zh="证据 → 修订或交付" class="loop-artifact">Evidence → revision or delivery</div></details></div><div class="loop-return"><svg viewBox="0 0 1000 54" preserveAspectRatio="none" aria-hidden="true"><path d="M 850 0 V 25 Q 850 40 830 40 H 170 Q 150 40 150 25 V 8"/><path d="M 143 16 L 150 7 L 157 16"/></svg><span data-lang-en="Feedback updates the next task" data-lang-zh="反馈进入下一轮任务" >Feedback updates the next task</span></div><div class="loop-output"><span data-lang-en="KEPT WITH THE WORK" data-lang-zh="随项目保留" class="narrative-kicker">KEPT WITH THE WORK</span><p data-lang-en="Versioned code · Test results · Decisions · Handoff notes" data-lang-zh="版本代码 · 测试结果 · 决策记录 · 交接说明" >Versioned code · Test results · Decisions · Handoff notes</p></div></div></section>
 
-      <section id="workflow" class="reveal">
-        <div class="section-head">
-          <h2 data-lang-en="Workflow, in my style." data-lang-zh="我的工作流风格。">Workflow, in my style.</h2>
-          <p class="section-intro" data-lang-en="Real project based challenges need real working flows." data-lang-zh="真实项目里的挑战，需要真实可运转的工作流。">Real project based challenges need real working flows.</p>
-        </div>
-        <div class="method-rail" aria-hidden="true"><div class="method-line"></div></div>
-        <div class="workflow-flow" aria-label="Engineering workflow">
-          <article class="workflow-step"><span>01</span><h3 data-lang-en="Requirement" data-lang-zh="需求">Requirement</h3><p data-lang-en="Clarify the real user problem, input data, constraints, and acceptance criteria." data-lang-zh="澄清真实用户问题、输入数据、约束和验收标准。">Clarify the real user problem, input data, constraints, and acceptance criteria.</p></article>
-          <article class="workflow-step"><span>02</span><h3 data-lang-en="Task Planning" data-lang-zh="任务规划">Task Planning</h3><p data-lang-en="Break the work into reviewable steps, risks, and checkpoints." data-lang-zh="把工作拆成可审阅步骤、风险和检查点。">Break the work into reviewable steps, risks, and checkpoints.</p></article>
-          <article class="workflow-step"><span>03</span><h3 data-lang-en="AI-assisted Development" data-lang-zh="AI 辅助开发">AI-assisted Development</h3><p data-lang-en="Use AI tools to accelerate coding, review, explanation, and documentation." data-lang-zh="用 AI 工具加速编码、审阅、解释和文档。">Use AI tools to accelerate coding, review, explanation, and documentation.</p></article>
-          <article class="workflow-step"><span>04</span><h3 data-lang-en="Validation" data-lang-zh="验证">Validation</h3><p data-lang-en="Check behavior, logs, edge cases, runtime output, and visual quality." data-lang-zh="检查行为、日志、边界情况、运行输出和视觉质量。">Check behavior, logs, edge cases, runtime output, and visual quality.</p></article>
-          <article class="workflow-step"><span>05</span><h3 data-lang-en="Documentation" data-lang-zh="文档">Documentation</h3><p data-lang-en="Write what changed, why it changed, and how someone else can continue." data-lang-zh="记录改了什么、为什么改，以及别人如何接手。">Write what changed, why it changed, and how someone else can continue.</p></article>
-          <article class="workflow-step"><span>06</span><h3 data-lang-en="Delivery" data-lang-zh="交付">Delivery</h3><p data-lang-en="Package the result as a usable artifact, not just a progress claim." data-lang-zh="把结果整理成可用产物，而不是一句进展说明。">Package the result as a usable artifact, not just a progress claim.</p></article>
-        </div>
-        <p class="workflow-statement" data-lang-en="I focus not only on writing code, but also on making engineering work reproducible, reviewable, and maintainable." data-lang-zh="我关注的不只是写代码，也包括让工程工作可复现、可审阅、可维护。">I focus not only on writing code, but also on making engineering work reproducible, reviewable, and maintainable.</p>
-      </section>
+<section id="notes" class="reveal project-surface">
+ <div class="section-head"><h2 data-lang-en="Technical Notes." data-lang-zh="技术笔记。">Technical Notes.</h2><p class="section-intro" data-lang-en="Another way into the projects: through a setup, a design choice, or an observation from the work." data-lang-zh="从环境搭建、设计取舍和实践观察出发，读一读这些项目。">Another way into the projects: through a setup, a design choice, or an observation from the work.</p></div>
+ <div class="project-note-list" data-project-notes></div>
+ <div class="project-footer"><span data-lang-en="Notes from the project collection" data-lang-zh="来自项目案例中的实践记录">Notes from the project collection</span><a href="projects.html" data-lang-en="Browse the collection ↗" data-lang-zh="浏览全部案例 ↗">Browse the collection ↗</a></div>
+</section>
 
-      <section id="notes" class="reveal">
-        <div class="section-head">
-          <h2 data-lang-en="Technical Notes." data-lang-zh="技术笔记。">Technical Notes.</h2>
-          <p class="section-intro" data-lang-en="This will be the blog layer, but not a diary. The point is to show how I organize technical work, debug systems, and write reusable notes." data-lang-zh="这里会是 blog 层，但不是日记。重点是展示我如何组织技术工作、调试系统，并写出可复用笔记。">This will be the blog layer, but not a diary. The point is to show how I organize technical work, debug systems, and write reusable notes.</p>
-        </div>
-        <div class="notes-grid" aria-label="Technical note topics">
-          <article class="note-card">
-            <div>
-              <h3 data-lang-en="How I organize AI-assisted development" data-lang-zh="我如何组织 AI 辅助开发">How I organize AI-assisted development</h3>
-              <p data-lang-en="Prompt structure, task planning, human review, source control, and handoff notes." data-lang-zh="提示词结构、任务规划、人工审阅、版本控制和交接记录。">Prompt structure, task planning, human review, source control, and handoff notes.</p>
-            </div>
-            <div class="note-meta"><span>Planned</span><span>Workflow</span></div>
-          </article>
-          <article class="note-card">
-            <div>
-              <h3 data-lang-en="ROS setup and simulation notes" data-lang-zh="ROS 配置与仿真笔记">ROS setup and simulation notes</h3>
-              <p data-lang-en="Practical notes for ROS Noetic, Gazebo, RViz, environment setup, and reproducible simulation work." data-lang-zh="关于 ROS Noetic、Gazebo、RViz、环境配置和可复现仿真的实践笔记。">Practical notes for ROS Noetic, Gazebo, RViz, environment setup, and reproducible simulation work.</p>
-            </div>
-            <div class="note-meta"><span>Planned</span><span>Robotics</span></div>
-          </article>
-          <article class="note-card">
-            <div>
-              <h3 data-lang-en="A simple Git workflow for solo projects" data-lang-zh="个人项目的简单 Git 工作流">A simple Git workflow for solo projects</h3>
-              <p data-lang-en="Branching, commit hygiene, review checkpoints, and how to avoid losing useful work." data-lang-zh="分支、提交习惯、审阅检查点，以及如何避免丢失有价值的工作。">Branching, commit hygiene, review checkpoints, and how to avoid losing useful work.</p>
-            </div>
-            <div class="note-meta"><span>Planned</span><span>Git</span></div>
-          </article>
-          <article class="note-card">
-            <div>
-              <h3 data-lang-en="Building documentation people can reuse" data-lang-zh="写别人能复用的文档">Building documentation people can reuse</h3>
-              <p data-lang-en="Requirement notes, implementation summaries, decision logs, known limitations, and next steps." data-lang-zh="需求记录、实现摘要、决策日志、已知限制和下一步。">Requirement notes, implementation summaries, decision logs, known limitations, and next steps.</p>
-            </div>
-            <div class="note-meta"><span>Planned</span><span>Docs</span></div>
-          </article>
-        </div>
-      </section>
 
       <section id="visual-journal" class="reveal">
         <div class="taste-layout">
           <aside class="taste-copy">
             <div>
               <div class="section-head">
-                <h2 data-lang-en="Taste my taste." data-lang-zh="共同品味。">Taste my taste.</h2>
-                <p class="section-intro" data-lang-en="Repeating does not mean boring. Go and find beauty around us." data-lang-zh="重复不等于无聊。去发现我们身边的美。">Repeating does not mean boring. Go and find beauty around us.</p>
+                <h2 data-lang-en="What catches my eye." data-lang-zh="镜头里的日常。">What catches my eye.</h2>
+                <p class="section-intro" data-lang-en="Light, places, and small details." data-lang-zh="光影、地方与日常细节。">Light, places, and small details.</p>
               </div>
             </div>
-            <p class="taste-note" data-lang-en="This section uses daily captures, travel fragments, street details, and repeated environments that reflect how I see and compose." data-lang-zh="这个区块使用日常捕捉、旅途片段、街头细节和重复环境，呈现我如何观看与构图。">This section uses daily captures, travel fragments, street details, and repeated environments that reflect how I see and compose.</p>
+            <p class="taste-note" data-lang-en="A few photographs from everyday walks and journeys: light, architecture, landscapes, and people sharing a place." data-lang-zh="日常散步与旅途中拍下的一些光影、建筑、风景，以及同处一地的人们。">A few photographs from everyday walks and journeys: light, architecture, landscapes, and people sharing a place.</p>
           </aside>
 
           <div class="taste-workbench">
             <div class="taste-panel active" data-taste-panel="parallax" role="tabpanel">
               <div class="parallax-gallery" aria-label="Personal taste photo stream">
                 <div class="parallax-col">
-                  <figure class="parallax-shot wide"><img src="assets/taste/web/44.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot tall"><img src="assets/taste/web/IMG_8956.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/IMG_0370.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot square"><img src="assets/taste/web/L1170198.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot panorama"><img src="assets/taste/web/IMG_5529.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/IMG_8351.jpg" alt="" loading="lazy" decoding="async"></figure>
+                  <figure class="parallax-shot wide"><a href="assets/taste/web/44.jpg" target="_blank" rel="noopener" aria-label="Open photograph 01"><img src="assets/taste/thumbs/44.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot tall"><a href="assets/taste/web/IMG_8956.jpg" target="_blank" rel="noopener" aria-label="Open photograph 02"><img src="assets/taste/thumbs/IMG_8956.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/IMG_0370.jpg" target="_blank" rel="noopener" aria-label="Open photograph 03"><img src="assets/taste/thumbs/IMG_0370.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot square"><a href="assets/taste/web/L1170198.jpg" target="_blank" rel="noopener" aria-label="Open photograph 04"><img src="assets/taste/thumbs/L1170198.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot panorama"><a href="assets/taste/web/IMG_5529.jpg" target="_blank" rel="noopener" aria-label="Open photograph 05"><img src="assets/taste/thumbs/IMG_5529.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/IMG_8351.jpg" target="_blank" rel="noopener" aria-label="Open photograph 06"><img src="assets/taste/thumbs/IMG_8351.webp" alt="" loading="lazy" decoding="async"></a></figure>
                 </div>
                 <div class="parallax-col">
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/IMG_1045.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot wide"><img src="assets/taste/web/IMG_2140.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot square"><img src="assets/taste/web/IMG_8364.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot tall"><img src="assets/taste/web/L1170627.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot panorama"><img src="assets/taste/web/IMG_1662.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/L1170694.jpg" alt="" loading="lazy" decoding="async"></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/IMG_1045.jpg" target="_blank" rel="noopener" aria-label="Open photograph 07"><img src="assets/taste/thumbs/IMG_1045.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot wide"><a href="assets/taste/web/IMG_2140.jpg" target="_blank" rel="noopener" aria-label="Open photograph 08"><img src="assets/taste/thumbs/IMG_2140.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot square"><a href="assets/taste/web/IMG_8364.jpg" target="_blank" rel="noopener" aria-label="Open photograph 09"><img src="assets/taste/thumbs/IMG_8364.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot tall"><a href="assets/taste/web/L1170627.jpg" target="_blank" rel="noopener" aria-label="Open photograph 10"><img src="assets/taste/thumbs/L1170627.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot panorama"><a href="assets/taste/web/IMG_1662.jpg" target="_blank" rel="noopener" aria-label="Open photograph 11"><img src="assets/taste/thumbs/IMG_1662.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/L1170694.jpg" target="_blank" rel="noopener" aria-label="Open photograph 12"><img src="assets/taste/thumbs/L1170694.webp" alt="" loading="lazy" decoding="async"></a></figure>
                 </div>
                 <div class="parallax-col">
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/IMG_7948.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot tall"><img src="assets/taste/web/IMG_8897.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot wide"><img src="assets/taste/web/IMG_0884.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot square"><img src="assets/taste/web/L1170381.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/IMG_4202.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot panorama"><img src="assets/taste/web/IMG_6081.jpg" alt="" loading="lazy" decoding="async"></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/IMG_7948.jpg" target="_blank" rel="noopener" aria-label="Open photograph 13"><img src="assets/taste/thumbs/IMG_7948.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot tall"><a href="assets/taste/web/IMG_8897.jpg" target="_blank" rel="noopener" aria-label="Open photograph 14"><img src="assets/taste/thumbs/IMG_8897.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot wide"><a href="assets/taste/web/IMG_0884.jpg" target="_blank" rel="noopener" aria-label="Open photograph 15"><img src="assets/taste/thumbs/IMG_0884.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot square"><a href="assets/taste/web/L1170381.jpg" target="_blank" rel="noopener" aria-label="Open photograph 16"><img src="assets/taste/thumbs/L1170381.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/IMG_4202.jpg" target="_blank" rel="noopener" aria-label="Open photograph 17"><img src="assets/taste/thumbs/IMG_4202.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot panorama"><a href="assets/taste/web/IMG_6081.jpg" target="_blank" rel="noopener" aria-label="Open photograph 18"><img src="assets/taste/thumbs/IMG_6081.webp" alt="" loading="lazy" decoding="async"></a></figure>
                 </div>
                 <div class="parallax-col">
-                  <figure class="parallax-shot tall"><img src="assets/taste/web/IMG_1387.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/IMG_2269.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot square"><img src="assets/taste/web/IMG_7874.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot wide"><img src="assets/taste/web/IMG_8855.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot portrait"><img src="assets/taste/web/IMG_8967.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot panorama"><img src="assets/taste/web/L1170620.jpg" alt="" loading="lazy" decoding="async"></figure>
-                  <figure class="parallax-shot square"><img src="assets/taste/web/f394cd226hb6655f58835182ddb167bf.jpg" alt="" loading="lazy" decoding="async"></figure>
+                  <figure class="parallax-shot tall"><a href="assets/taste/web/IMG_1387.jpg" target="_blank" rel="noopener" aria-label="Open photograph 19"><img src="assets/taste/thumbs/IMG_1387.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/IMG_2269.jpg" target="_blank" rel="noopener" aria-label="Open photograph 20"><img src="assets/taste/thumbs/IMG_2269.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot square"><a href="assets/taste/web/IMG_7874.jpg" target="_blank" rel="noopener" aria-label="Open photograph 21"><img src="assets/taste/thumbs/IMG_7874.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot wide"><a href="assets/taste/web/IMG_8855.jpg" target="_blank" rel="noopener" aria-label="Open photograph 22"><img src="assets/taste/thumbs/IMG_8855.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot portrait"><a href="assets/taste/web/IMG_8967.jpg" target="_blank" rel="noopener" aria-label="Open photograph 23"><img src="assets/taste/thumbs/IMG_8967.webp" alt="" loading="lazy" decoding="async"></a></figure>
+                  <figure class="parallax-shot panorama"><a href="assets/taste/web/L1170620.jpg" target="_blank" rel="noopener" aria-label="Open photograph 24"><img src="assets/taste/thumbs/L1170620.webp" alt="" loading="lazy" decoding="async"></a></figure>
+
                 </div>
               </div>
             </div>
@@ -1206,8 +993,8 @@
         <div class="contact-panel">
           <div class="contact-main">
             <div>
-              <h2 data-lang-en="Get connected with me." data-lang-zh="和我取得联系。">Get connected with me.</h2>
-              <p data-lang-en="Best-fit conversations: business software, Python development, internal tools, AI-assisted engineering workflows, robotics software, and documentation-heavy delivery." data-lang-zh="最适合交流的方向：业务软件、Python 开发、内部工具、AI 辅助工程工作流、机器人软件与重文档交付。">Best-fit conversations: business software, Python development, internal tools, AI-assisted engineering workflows, robotics software, and documentation-heavy delivery.</p>
+              <h2 data-lang-en="Get in touch." data-lang-zh="联系我。">Get in touch.</h2>
+              <p data-lang-en="I welcome conversations about robotics, software tools, and research. If you have a project in mind, I would be glad to hear about it." data-lang-zh="欢迎交流机器人、软件工具与研究项目。如果你有想推进的事情，可以联系我。">I welcome conversations about robotics, software tools, and research. If you have a project in mind, I would be glad to hear about it.</p>
             </div>
             <div class="contact-actions">
               <a class="button primary" href="mailto:Johnny8426@outlook.com" data-lang-en="Email me" data-lang-zh="发邮件">Email me</a>
@@ -1233,30 +1020,20 @@
     <div class="footer-inner">
       <a class="footer-logo" href="#top" aria-label="Back to top">JC</a>
       <nav class="footer-links" aria-label="Footer navigation">
-            <a href="#systems" data-lang-en="Project" data-lang-zh="项目">Project</a>
-            <a href="#about" data-lang-en="Abstract" data-lang-zh="摘要">Abstract</a>
+            <a href="#systems" data-lang-en="Projects" data-lang-zh="项目">Projects</a>
+            <a href="#about" data-lang-en="Journey" data-lang-zh="经历">Journey</a>
             <a href="#research" data-lang-en="Research" data-lang-zh="研究">Research</a>
             <a href="#workflow" data-lang-en="Workflow" data-lang-zh="工作流">Workflow</a>
             <a href="#notes" data-lang-en="Notes" data-lang-zh="笔记">Notes</a>
             <a href="#visual-journal" data-lang-en="Taste" data-lang-zh="品味">Taste</a>
             <a href="#contact" data-lang-en="Contact" data-lang-zh="联系">Contact</a>
       </nav>
-      <div class="social-links" aria-label="Social links">
-        <a class="social-link" href="#" aria-label="Xiaohongshu">
-          <img src="https://cdn.simpleicons.org/xiaohongshu/171913" alt="" loading="lazy" decoding="async">
-        </a>
-        <a class="social-link" href="#" aria-label="Instagram">
-          <img src="https://cdn.simpleicons.org/instagram/171913" alt="" loading="lazy" decoding="async">
-        </a>
-        <a class="social-link" href="#" aria-label="LinkedIn">
-          <span class="social-glyph" aria-hidden="true">in</span>
-        </a>
-      </div>
-      <div class="footer-note">© <span data-year></span> Johnny Chan. <span data-lang-en="Engineering portfolio for software, AI workflow, and robotics." data-lang-zh="面向软件、AI 工作流与机器人的工程作品集。">Engineering portfolio for software, AI workflow, and robotics.</span></div>
+      <div class="social-links" aria-label="Contact links"><a href="https://github.com/JC8426">GitHub ↗</a><a href="mailto:Johnny8426@outlook.com">Email ↗</a></div>
+      <div class="footer-note">© <span data-year></span> Johnny Chan. <span data-lang-en="Projects and research notes by Johnny Chan." data-lang-zh="陈哲的项目与研究笔记。">Projects and research notes by Johnny Chan.</span></div>
     </div>
   </footer>
 
-  <script type="module" src="assets/hero-3d/scene.js"></script>
+  <script type="module" src="assets/hero-3d/scene.js?v=7"></script>
   <script>
     (function () {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1266,8 +1043,10 @@
       const year = document.querySelector('[data-year]');
       const toTop = document.querySelector('[data-to-top]');
       const nav = document.querySelector('.nav');
-      const saved = localStorage.getItem('jc-theme');
-      const savedLang = localStorage.getItem('jc-lang') || 'en';
+      const storageGet = key => { try { return localStorage.getItem(key); } catch { return null; } };
+      const storageSet = (key,value) => { try { localStorage.setItem(key,value); } catch {} };
+      const saved = storageGet('jc-theme');
+      const savedLang = storageGet('jc-lang') === 'zh' ? 'zh' : 'en';
 
       function applyTheme(mode) {
         root.classList.remove('force-light', 'force-dark');
@@ -1286,13 +1065,13 @@
         return 'auto';
       }
 
-      let mode = saved || 'auto';
+      let mode = ['auto','light','dark'].includes(saved) ? saved : 'auto';
       applyTheme(mode);
       if (year) year.textContent = new Date().getFullYear();
       if (toggle) {
         toggle.addEventListener('click', function () {
           mode = nextTheme(mode);
-          localStorage.setItem('jc-theme', mode);
+          storageSet('jc-theme', mode);
           applyTheme(mode);
         });
       }
@@ -1310,11 +1089,12 @@
       }
 
       let lang = savedLang;
+      window.addEventListener('pageshow', event => { if(event.persisted){mode=storageGet('jc-theme')||'auto';if(!['auto','light','dark'].includes(mode))mode='auto';lang=storageGet('jc-lang')==='zh'?'zh':'en';applyTheme(mode);applyLanguage(lang);} });
       applyLanguage(lang);
       if (langToggle) {
         langToggle.addEventListener('click', function () {
           lang = lang === 'zh' ? 'en' : 'zh';
-          localStorage.setItem('jc-lang', lang);
+          storageSet('jc-lang', lang);
           applyLanguage(lang);
         });
       }
@@ -1380,78 +1160,9 @@
         });
       }
 
-      let sketchMode = 'constraints';
-      const researchSteps = Array.from(document.querySelectorAll('.research-step'));
-      function localizedFrom(node, key) {
-        if (!node) return '';
-        return node.getAttribute(key + '-' + lang) || node.getAttribute(key + '-en') || '';
-      }
-      function syncResearchVisual(step) {
-        if (!step) return;
-        sketchMode = step.getAttribute('data-mode') || 'constraints';
-        researchSteps.forEach(function (item) { item.classList.toggle('active', item === step); });
-        const title = document.querySelector('[data-visual-title]');
-        const layer = document.querySelector('[data-visual-layer]');
-        const focus = document.querySelector('[data-visual-focus]');
-        const output = document.querySelector('[data-visual-output]');
-        const caption = document.querySelector('[data-visual-caption]');
-        if (title) {
-          title.textContent = localizedFrom(step, 'data-visual-title');
-          title.setAttribute('data-lang-en', step.getAttribute('data-visual-title-en') || '');
-          title.setAttribute('data-lang-zh', step.getAttribute('data-visual-title-zh') || '');
-        }
-        if (layer) layer.textContent = step.getAttribute('data-metric-layer') || '01';
-        if (focus) {
-          focus.textContent = localizedFrom(step, 'data-metric-focus');
-          focus.setAttribute('data-lang-en', step.getAttribute('data-metric-focus-en') || '');
-          focus.setAttribute('data-lang-zh', step.getAttribute('data-metric-focus-zh') || '');
-        }
-        if (output) {
-          output.textContent = localizedFrom(step, 'data-metric-output');
-          output.setAttribute('data-lang-en', step.getAttribute('data-metric-output-en') || '');
-          output.setAttribute('data-lang-zh', step.getAttribute('data-metric-output-zh') || '');
-        }
-        if (caption) {
-          caption.textContent = localizedFrom(step, 'data-caption');
-          caption.setAttribute('data-lang-en', step.getAttribute('data-caption-en') || '');
-          caption.setAttribute('data-lang-zh', step.getAttribute('data-caption-zh') || '');
-        }
-        const sysImg = document.getElementById('system-image');
-        const imgSrc = step.getAttribute('data-image');
-        if (sysImg && imgSrc && sysImg.getAttribute('src') !== imgSrc) {
-          sysImg.setAttribute('src', imgSrc);
-        }
-        document.dispatchEvent(new CustomEvent('jc-research-mode-changed'));
-      }
-
-      document.addEventListener('jc-language-changed', function () {
-        syncResearchVisual(document.querySelector('.research-step.active') || researchSteps[0]);
-      });
-      syncResearchVisual(researchSteps[0]);
-      if (researchSteps.length && 'IntersectionObserver' in window) {
-        const researchObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) syncResearchVisual(entry.target);
-          });
-        }, { threshold: 0.55, rootMargin: '-12% 0px -35% 0px' });
-        researchSteps.forEach(function (step) { researchObserver.observe(step); });
-      }
-
-      const line = document.querySelector('.method-line');
-      const rail = document.querySelector('.method-rail');
-      if (!reduce && line && rail && 'IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries, obs) {
-          if (entries[0].isIntersecting) {
-            line.classList.add('drawn');
-            obs.disconnect();
-          }
-        }, { threshold: 0.4 }).observe(rail);
-      }
-
-      (function () {
-        /* system-sketch canvas replaced by data-image on research-step — see syncResearchVisual */
-      })();
     })();
   </script>
+<script type="module" src="assets/project-loop.js"></script>
+<script defer src="assets/narrative.js"></script>
 </body>
 </html>

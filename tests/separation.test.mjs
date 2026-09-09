@@ -4,7 +4,7 @@ import { constrainSeparation } from '../assets/hero-3d/separation.mjs';
 const p = (x, z = 0, y = 5) => ({ x, y, z });
 const near = (a,b,eps=1e-6) => assert.ok(Math.abs(a-b)<eps, `${a} != ${b}`);
 
-test('rigid fleet translation passes unchanged without input mutation', () => {
+test('rigid swarm translation passes unchanged without input mutation', () => {
  const before=[p(-5),p(0),p(5)], after=before.map(q=>({...q,x:q.x+0.6,z:2}));
  const saved=JSON.stringify([before,after]);
  const r=constrainSeparation(before,after);

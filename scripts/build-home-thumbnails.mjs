@@ -3,7 +3,7 @@
 import sharp from 'sharp';
 import {mkdirSync,writeFileSync,readFileSync} from 'node:fs';
 import {basename} from 'node:path';
-const originals=['assets/data-analysis/archive-composition.png','assets/portfolio/uav-simulation-rviz-gazebo-9117.jpg','assets/rcap-2026/team-and-robots.jpg','assets/portfolio/lab-coordinate-room-1129.jpg','assets/portfolio/agenthub-product-render.png','assets/portfolio/personal-dashboard.png','assets/portfolio/volary-main.png','assets/portfolio/ai-agriculture.webp','assets/portfolio/search_and_rescue-1024x576.jpg'];
+const originals=['assets/data-analysis/archive-composition.png','assets/portfolio/uav-simulation-rviz-gazebo-9117.jpg','assets/rcap-2026/team-and-robots.jpg','assets/portfolio/lab-coordinate-room-1129.jpg','assets/portfolio/agenthub-product-render.png','assets/portfolio/personal-dashboard.png','assets/portfolio/volary-main.png','assets/portfolio/ai-agriculture.webp','assets/portfolio/search_and_rescue-1024x576.jpg','assets/portfolio/robotics-linux-debug-9114.jpg','assets/portfolio/uav-field-test-9115.jpg'];
 mkdirSync('assets/portfolio/thumbs',{recursive:true});const manifest=[];let html=readFileSync('index.html','utf8');
 for(const original of originals){
  const output=`assets/portfolio/thumbs/${basename(original).replace(/\.[^.]+$/,'')}-1024.webp`;

@@ -1,4 +1,4 @@
-/* Fleet prototype. Cinematic canvas, restrained controls, scoped to the hero. */
+/* Swarm prototype. Cinematic canvas, restrained controls, scoped to the hero. */
 .hero #drone-scene{position:absolute;inset:0;z-index:0;outline:none;pointer-events:none}
 #drone-scene canvas{display:block;width:100%;height:100%}
 .hero.exploring #drone-scene{pointer-events:auto}
@@ -16,16 +16,16 @@
 .hero .flight-telemetry{position:absolute;z-index:4;right:34px;top:24%;width:174px;color:#e9ecdf;font:10px/1.6 ui-monospace,monospace;text-shadow:0 1px 9px #000;pointer-events:none}
 .telemetry-caption{font-size:8px;letter-spacing:.14em;opacity:.65}.flight-telemetry strong{display:block;font-size:20px;font-weight:400;letter-spacing:.14em;margin:10px 0}
 .flight-telemetry dl{margin:12px 0}.flight-telemetry dl div{display:flex;justify-content:space-between;border-bottom:1px solid #ffffff18;padding:8px 0;gap:10px}.flight-telemetry dt{opacity:.65}.flight-telemetry dd{margin:0;font-variant-numeric:tabular-nums}.flight-telemetry>[data-flight-state]{color:#bdcda2}
-.hero .fleet-dock{position:absolute;z-index:6;bottom:35px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 16px;max-width:calc(100% - 32px);border:1px solid #ffffff20;border-radius:12px;background:#0c1116c9;backdrop-filter:blur(20px);color:#f0f1e8;box-shadow:0 14px 40px #0004}
-.fleet-dock>div{display:flex;gap:2px;white-space:nowrap}.fleet-dock>div+div{border-left:1px solid #ffffff25;padding-left:12px}.fleet-dock button{border:0;color:#cbd1c8;background:transparent;font:10px/1.4 ui-monospace,monospace;padding:9px 10px;border-radius:5px;cursor:pointer}.fleet-dock button:hover{background:#ffffff13}.fleet-dock button[aria-pressed=true]{background:#bed0a0;color:#18221e}
-.fleet-dock button:focus-visible,.scene-toolbar button:focus-visible,.pilot-pad button:focus-visible{outline:2px solid #d3e9b3;outline-offset:3px}
+.hero .swarm-dock{position:absolute;z-index:6;bottom:35px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 16px;max-width:calc(100% - 32px);border:1px solid #ffffff20;border-radius:12px;background:#0c1116c9;backdrop-filter:blur(20px);color:#f0f1e8;box-shadow:0 14px 40px #0004}
+.swarm-dock>div{display:flex;gap:2px;white-space:nowrap}.swarm-dock>div+div{border-left:1px solid #ffffff25;padding-left:12px}.swarm-dock button{border:0;color:#cbd1c8;background:transparent;font:10px/1.4 ui-monospace,monospace;padding:9px 10px;border-radius:5px;cursor:pointer}.swarm-dock button:hover{background:#ffffff13}.swarm-dock button[aria-pressed=true]{background:#bed0a0;color:#18221e}
+.swarm-dock button:focus-visible,.scene-toolbar button:focus-visible,.pilot-pad button:focus-visible{outline:2px solid #d3e9b3;outline-offset:3px}
 .speed-control{display:grid;grid-template-columns:1fr auto;min-width:115px;gap:5px 12px;font:9px ui-monospace,monospace}.speed-control span{color:#acb4a8}.speed-control input{grid-column:1/-1;grid-row:2;width:115px;height:12px;accent-color:#bdcda2}.speed-control output{font-variant-numeric:tabular-nums}
 .hero .scene-help{position:absolute;bottom:112px;left:50%;transform:translateX(-50%);z-index:5;color:#e4e9df;max-width:80%;margin:0;padding:8px 13px;border-radius:6px;background:#0b1217b3;font:10px/1.5 ui-monospace,monospace;text-align:center;opacity:0;pointer-events:none}
 .hero.exploring .scene-help{opacity:1}.hero.exploring #drone-scene canvas{cursor:grab}.hero.exploring #drone-scene canvas:active{cursor:grabbing}
 .pilot-pad{display:none;position:absolute;z-index:7;left:24px;bottom:156px;gap:5px;grid-template-columns:repeat(4,36px)}.hero.piloting .pilot-pad{display:grid}.pilot-pad button{border:1px solid #fff3;color:#edf2e8;background:#0c151bcc;border-radius:7px;width:36px;height:36px;cursor:pointer;touch-action:none;font:16px sans-serif}.pilot-pad button:active{background:#697c51}
-.hero:not(.has-3d) .fleet-dock,.hero:not(.has-3d) .flight-telemetry{display:none}
-@media(max-width:900px){.hero .fleet-dock{flex-wrap:wrap;width:600px;gap:6px}.speed-control{min-width:110px}.hero .scene-help{bottom:143px}.hero:is(.has-3d,.scene-loading) .hero-content{width:230px}.hero:is(.has-3d,.scene-loading) .hero-content h1{font-size:35px}}
-@media(max-width:600px){.hero .scene-toolbar{left:18px;right:18px;top:88px}.scene-toolbar>span{font-size:8px;letter-spacing:.1em}.scene-toolbar>button{padding:8px 10px;font-size:9px}.hero:is(.has-3d,.scene-loading) .hero-content{left:18px;top:22%;width:180px}.hero:is(.has-3d,.scene-loading) .hero-content h1{font-size:30px}.hero:is(.has-3d,.scene-loading) .hero-lead{font-size:10px;max-width:158px}.hero .flight-telemetry{right:18px;top:22%;width:115px;font-size:9px}.telemetry-caption{font-size:7px}.hero .fleet-dock{bottom:16px;width:calc(100% - 24px);max-width:unset;padding:9px 8px;gap:6px}.fleet-dock button{font-size:9px;padding:8px}.fleet-dock>div+div{padding-left:5px}.fleet-dock .pilot-controls{border-left:0}.speed-control{min-width:100px;font-size:8px}.speed-control input{width:100px}.hero .scene-help{bottom:151px;font-size:9px;max-width:94%;width:330px}.pilot-pad{left:16px;bottom:218px;grid-template-columns:repeat(4,32px)}.pilot-pad button{width:32px;height:32px}}
+.hero:not(.has-3d) .swarm-dock,.hero:not(.has-3d) .flight-telemetry{display:none}
+@media(max-width:900px){.hero .swarm-dock{flex-wrap:wrap;width:600px;gap:6px}.speed-control{min-width:110px}.hero .scene-help{bottom:143px}.hero:is(.has-3d,.scene-loading) .hero-content{width:230px}.hero:is(.has-3d,.scene-loading) .hero-content h1{font-size:35px}}
+@media(max-width:600px){.hero .scene-toolbar{left:18px;right:18px;top:88px}.scene-toolbar>span{font-size:8px;letter-spacing:.1em}.scene-toolbar>button{padding:8px 10px;font-size:9px}.hero:is(.has-3d,.scene-loading) .hero-content{left:18px;top:22%;width:180px}.hero:is(.has-3d,.scene-loading) .hero-content h1{font-size:30px}.hero:is(.has-3d,.scene-loading) .hero-lead{font-size:10px;max-width:158px}.hero .flight-telemetry{right:18px;top:22%;width:115px;font-size:9px}.telemetry-caption{font-size:7px}.hero .swarm-dock{bottom:16px;width:calc(100% - 24px);max-width:unset;padding:9px 8px;gap:6px}.swarm-dock button{font-size:9px;padding:8px}.swarm-dock>div+div{padding-left:5px}.swarm-dock .pilot-controls{border-left:0}.speed-control{min-width:100px;font-size:8px}.speed-control input{width:100px}.hero .scene-help{bottom:151px;font-size:9px;max-width:94%;width:330px}.pilot-pad{left:16px;bottom:218px;grid-template-columns:repeat(4,32px)}.pilot-pad button{width:32px;height:32px}}
 @media(prefers-reduced-motion:reduce){.hero.exploring .hero-content{transition:none}}
 
 .hero .flight-telemetry strong{color:#edf0e8}.hero .flight-telemetry{background:linear-gradient(90deg,transparent,#10161188);padding:14px 12px;border-radius:10px}.scene-toolbar>span{background:#10161170;border:1px solid #ffffff20;border-radius:20px;padding:8px 13px;backdrop-filter:blur(10px)}
@@ -35,16 +35,16 @@ body.scene-exploring .nav{z-index:60}
 
 .hero .waypoint-readout{position:absolute;z-index:6;bottom:161px;left:50%;transform:translateX(-50%);padding:9px 14px;margin:0;max-width:85%;border:1px solid #c8d9a533;border-radius:6px;background:#0c1419cf;color:#deebc5;font:10px/1.6 ui-monospace,monospace;text-align:center;pointer-events:none}
 .hero .waypoint-readout[hidden]{display:none}.hero.setting-waypoint #drone-scene canvas{cursor:crosshair}.hero.setting-waypoint .pilot-pad{display:none}
-@media(max-width:900px){.hero .fleet-dock{flex-wrap:wrap}.hero .waypoint-readout{bottom:188px}.hero .scene-help{bottom:137px}}
-@media(max-width:600px){.hero .waypoint-readout{bottom:209px;width:90%;max-width:90%;font-size:9px}.hero .scene-help{bottom:163px}.hero .pilot-pad{bottom:273px}.fleet-dock .pilot-controls{flex-wrap:wrap;justify-content:center}.hero .fleet-dock{gap:5px}}
+@media(max-width:900px){.hero .swarm-dock{flex-wrap:wrap}.hero .waypoint-readout{bottom:188px}.hero .scene-help{bottom:137px}}
+@media(max-width:600px){.hero .waypoint-readout{bottom:209px;width:90%;max-width:90%;font-size:9px}.hero .scene-help{bottom:163px}.hero .pilot-pad{bottom:273px}.swarm-dock .pilot-controls{flex-wrap:wrap;justify-content:center}.hero .swarm-dock{gap:5px}}
 
 /* Revision 4: cinematic first; hidden controls cannot receive focus. */
-.hero:not(.exploring) .fleet-dock,.hero:not(.exploring) .scene-help,.hero:not(.exploring) .waypoint-readout,.hero:not(.exploring) .pilot-pad{display:none}
-.hero.exploring .fleet-dock{width:min(1050px,calc(100% - 32px));flex-wrap:wrap}
+.hero:not(.exploring) .swarm-dock,.hero:not(.exploring) .scene-help,.hero:not(.exploring) .waypoint-readout,.hero:not(.exploring) .pilot-pad{display:none}
+.hero.exploring .swarm-dock{width:min(1050px,calc(100% - 32px));flex-wrap:wrap}
 .hero.exploring .scene-help{bottom:165px}
 .hero.exploring .waypoint-readout{bottom:212px}
 .hero.exploring .pilot-pad{bottom:258px}
-@media(max-width:600px){.hero.exploring .fleet-dock{width:calc(100% - 24px);max-height:32dvh;overflow:auto}.hero.exploring .scene-help{bottom:205px;font-size:8px}.hero.exploring .waypoint-readout{bottom:254px}.hero.exploring .pilot-pad{bottom:305px}.fleet-dock .formation-selector{border-left:0;padding-left:0}.hero.exploring .flight-telemetry{top:140px}}
+@media(max-width:600px){.hero.exploring .swarm-dock{width:calc(100% - 24px);max-height:32dvh;overflow:auto}.hero.exploring .scene-help{bottom:205px;font-size:8px}.hero.exploring .waypoint-readout{bottom:254px}.hero.exploring .pilot-pad{bottom:305px}.swarm-dock .formation-selector{border-left:0;padding-left:0}.hero.exploring .flight-telemetry{top:140px}}
 
 /* Editorial frame: instrumentation left, camera choices right, identity below. */
 .hero:is(.has-3d,.scene-loading)::before{background:linear-gradient(180deg,#00000010 12%,transparent 35%,#0305040d 58%,#030504e8 100%)}
@@ -65,7 +65,7 @@ body.scene-exploring .nav{z-index:60}
 .hero:not(.has-3d) .scene-camera-rail{display:none}
 .hero.exploring .hero-content{visibility:hidden}
 .hero.exploring .flight-telemetry,.hero.exploring .scene-camera-rail{top:175px}
-.hero.exploring .fleet-dock{width:min(990px,calc(100% - 48px));bottom:28px;border-radius:10px}
+.hero.exploring .swarm-dock{width:min(990px,calc(100% - 48px));bottom:28px;border-radius:10px}
 .hero.exploring .scene-help{bottom:145px}
 .hero.exploring .waypoint-readout{bottom:189px}
 .hero.exploring .pilot-pad{left:34px;bottom:170px}
@@ -89,7 +89,7 @@ body.scene-exploring .nav{z-index:60}
  .scene-camera-rail,.hero.exploring .scene-camera-rail{top:143px;right:18px;width:88px;padding:10px 7px}
  .camera-rail-caption{font-size:6px;letter-spacing:.1em;padding:0 2px 7px}
  .scene-camera-rail button{font-size:9px;padding:8px}
- .hero.exploring .fleet-dock{bottom:14px;width:calc(100% - 24px);max-height:27dvh;padding:8px 6px}
+ .hero.exploring .swarm-dock{bottom:14px;width:calc(100% - 24px);max-height:27dvh;padding:8px 6px}
  .hero.exploring .scene-help{bottom:calc(27dvh + 25px);font-size:8px;padding:6px 9px;width:calc(100% - 36px);max-width:unset}
  .hero.exploring .waypoint-readout{bottom:calc(27dvh + 70px);padding:6px 9px}
  .hero.exploring .pilot-pad{left:18px;bottom:calc(27dvh + 113px);grid-template-columns:repeat(4,30px);gap:4px}

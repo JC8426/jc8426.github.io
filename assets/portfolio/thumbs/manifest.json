@@ -61,5 +61,19 @@
     "width": 768,
     "height": 432,
     "decodedBytes": 1327104
+  },
+  {
+    "original": "assets/portfolio/robotics-linux-debug-9114.jpg",
+    "output": "assets/portfolio/thumbs/robotics-linux-debug-9114-1024.webp",
+    "width": 1024,
+    "height": 574,
+    "decodedBytes": 2351104
+  },
+  {
+    "original": "assets/portfolio/uav-field-test-9115.jpg",
+    "output": "assets/portfolio/thumbs/uav-field-test-9115-1024.webp",
+    "width": 1024,
+    "height": 768,
+    "decodedBytes": 3145728
   }
 ]

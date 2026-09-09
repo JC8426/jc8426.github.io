@@ -15,7 +15,7 @@ export function automaticPose(index,time){
 
 export const SPEED_MULTIPLIER=2;
 export const FORMATION_SLOTS=[[0,4.8],[-4,.8],[4,.8],[-8,-3.2],[8,-3.2]];
-export function fleetCenter(positions){return {x:positions.reduce((s,p)=>s+p.x,0)/positions.length,z:positions.reduce((s,p)=>s+p.z,0)/positions.length};}
+export function swarmCenter(positions){return {x:positions.reduce((s,p)=>s+p.x,0)/positions.length,z:positions.reduce((s,p)=>s+p.z,0)/positions.length};}
 export function clampWaypoint(point,limit=90,slots=FORMATION_SLOTS){return {x:clamp(point.x,-limit-Math.min(...slots.map(s=>s[0])),limit-Math.max(...slots.map(s=>s[0]))),z:clamp(point.z,-limit-Math.min(...slots.map(s=>s[1])),limit-Math.max(...slots.map(s=>s[1])))};}
 export function advanceWaypoint(current,target,dt,speed){
  const dx=target.x-current.x,dz=target.z-current.z,distance=Math.hypot(dx,dz),step=Math.min(distance,Math.max(0,dt*speed));

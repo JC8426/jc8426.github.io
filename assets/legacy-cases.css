@@ -1,0 +1,10 @@
+/* Bring the two established case studies into the shared article layout. */
+.legacy-case-page .case-nav{max-width:none;margin:0}
+.legacy-case-page .case-main{max-width:1200px}
+.legacy-case-page .case-header{padding-top:64px}
+.legacy-case-page .case-article>.cover{margin:0 0 32px}
+.legacy-case-page .case-article .grid{gap:28px}
+.legacy-case-page .case-article figure img{background:var(--panel);max-height:560px;object-fit:contain}
+.legacy-case-page .case-article section.cover img{aspect-ratio:16/9;object-fit:cover}
+.legacy-case-page .actions{display:flex;gap:16px 24px;flex-wrap:wrap}
+@media(max-width:800px){.legacy-case-page .grid{grid-template-columns:1fr}.legacy-case-page .case-header{padding-top:38px}.legacy-case-page .case-nav{padding:14px 20px}.legacy-case-page .nav-actions>a{display:none}}
