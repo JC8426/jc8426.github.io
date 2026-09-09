@@ -6,8 +6,8 @@ import {LineMaterial} from '../vendor/three/LineMaterial.js';
 import {Sky} from '../vendor/three/Sky.js';
 import {createResearchDrone,loadResearchDroneAsset,clearResearchDroneAsset,unitLabel} from './research-drone.js';
 import {groundHeight,WORLD_LIMIT} from './world.js';
-import {glacierHeight,updateGlacier} from './glacier.js?v=8';
-import {loadTerrain,disposeGraph} from './terrain-loader.js?v=8';
+import {glacierHeight,updateGlacier} from './glacier.js?v=9';
+import {loadTerrain,disposeGraph} from './terrain-loader.js?v=9';
 import {createDesertEnvironment,createLunarEnvironment,DESERT_SUN} from './lighting.js';
 import {constrainSeparation} from './separation.mjs';
 import {textureBytes,waypointFrame} from './resources.mjs';
@@ -93,7 +93,7 @@ function sendSwarm(point){
  slotGoal=slots.map(p=>[...p]);
  mission={center,start:{...center},goal,slots,status:'traveling',yaw:Math.atan2(goal.x-center.x,goal.z-center.z)};
  for(const u of units)u.manual=false;
- waypointArmed=false;keys.clear();pressed.clear();touch.clear();goalMarker.visible=true;routeLine.visible=true;refreshRoute();transition=1;labels();render();
+ waypointArmed=false;keys.clear();pressed.clear();touch.clear();goalMarker.visible=true;routeLine.visible=true;refreshRoute();transition=0;labels();render();
 }
 function cancelWaypoint(){
  waypointArmed=false;
@@ -275,7 +275,7 @@ function releaseScene(){
 }
 function fallback(message){if(failed)return;failed=true;releaseScene();state.ready=false;hero.classList.remove('has-3d','exploring','scene-loading');document.body.classList.remove('scene-exploring');host.dataset.ready='false';host.style.display='none';$('[data-scene-status]').textContent=tr('Video fallback','视频备用模式');all('.swarm-dock button,.swarm-dock input,.scene-camera-rail button,[data-scene-explore]').forEach(b=>b.disabled=true);const video=$('.hero-video');if(video){video.querySelectorAll('source').forEach(source=>{source.src=source.dataset.src;});video.load();video.play().catch(()=>{});}console.warn(message);}
 all('[data-unit]').forEach(b=>b.addEventListener('click',()=>{explore(true);choose(Number(b.dataset.unit));}));all('[data-camera]').forEach(b=>b.addEventListener('click',()=>{explore(true);view(b.dataset.camera);host.focus({preventScroll:true});}));
-$('[data-waypoint]').addEventListener('click',()=>{if(!state.ready)return;explore(true);waypointArmed=!waypointArmed;if(waypointArmed)view('overview');labels();host.focus({preventScroll:true});});
+$('[data-waypoint]').addEventListener('click',()=>{if(!state.ready)return;explore(true);waypointArmed=!waypointArmed;if(waypointArmed){view('free');transition=0;}labels();host.focus({preventScroll:true});});
 $('[data-cancel-waypoint]').addEventListener('click',cancelWaypoint);
 $('[data-scene-explore]').addEventListener('click',()=>explore(!state.exploring));$('[data-scene-motion]').addEventListener('click',()=>{state.paused=!state.paused;keys.clear();pressed.clear();touch.clear();labels();updateHud(selected(),0);render();});
 $('[data-manual]').addEventListener('click',()=>{if(!state.ready)return;explore(true);if(selected().manual){selected().manual=false;keys.clear();pressed.clear();touch.clear();labels();}else beginPilot();updateHud(selected(),0);host.focus({preventScroll:true});});$('[data-rejoin]').addEventListener('click',()=>{if(!state.ready)return;selected().manual=false;keys.clear();pressed.clear();touch.clear();labels();});

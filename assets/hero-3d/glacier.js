@@ -36,13 +36,13 @@ function iceGeometry(b,segments=80){
   const ring=rings[j];
   for(let i=0;i<segments;i++){
    const a=i/segments*Math.PI*2,e=edge(a,b.seed);
-   const erosion=j>5&&j<8?1-.08*Math.max(0,Math.sin(a*7+b.seed))*(j===6?.5:1):1;
+   const erosion=j>5&&j<8?1-.025*Math.max(0,Math.sin(a*7+b.seed))*(j===6?.5:1):1;
    const u=Math.cos(a)*e*ring.r*erosion,v=Math.sin(a)*e*ring.r*erosion;
    let y;
    if(j<6)y=top(u,v,b)*(1-.09*ring.r**2);
    else if(j===8)y=-.16;
    else if(j===9)y=-3;
-   else y=top(u,v,b)*(1-.09)*ring.y+(Math.sin(a*13+b.seed)*.10+Math.sin(a*23)*.035)*b.h;
+   else y=top(u,v,b)*(1-.09)*ring.y+(Math.sin(a*7+b.seed)*.018+Math.sin(a*13)*.006)*b.h;
    pos.push(b.x+u*b.rx,y,b.z+v*b.rz);
    // Frost caps, blue compressed ice faces and dark submerged feet.
    const c=new T.Color(j<6?'#ddeef1':j<8?'#7db9cb':'#29687f');
@@ -94,7 +94,7 @@ function lagoonNormals(){
   const n=new T.Vector3(-dx,-dy,1).normalize(),i=(y*size+x)*4;
   data[i]=Math.round((n.x*.5+.5)*255);data[i+1]=Math.round((n.y*.5+.5)*255);data[i+2]=Math.round((n.z*.5+.5)*255);data[i+3]=255;
  }
- const texture=new T.DataTexture(data,size,size,T.RGBAFormat);texture.wrapS=texture.wrapT=T.RepeatWrapping;texture.magFilter=T.LinearFilter;texture.minFilter=T.LinearMipmapLinearFilter;texture.generateMipmaps=true;texture.needsUpdate=true;return texture;
+ const texture=new T.DataTexture(data,size,size,T.RGBAFormat);texture.wrapS=texture.wrapT=T.RepeatWrapping;texture.magFilter=T.LinearFilter;texture.minFilter=T.LinearMipmapLinearFilter;texture.anisotropy=4;texture.generateMipmaps=true;texture.needsUpdate=true;return texture;
 }
 export function createGlacierWorld(){
  const group=new T.Group();group.name='Glacial lagoon';
@@ -120,7 +120,17 @@ export function createGlacierWorld(){
  water.material.fragmentShader=water.material.fragmentShader
   .replace('vec3 surfaceNormal = normalize( noise.xzy * vec3( 1.5, 1.0, 1.5 ) );',
    'float rippleFade = mix(1.0, 0.28, smoothstep(35.0, 200.0, length(eye-worldPosition.xyz)));\n vec3 surfaceNormal = normalize(vec3(noise.x * .55 * rippleFade, max(noise.z, .5), noise.y * .55 * rippleFade));')
-  .replace('100.0, 2.0, 0.5, diffuseLight', '45.0, 0.65, 0.5, diffuseLight');
+  .replace('100.0, 2.0, 0.5, diffuseLight', '45.0, 0.65, 0.5, diffuseLight')
+  // Filter the bounded reflection target instead of enlarging its allocation.
+  .replace('vec3 reflectionSample = vec3( texture2D( mirrorSampler, mirrorCoord.xy / mirrorCoord.w + distortion ) );', `
+   vec2 reflectionUV=mirrorCoord.xy/mirrorCoord.w+distortion;
+   vec2 texel=vec2(1.0/512.0);
+   vec3 reflectionSample=texture2D(mirrorSampler,reflectionUV).rgb*.4;
+   reflectionSample+=texture2D(mirrorSampler,reflectionUV+texel*vec2(.75,.75)).rgb*.15;
+   reflectionSample+=texture2D(mirrorSampler,reflectionUV+texel*vec2(-.75,.75)).rgb*.15;
+   reflectionSample+=texture2D(mirrorSampler,reflectionUV+texel*vec2(.75,-.75)).rgb*.15;
+   reflectionSample+=texture2D(mirrorSampler,reflectionUV-texel*.75).rgb*.15;
+  `);
  water.material.uniforms.size.value=2;water.rotation.x=-Math.PI/2;water.receiveShadow=true;water.name='Lagoon water';group.add(water);
  const material=iceMaterial(),grounds=[water];
  for(const b of [...icebergs,...floes]){const mesh=new T.Mesh(iceGeometry(b,b.h>3?80:28),material);mesh.castShadow=b.h<45;mesh.receiveShadow=true;mesh.name=b.h>3?'Sculpted iceberg':'Floating ice';group.add(mesh);grounds.push(mesh);}
