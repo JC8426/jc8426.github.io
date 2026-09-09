@@ -9,7 +9,15 @@ Run `python3 -m http.server 8080 --bind 127.0.0.1` from the repository root.
 - Fleet experiment: http://127.0.0.1:8080/
 - Original video comparison: http://127.0.0.1:8080/?hero=video
 
-## Revision 5 (current)
+## Revision 6 (current)
+
+Daylight is an authored glacial lagoon; lunar night is retained. The bottom introduction, left telemetry board and right camera rail frame the scene. Selected aircraft accept keyboard input immediately in exploration. Pace defaults to 1.5× with a 3× ceiling. A conservative 4.4 m swept separation guard stops visual aircraft overlap; it is not EGO obstacle avoidance.
+
+The ice field adds a bounded 512² planar reflection, explicitly disposed when leaving the environment. Lunar geometry builds in a renderer-free Worker, and homepage cards use bounded thumbnails while retaining full originals. Navigation annotations are excluded from that reflection. Cinematic single-aircraft shots isolate their subject. Default remains realtime 3D, pending any choice to use a separate video-first entrance.
+
+[Revision 6 verification and limits](revision6-verification.md) · [Glacier implementation](glacier-environment.md).
+
+## Revision 5 (historical baseline)
 
 The homepage uses an offline GLB with shared near/far body LOD, one active terrain, transferable/reused terrain buffers and direct ASTC KTX2 uploads (native JPEG fallbacks where ASTC is unavailable). Desert lighting uses a licensed 1K pure-sky HDR. The navigation camera is higher and fits the fleet and target; cyan routes have a dark pixel-width halo and a stable target badge.
 

@@ -83,3 +83,7 @@ test('manual ceiling stays above high terrain outside the original small map',()
  const p=manualStep({x:200,y:55,z:200},0,{up:1},1,2.4,()=>60,240);
  assert.ok(p.y>=61.25);
 });
+test('pilot keys do not consume browser keyboard shortcuts',()=>{
+ for(const modifier of ['metaKey','ctrlKey','altKey'])assert.equal(flightKey({code:'KeyW',[modifier]:true}),null);
+ assert.equal(flightKey({code:'KeyW',shiftKey:true}),'w');
+});

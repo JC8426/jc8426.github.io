@@ -1,0 +1,65 @@
+[
+  {
+    "original": "assets/data-analysis/archive-composition.png",
+    "output": "assets/portfolio/thumbs/archive-composition-1024.webp",
+    "width": 1024,
+    "height": 577,
+    "decodedBytes": 2363392
+  },
+  {
+    "original": "assets/portfolio/uav-simulation-rviz-gazebo-9117.jpg",
+    "output": "assets/portfolio/thumbs/uav-simulation-rviz-gazebo-9117-1024.webp",
+    "width": 1024,
+    "height": 768,
+    "decodedBytes": 3145728
+  },
+  {
+    "original": "assets/rcap-2026/team-and-robots.jpg",
+    "output": "assets/portfolio/thumbs/team-and-robots-1024.webp",
+    "width": 1024,
+    "height": 768,
+    "decodedBytes": 3145728
+  },
+  {
+    "original": "assets/portfolio/lab-coordinate-room-1129.jpg",
+    "output": "assets/portfolio/thumbs/lab-coordinate-room-1129-1024.webp",
+    "width": 1024,
+    "height": 651,
+    "decodedBytes": 2666496
+  },
+  {
+    "original": "assets/portfolio/agenthub-product-render.png",
+    "output": "assets/portfolio/thumbs/agenthub-product-render-1024.webp",
+    "width": 1024,
+    "height": 683,
+    "decodedBytes": 2797568
+  },
+  {
+    "original": "assets/portfolio/personal-dashboard.png",
+    "output": "assets/portfolio/thumbs/personal-dashboard-1024.webp",
+    "width": 1024,
+    "height": 640,
+    "decodedBytes": 2621440
+  },
+  {
+    "original": "assets/portfolio/volary-main.png",
+    "output": "assets/portfolio/thumbs/volary-main-1024.webp",
+    "width": 1024,
+    "height": 507,
+    "decodedBytes": 2076672
+  },
+  {
+    "original": "assets/portfolio/ai-agriculture.webp",
+    "output": "assets/portfolio/thumbs/ai-agriculture-1024.webp",
+    "width": 1000,
+    "height": 562,
+    "decodedBytes": 2248000
+  },
+  {
+    "original": "assets/portfolio/search_and_rescue-1024x576.jpg",
+    "output": "assets/portfolio/thumbs/search_and_rescue-1024x576-1024.webp",
+    "width": 768,
+    "height": 432,
+    "decodedBytes": 1327104
+  }
+]

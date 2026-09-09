@@ -40,3 +40,8 @@ test('offline ASTC files have complete bounded mip chains and reject corrupted o
   assert.throws(()=>parseAstc(buffer),/mip range/);
  }
 });
+
+test('nested environment render targets receive explicit teardown exactly once',()=>{
+ let releases=0;const child={userData:{dispose:()=>releases++}};
+ const root={traverse:fn=>fn(child)};disposeGraph(root);disposeGraph(root);assert.equal(releases,1);
+});

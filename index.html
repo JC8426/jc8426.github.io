@@ -866,19 +866,21 @@
   </nav>
 
   <main id="top" class="site-shell">
-    <header class="hero">
+    <header class="hero scene-loading">
       <div id="drone-scene" role="region" aria-label="Interactive drone environment" aria-describedby="scene-help" tabindex="-1"></div>
       <div class="scene-toolbar"><span data-scene-status role="status">Loading fleet…</span><button type="button" data-scene-explore aria-pressed="false" data-lang-en="Browse scene" data-lang-zh="浏览场景">Browse scene</button></div>
-      <aside class="flight-telemetry" aria-label="Simulated aircraft telemetry"><span class="telemetry-caption" data-lang-en="SCENE SIMULATION" data-lang-zh="场景模拟">SCENE SIMULATION</span><strong data-unit-heading>U01</strong><dl><div><dt data-altitude-label data-lang-en="Ground clearance" data-lang-zh="离地高度">Ground clearance</dt><dd data-flight-altitude>—</dd></div><div><dt data-speed-label data-lang-en="Speed" data-lang-zh="速度">Speed</dt><dd data-flight-speed>—</dd></div><div><dt data-distance-label data-lang-en="Distance" data-lang-zh="累计航程">Distance</dt><dd data-flight-distance>—</dd></div></dl><span data-flight-state>Formation</span></aside>
+      <aside class="flight-telemetry" aria-label="Simulated aircraft telemetry"><span class="telemetry-caption" data-lang-en="SCENE SIMULATION" data-lang-zh="场景模拟">SCENE SIMULATION</span><strong data-unit-heading>U01</strong><dl><div><dt data-altitude-label data-lang-en="Ground clearance" data-lang-zh="离地高度">Ground clearance</dt><dd data-flight-altitude>—</dd></div><div><dt data-speed-label data-lang-en="Speed" data-lang-zh="速度">Speed</dt><dd data-flight-speed>—</dd></div><div><dt data-distance-label data-lang-en="Distance" data-lang-zh="累计航程">Distance</dt><dd data-flight-distance>—</dd></div></dl><span data-flight-state>Formation</span><span class="separation-readout" data-separation-state>—</span></aside>
+      <aside class="scene-camera-rail" aria-label="Scene camera shortcuts"><span class="camera-rail-caption" data-lang-en="EXPLORE VIEWS" data-lang-zh="探索视角">EXPLORE VIEWS</span>
+        <div class="view-selector" role="group" aria-label="Camera view"><button type="button" data-camera="overview" aria-pressed="true" data-lang-en="Fleet" data-lang-zh="全景">Fleet</button><button type="button" data-camera="follow" aria-pressed="false" data-lang-en="Follow" data-lang-zh="跟随">Follow</button><button type="button" data-camera="free" aria-pressed="false" data-lang-en="Free" data-lang-zh="自由">Free</button><button type="button" data-camera="fpv" aria-pressed="false" data-lang-en="Onboard" data-lang-zh="机载">Onboard</button></div>
+      </aside>
       <div class="fleet-dock" aria-label="Fleet controls" inert>
         <div class="unit-selector" role="group" aria-label="Select aircraft"><button type="button" data-unit="0" aria-pressed="true">U01</button><button type="button" data-unit="1" aria-pressed="false">U02</button><button type="button" data-unit="2" aria-pressed="false">U03</button><button type="button" data-unit="3" aria-pressed="false">U04</button><button type="button" data-unit="4" aria-pressed="false">U05</button></div>
-        <div class="view-selector" role="group" aria-label="Camera view"><button type="button" data-camera="overview" aria-pressed="true" data-lang-en="Fleet" data-lang-zh="全景">Fleet</button><button type="button" data-camera="follow" aria-pressed="false" data-lang-en="Follow" data-lang-zh="跟随">Follow</button><button type="button" data-camera="free" aria-pressed="false" data-lang-en="Free" data-lang-zh="自由">Free</button><button type="button" data-camera="fpv" aria-pressed="false" data-lang-en="Onboard" data-lang-zh="机载">Onboard</button></div>
         <div class="pilot-controls"><button type="button" data-waypoint aria-pressed="false">Set waypoint</button><button type="button" data-cancel-waypoint disabled data-lang-en="Cancel target" data-lang-zh="取消航点">Cancel target</button><button type="button" data-scene-motion aria-pressed="false">Pause</button><button type="button" data-manual aria-pressed="false" data-lang-en="Pilot" data-lang-zh="操控">Pilot</button><button type="button" data-rejoin data-lang-en="Rejoin" data-lang-zh="归队">Rejoin</button><button type="button" data-scene-reset data-lang-en="Reset view" data-lang-zh="重置视角">Reset view</button></div>
         <div class="formation-selector" role="group" aria-label="Formation"><button type="button" data-formation="a" aria-pressed="true" data-lang-en="A formation" data-lang-zh="A 型">A formation</button><button type="button" data-formation="line" aria-pressed="false" data-lang-en="Line" data-lang-zh="一字型">Line</button><button type="button" data-formation="s" aria-pressed="false" data-lang-en="S shape" data-lang-zh="S 型">S shape</button><button type="button" data-formation="matrix" aria-pressed="false" data-lang-en="Matrix" data-lang-zh="矩阵型">Matrix</button></div>
-        <label class="speed-control"><span data-lang-en="Pace" data-lang-zh="速度倍率">Pace</span><input aria-label="Flight pace" type="range" min="0.2" max="1.5" step="0.1" value="0.6" data-flight-pace><output data-pace-output>0.6×</output></label>
+        <label class="speed-control"><span data-lang-en="Pace" data-lang-zh="速度倍率">Pace</span><input aria-label="Flight pace" type="range" min="0.2" max="3" step="0.1" value="1.5" data-flight-pace><output data-pace-output>1.5×</output></label>
       </div>
       <p class="waypoint-readout" data-waypoint-status role="status" aria-live="off" hidden></p>
-      <p class="scene-help" id="scene-help" data-lang-en="Select a drone · Drag to orbit · Wheel to zoom · Pilot: WASD / QE yaw / RF height · Esc exits" data-lang-zh="选择无人机 · 拖动环绕 · 滚轮缩放 · 操控：WASD移动 / QE转向 / RF升降 · Esc退出">Select a drone · Drag to orbit · Wheel to zoom · Pilot: WASD / QE yaw / RF height · Esc exits</p>
+      <p class="scene-help" id="scene-help" data-lang-en="Select a drone to fly · WASD move / QE yaw / RF height · Drag to orbit · Esc exits" data-lang-zh="点选无人机即操控 · WASD移动 / QE转向 / RF升降 · 拖动环绕 · Esc退出">Select a drone to fly · WASD move / QE yaw / RF height · Drag to orbit · Esc exits</p>
       <div class="pilot-pad" aria-label="Touch flight controls"><button type="button" data-command="forward" aria-label="Fly forward">↑</button><button type="button" data-command="back" aria-label="Fly backward">↓</button><button type="button" data-command="left" aria-label="Fly left">←</button><button type="button" data-command="right" aria-label="Fly right">→</button><button type="button" data-command="rise" aria-label="Ascend">＋</button><button type="button" data-command="fall" aria-label="Descend">−</button><button type="button" data-command="yawLeft" aria-label="Yaw left">↶</button><button type="button" data-command="yawRight" aria-label="Yaw right">↷</button></div>
       <div class="hero-media" aria-hidden="true">
         <div class="hero-video-fallback" aria-hidden="true"></div>
@@ -916,7 +918,7 @@
         </div>
         <div class="systems-grid" aria-label="Selected project evidence">
           <article class="system-card">
-            <div class="system-media contain"><a href="software-data.html"><img src="assets/data-analysis/archive-composition.png" alt="Event-composition analysis across fourteen anonymized log files" loading="lazy"></a></div>
+            <div class="system-media contain"><a href="software-data.html"><img src="assets/portfolio/thumbs/archive-composition-1024.webp" alt="Event-composition analysis across fourteen anonymized log files" loading="lazy"></a></div>
             <div class="system-body"><div><span class="system-role">Software &amp; Data Analysis</span>
               <h3 data-lang-en="Platform Workflows &amp; Log Analysis" data-lang-zh="平台工作流与日志分析">Platform Workflows &amp; Log Analysis</h3>
               <p data-lang-en="A Python/SQLite request-review prototype and a reproducible audit of 17,509 archived log entries." data-lang-zh="Python／SQLite 请求审核原型，以及17,509条归档日志的可复查分析。">A Python/SQLite request-review prototype and a reproducible audit of 17,509 archived log entries.</p>
@@ -926,7 +928,7 @@
           </article>
 
           <article class="system-card">
-            <div class="system-media contain"><img src="assets/portfolio/uav-simulation-rviz-gazebo-9117.jpg" alt="Gazebo and RViz simulation screenshot for UAV autonomy" loading="lazy" decoding="async"></div>
+            <div class="system-media contain"><img src="assets/portfolio/thumbs/uav-simulation-rviz-gazebo-9117-1024.webp" alt="Gazebo and RViz simulation screenshot for UAV autonomy" loading="lazy" decoding="async"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">Robotics software</span>
@@ -941,7 +943,7 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media"><a href="rcap-2026.html"><img src="assets/rcap-2026/team-and-robots.jpg" alt="Robotedge team with five humanoid robots at the Beijing competition venue" loading="lazy"></a></div>
+            <div class="system-media"><a href="rcap-2026.html"><img src="assets/portfolio/thumbs/team-and-robots-1024.webp" alt="Robotedge team with five humanoid robots at the Beijing competition venue" loading="lazy"></a></div>
             <div class="system-body"><div>
               <span class="system-role">Humanoid robot soccer · Aug 2026</span>
               <h3>RCAP Beijing 2026</h3>
@@ -952,7 +954,7 @@
           </article>
 
           <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/lab-coordinate-room-1129.jpg" alt="Johnny Chan presenting and coordinating in a Robotedge lab meeting room" loading="lazy" decoding="async"></div>
+            <div class="system-media"><img src="assets/portfolio/thumbs/lab-coordinate-room-1129-1024.webp" alt="Johnny Chan presenting and coordinating in a Robotedge lab meeting room" loading="lazy" decoding="async"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">Lab coordination</span>
@@ -967,7 +969,7 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media contain"><img src="assets/portfolio/agenthub-product-render.png" alt="AgentHub product render showing a web-based AI kit concept" loading="lazy" decoding="async"></div>
+            <div class="system-media contain"><img src="assets/portfolio/thumbs/agenthub-product-render-1024.webp" alt="AgentHub product render showing a web-based AI kit concept" loading="lazy" decoding="async"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">Web-based AI kit</span>
@@ -982,7 +984,7 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/personal-dashboard.png" alt="Volary dashboard homepage screenshot" loading="lazy" decoding="async"></div>
+            <div class="system-media"><img src="assets/portfolio/thumbs/personal-dashboard-1024.webp" alt="Volary dashboard homepage screenshot" loading="lazy" decoding="async"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">Dashboard system</span>
@@ -997,7 +999,7 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/volary-main.png" alt="Volary brand website homepage screenshot" loading="lazy" decoding="async"></div>
+            <div class="system-media"><img src="assets/portfolio/thumbs/volary-main-1024.webp" alt="Volary brand website homepage screenshot" loading="lazy" decoding="async"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">Brand portal</span>
@@ -1012,7 +1014,7 @@
             </div>
           </article>
           <article class="system-card">
-            <div class="system-media"><img src="assets/portfolio/ai-agriculture.webp" alt="AI agriculture monitoring and irrigation concept" loading="lazy" decoding="async"></div>
+            <div class="system-media"><img src="assets/portfolio/thumbs/ai-agriculture-1024.webp" alt="AI agriculture monitoring and irrigation concept" loading="lazy" decoding="async"></div>
             <div class="system-body">
               <div>
                 <span class="system-role">AI + agriculture systems</span>
@@ -1065,7 +1067,7 @@
           <aside class="sticky-visual" aria-label="Autonomous system visual">
             <div class="visual-screen">
               <div class="visual-topbar"><span data-visual-title data-lang-en="Problem framing" data-lang-zh="问题定义">Problem framing</span><div class="visual-pills" aria-hidden="true"><span class="visual-pill"></span><span class="visual-pill"></span><span class="visual-pill"></span></div></div>
-              <figure class="system-panel" aria-label="Research layer visual"><img id="system-image" src="assets/portfolio/search_and_rescue-1024x576.jpg" alt="Research layer visual" style="width:100%;height:100%;min-height:310px;object-fit:cover;display:block;" loading="lazy" decoding="async"></figure>
+              <figure class="system-panel" aria-label="Research layer visual"><img id="system-image" src="assets/portfolio/thumbs/search_and_rescue-1024x576-1024.webp" alt="Research layer visual" style="width:100%;height:100%;min-height:310px;object-fit:cover;display:block;" loading="lazy" decoding="async"></figure>
               <div>
                 <div class="system-metrics">
                   <div class="metric-card"><span data-lang-en="Layer" data-lang-zh="层级">Layer</span><b data-visual-layer>01</b></div>

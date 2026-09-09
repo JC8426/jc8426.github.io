@@ -1,5 +1,6 @@
 import {loadSurfaceTexture} from './compressed-texture.js';
 import {createWorld} from './world.js';
+import {createGlacierWorld} from './glacier.js';
 import {disposeGraph} from './resources.mjs';
 function geometryInWorker(lunar,signal,recycle){
  return new Promise((resolve,reject)=>{
@@ -21,6 +22,7 @@ async function loadMaps(lunar,renderer,signal){
 }
 async function buildTerrain(lunar,renderer,signal,recycle){
  if(signal.aborted)throw new DOMException('Terrain superseded','AbortError');
+ if(!lunar)return createGlacierWorld();
  const [mapResult,geometryResult]=await Promise.allSettled([loadMaps(lunar,renderer,signal),geometryInWorker(lunar,signal,recycle)]);
  const maps=mapResult.status==='fulfilled'?mapResult.value:null;
  if(signal.aborted||mapResult.status==='rejected'||geometryResult.status==='rejected'){

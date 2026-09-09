@@ -26,6 +26,7 @@ export function formationTarget(index,center,slots=FORMATION_SLOTS){const s=slot
 
 // Physical key codes survive Chinese/other keyboard layouts and control focus changes.
 export function flightKey(event){
+ if(event.metaKey||event.ctrlKey||event.altKey)return null;
  const code=event.code?.match(/^Key([WASDQERF])$/);
  return code?code[1].toLowerCase():null;
 }

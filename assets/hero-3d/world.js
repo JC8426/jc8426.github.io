@@ -1,56 +1,9 @@
 import * as T from '../vendor/three/three.module.js';
+import {buildTerrainMeshes} from './terrain-mesh.mjs';
+export {groundHeight} from './world-math.mjs';
 
 // The patrol occupies the detailed centre; distant terrain provides a horizon.
 export const WORLD_LIMIT=240;
-const smooth=t=>t*t*t*(t*(t*6-15)+10);
-function hash(x,z){const n=Math.sin(x*127.1+z*311.7)*43758.5453;return n-Math.floor(n);}
-function noise(x,z){const ix=Math.floor(x),iz=Math.floor(z),fx=smooth(x-ix),fz=smooth(z-iz);return T.MathUtils.lerp(T.MathUtils.lerp(hash(ix,iz),hash(ix+1,iz),fx),T.MathUtils.lerp(hash(ix,iz+1),hash(ix+1,iz+1),fx),fz);}
-function fbm(x,z){let v=0,a=.5;for(let i=0;i<4;i++){v+=a*noise(x,z);a*=.5;x=x*2.03+7;z=z*2.01-9;}return v;}
-const craters=[
- {x:-25,z:-24,r:15,age:.75},{x:30,z:-37,r:12,age:.45},{x:-43,z:21,r:8,age:.6},
- ...Array.from({length:68},(_,i)=>({x:(hash(i,2)-.5)*970,z:(hash(i,8)-.5)*970,r:7+hash(i,4)**2*48,age:hash(i,6)})),
- ...Array.from({length:14},(_,i)=>({x:(hash(i,12)-.5)*240,z:(hash(i,18)-.5)*240,r:2.4+hash(i,14)*5,age:hash(i,16)})),
-];
-// Near ridges frame the patrol; high, distant dune chains shape the horizon.
-const desertRidges=[
- {u:25,v:-90,height:10,width:26,length:72,phase:.4},
- {u:-18,v:94,height:9,width:25,length:65,phase:2.4},
- {u:-88,v:-12,height:25,width:31,length:190,phase:1.3},
- {u:-198,v:-75,height:48,width:46,length:260,phase:.1},
- {u:-325,v:150,height:59,width:48,length:310,phase:2.6},
- {u:145,v:65,height:36,width:38,length:255,phase:3.2},
- {u:300,v:-85,height:58,width:52,length:310,phase:1.6},
-];
-export function groundHeight(x,z,lunar){
- if(!lunar){
-  // Broad asymmetric dune ridges provide real silhouettes and slip faces.
-  // Their crests meander and taper rather than repeating as a sine-wave sheet.
-  const u=z+x*.16,v=x-z*.16;
-  let h=(fbm(x*.013,z*.013)-.45)*2.2;
-  for(const d of desertRidges){
-   const along=(v-d.v)/d.length;
-   if(Math.abs(along)>2.8)continue;
-   const crest=d.u+Math.sin(v*.013+d.phase)*12+Math.sin(v*.029+d.phase)*3;
-   const cross=u-crest;
-   const width=d.width*1.5*(1+.22*Math.tanh(cross/14));
-   h+=d.height*Math.exp(-((cross/width)**2))*Math.exp(-(along**4)*.7);
-  }
-  return h+(fbm(x*.045,z*.045)-.45)*.13;
- }
- let h=(fbm(x*.007,z*.007)-.45)*8+(fbm(x*.035,z*.035)-.45)*.48;
- for(const c of craters){
-  const dx=x-c.x,dz=z-c.z;if(Math.abs(dx)>c.r*1.8||Math.abs(dz)>c.r*1.8)continue;
-  const angle=Math.atan2(dz,dx),radius=c.r*(1+.025*Math.sin(angle*3+c.x)+.014*Math.cos(angle*7+c.z));
-  const q=Math.hypot(dx,dz)/radius;if(q>=1.8)continue;
-  const bowl=q<1?-.16*c.r*(1-q*q)**2:0;
-  const rim=.028*c.r*(1-c.age*.35)*Math.exp(-(((q-.98)/(.20+c.age*.12))**2));
-  // Smoothly taper ejecta to zero: overlapping craters never introduce a step.
-  const taper=1-smooth(T.MathUtils.clamp((q-1.35)/.45,0,1));
-  h+=(bowl+rim)*taper;
- }
- return h;
-}
-
 // Blend translated samples over broad, irregular patches. All PBR channels
 // use the same weights so photographed relief, colour and roughness align.
 // Translation preserves tangent-space normal orientation (rotating UVs would
@@ -127,8 +80,9 @@ function scannedSurface(material,lunar){
 export function createWorld(lunar,loader,anisotropy,preparedMeshes){
  const group=new T.Group(),prefix=lunar?'lunar':'desert';
  const load=(suffix,color)=>{const t=loader.load(new URL(`./${prefix}-${suffix}.jpg`,import.meta.url).href);t.wrapS=t.wrapT=T.RepeatWrapping;t.anisotropy=anisotropy;if(color)t.colorSpace=T.SRGBColorSpace;return t;};
- const material=new T.MeshStandardMaterial({map:load('albedo',true),normalMap:load('normal'),roughnessMap:load('roughness'),color:lunar?'#d0d0cd':'#fffaf0',vertexColors:true,roughness:1,normalScale:new T.Vector2(lunar?.30:.24,lunar?.30:.24)});
- scannedSurface(material,lunar);
+ const material=new T.MeshStandardMaterial({map:load('albedo',true),normalMap:load('normal'),roughnessMap:load('roughness'),color:lunar?'#d0d0cd':'#fffaf0',vertexColors:false,roughness:1,normalScale:new T.Vector2(lunar?.30:.24,lunar?.30:.24)});
+ material.color.multiplyScalar(.955);scannedSurface(material,lunar);
+ preparedMeshes??=buildTerrainMeshes(lunar);
  const grounds=[];
  if(preparedMeshes){
   for(const data of preparedMeshes){
@@ -140,76 +94,4 @@ export function createWorld(lunar,loader,anisotropy,preparedMeshes){
   return group;
  }
 
- // Mesh rings retain only referenced vertices. The former full outer grids
- // kept all vertices underneath the holes, wasting CPU and GPU memory.
- // 0.667 m centre / 2 m middle / 4 m horizon: fine scanned relief belongs in
- // the normal map, not a huge uniformly tessellated mesh.
- for(const [size,segments,hole] of [[256,384,0],[512,256,128],[1024,256,256]]){
-  const half=size/2,step=size/segments;
-  // These square holes align exactly to grid cells. Exclude their interior
-  // vertices up front, so every transferred buffer has its final exact size.
-  const holeCells=hole?Math.round(2*hole/step):0;
-  const vertexCapacity=(segments+1)**2-(holeCells?((holeCells-1)**2):0);
-  const vertices=new Float32Array(vertexCapacity*3),normals=new Float32Array(vertexCapacity*3);
-  const uvs=new Float32Array(vertexCapacity*2),colors=new Float32Array(vertexCapacity*3);
-  const IndexArray=vertexCapacity>65535?Uint32Array:Uint16Array;
-  const indices=new IndexArray((segments**2-holeCells**2)*6);
-  const vertexIds=new Int32Array((segments+1)**2);vertexIds.fill(-1);
-  let vertexCount=0,indexCount=0;
-  const addVertex=(ix,iz)=>{
-   const key=iz*(segments+1)+ix;
-   if(vertexIds[key]!==-1)return vertexIds[key];
-   const x=-half+ix*step,z=-half+iz*step,id=vertexCount++;
-   const y=groundHeight(x,z,lunar);
-   vertices[id*3]=x;vertices[id*3+1]=y;vertices[id*3+2]=z;
-   uvs[id*2]=x/(lunar?7:2.8);uvs[id*2+1]=z/(lunar?7:2.8);
-   // A fixed derivative footprint across *all* vertices and LODs eliminates
-   // triangulation-dependent normals and discontinuities at ring boundaries.
-   const e=.35,dx=(groundHeight(x+e,z,lunar)-groundHeight(x-e,z,lunar))/(2*e);
-   const dz=(groundHeight(x,z+e,lunar)-groundHeight(x,z-e,lunar))/(2*e),length=Math.hypot(dx,1,dz);
-   normals[id*3]=-dx/length;normals[id*3+1]=1/length;normals[id*3+2]=-dz/length;
-   const shade=.91+fbm(x*.013,z*.013)*.09;colors[id*3]=shade;colors[id*3+1]=shade;colors[id*3+2]=shade;
-   vertexIds[key]=id;return id;
-  };
-  for(let iz=0;iz<segments;iz++)for(let ix=0;ix<segments;ix++){
-   const x=-half+(ix+.5)*step,z=-half+(iz+.5)*step;
-   if(hole&&Math.abs(x)<hole&&Math.abs(z)<hole)continue;
-   const a=addVertex(ix,iz),b=addVertex(ix+1,iz),c=addVertex(ix,iz+1),d=addVertex(ix+1,iz+1);
-   indices[indexCount++]=a;indices[indexCount++]=c;indices[indexCount++]=b;
-   indices[indexCount++]=b;indices[indexCount++]=c;indices[indexCount++]=d;
-  }
-  if(vertexCount!==vertexCapacity||indexCount!==indices.length)throw new Error('Terrain grid capacity mismatch');
-  const geo=new T.BufferGeometry();
-  // BufferAttribute uses the arrays directly; Float32BufferAttribute would
-  // copy them and briefly double the construction payload.
-  geo.setAttribute('position',new T.BufferAttribute(vertices,3));
-  geo.setAttribute('normal',new T.BufferAttribute(normals,3));
-  geo.setAttribute('uv',new T.BufferAttribute(uvs,2));
-  geo.setAttribute('color',new T.BufferAttribute(colors,3));geo.setIndex(new T.BufferAttribute(indices,1));
-  geo.computeBoundingSphere();
-  const terrain=new T.Mesh(geo,material);terrain.receiveShadow=true;
-  // A single sun shadow map is focused on the aircraft. Terrain self-shadow
-  // at this grazing angle produces triangle-sized acne; relief is lit by its
-  // continuous normals while aircraft continue to cast genuine ground shadows.
-  terrain.castShadow=false;terrain.userData.terrain=true;group.add(terrain);grounds.push(terrain);
-  if(!hole||size===512){
-   const skirtVertices=new Float32Array(4*(segments+1)*6),skirtIndices=new Uint16Array(4*segments*6);
-   let skirtVertex=0,skirtIndex=0;
-   for(let edge=0;edge<4;edge++)for(let n=0;n<=segments;n++){
-    const t=-half+size*n/segments,x=edge===0?t:edge===1?half:edge===2?-t:-half,z=edge===0?-half:edge===1?t:edge===2?half:-t,y=groundHeight(x,z,lunar);
-    const j=skirtVertex/3;
-    skirtVertices[skirtVertex++]=x;skirtVertices[skirtVertex++]=y;skirtVertices[skirtVertex++]=z;
-    skirtVertices[skirtVertex++]=x;skirtVertices[skirtVertex++]=y-.9;skirtVertices[skirtVertex++]=z;
-    if(n<segments){skirtIndices[skirtIndex++]=j;skirtIndices[skirtIndex++]=j+2;skirtIndices[skirtIndex++]=j+1;skirtIndices[skirtIndex++]=j+2;skirtIndices[skirtIndex++]=j+3;skirtIndices[skirtIndex++]=j+1;}
-   }
-   const skirt=new T.BufferGeometry();skirt.setAttribute('position',new T.BufferAttribute(skirtVertices,3));skirt.setIndex(new T.BufferAttribute(skirtIndices,1));skirt.computeVertexNormals();
-   const skirtMaterial=new T.MeshStandardMaterial({color:lunar?'#777774':'#bca483',roughness:1,side:T.DoubleSide});
-   const mesh=new T.Mesh(skirt,skirtMaterial);mesh.receiveShadow=true;group.add(mesh);
-  }
- }
- group.userData.grounds=grounds;
- group.userData.extent=1024;
- group.userData.geometryBytes=group.children.reduce((sum,mesh)=>sum+Object.values(mesh.geometry.attributes).reduce((n,a)=>n+a.array.byteLength,0)+(mesh.geometry.index?.array.byteLength||0),0);
- // No floating or instanced pebbles: surface detail comes from the scans.
- return group;
 }

@@ -1,5 +1,5 @@
-import * as T from '../vendor/three/three.module.js';
-import {createWorld,groundHeight} from './world.js';
+import {groundHeight} from './world-math.mjs';
+import {buildTerrainMeshes} from './terrain-mesh.mjs';
 // No DOM, image decoding or WebGL context in this short-lived worker.
 self.onmessage=({data:{lunar,recycle}})=>{
  try{
@@ -11,8 +11,7 @@ self.onmessage=({data:{lunar,recycle}})=>{
    }
    self.postMessage({meshes:recycle},recycle.flatMap(m=>[...Object.values(m.attributes).map(a=>a.array.buffer),m.index.buffer]));return;
   }
-  const world=createWorld(lunar,{load:()=>new T.Texture()},1);
-  const meshes=world.children.map(mesh=>({terrain:!!mesh.userData.terrain,attributes:Object.fromEntries(Object.entries(mesh.geometry.attributes).map(([key,a])=>[key,{array:a.array,itemSize:a.itemSize}])),index:mesh.geometry.index.array}));
+  const meshes=buildTerrainMeshes(lunar);
   const transfer=meshes.flatMap(m=>[...Object.values(m.attributes).map(a=>a.array.buffer),m.index.buffer]);
   self.postMessage({meshes},transfer);
  }catch(error){self.postMessage({error:String(error)});}

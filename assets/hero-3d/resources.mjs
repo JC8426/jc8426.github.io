@@ -2,7 +2,7 @@
 export function disposeGraph(root){
  if(!root)return;
  const geometries=new Set(),materials=new Set(),textures=new Set();
- root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);for(const m of (Array.isArray(o.material)?o.material:[o.material]).filter(Boolean)){materials.add(m);for(const t of Object.values(m))if(t?.isTexture)textures.add(t);}});
+ root.traverse(o=>{if(o.userData?.dispose){const dispose=o.userData.dispose;delete o.userData.dispose;dispose();}if(o.geometry)geometries.add(o.geometry);for(const m of (Array.isArray(o.material)?o.material:[o.material]).filter(Boolean)){materials.add(m);for(const t of Object.values(m))if(t?.isTexture)textures.add(t);}});
  for(const g of geometries)g.dispose();
  for(const t of textures){t.dispose();t.image?.close?.();}
  for(const m of materials)m.dispose();
