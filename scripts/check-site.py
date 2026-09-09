@@ -27,7 +27,7 @@ class Page(HTMLParser):
             if (en in attrs) != (zh in attrs):
                 self.errors.append(f"incomplete translation: {attrs.get(en, attrs.get(zh))}")
 
-pages = {name: Page((ROOT / name).read_text()) for name in ("index.html", "rcap-2026.html", "software-data.html")}
+pages = {name: Page((ROOT / name).read_text()) for name in ("index.html", "projects.html", "rcap-2026.html", "software-data.html", "uav-simulation.html", "robotedge-lab.html", "agenthub.html", "volary-dashboard.html", "volary-uav.html", "remote-monitoring.html")}
 errors = []
 for name, page in pages.items():
     errors.extend(f"{name}: {error}" for error in page.errors)

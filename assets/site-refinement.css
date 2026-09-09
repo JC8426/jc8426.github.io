@@ -1,0 +1,32 @@
+/* Shared atmosphere below the scene: glacial blue by day, lunar graphite at night. */
+:root,body.force-light{--bg:#d4e5e9;--bg-rgb:212 229 233;--surface:rgb(233 244 246 / .72);--surface-strong:#e5f0f2;--text:#17313d;--muted:#496674;--subtle:#617f8b;--line:rgb(31 70 86 / .16);--line-strong:rgb(31 70 86 / .28);--accent:#245e70;--accent-soft:rgb(36 94 112 / .12);--shadow:0 20px 60px rgb(29 66 82 / .08);--icon-filter:none;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#272b2e;--bg-rgb:39 43 46;--surface:rgb(53 60 65 / .74);--surface-strong:#30363b;--text:#e9eef0;--muted:#acbcc4;--subtle:#849aa6;--line:rgb(218 235 242 / .14);--line-strong:rgb(218 235 242 / .27);--accent:#a5cbd3;--accent-soft:rgb(165 203 211 / .12);--shadow:0 20px 60px rgb(0 0 0 / .18);--icon-filter:invert(1);color-scheme:dark}}
+body.force-dark{--bg:#272b2e;--bg-rgb:39 43 46;--surface:rgb(53 60 65 / .74);--surface-strong:#30363b;--text:#e9eef0;--muted:#acbcc4;--subtle:#849aa6;--line:rgb(218 235 242 / .14);--line-strong:rgb(218 235 242 / .27);--accent:#a5cbd3;--accent-soft:rgb(165 203 211 / .12);--shadow:0 20px 60px rgb(0 0 0 / .18);--icon-filter:invert(1);color-scheme:dark}
+body::before{background-image:radial-gradient(ellipse at 12% 12%,rgb(92 157 176 / .13),transparent 50%);background-size:100% 100%;animation:none;opacity:1}
+body::after{background:linear-gradient(180deg,transparent,rgb(var(--bg-rgb) / .6));animation:none}
+.hero{box-shadow:none!important}
+.hero:is(.has-3d,.scene-loading)::after{height:70px;background:linear-gradient(180deg,transparent,var(--bg));filter:none}
+.hero:is(.has-3d,.scene-loading)::before{background:linear-gradient(180deg,#030a1000 48%,#07131bcc 88%,#07131be6 100%)}
+.hero.exploring::after{display:none}
+main.site-shell>div{background:transparent}
+#systems{padding-top:64px}
+.section-head{margin-bottom:28px}
+.footer-note{max-width:600px}
+/* Photo columns end together; their original image proportions remain visible. */
+.taste-workbench,.taste-panel,.taste-panel.active,.parallax-gallery{min-height:0!important}
+.taste-panel{padding-bottom:0!important}
+.parallax-gallery{gap:16px;align-items:stretch;overflow:hidden}
+.parallax-col{padding-top:0!important;align-self:stretch;display:flex;flex-direction:column;transform:none!important;animation:none!important;will-change:auto;gap:16px}
+.parallax-shot,.parallax-shot.portrait,.parallax-shot.tall,.parallax-shot.square,.parallax-shot.wide,.parallax-shot.panorama{min-height:0;border-radius:13px;box-shadow:none}
+.parallax-shot img{height:100%;object-fit:cover}
+@media(max-width:800px){.parallax-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.parallax-col{gap:12px}.parallax-shot{border-radius:10px}}
+@media(max-width:480px){.parallax-gallery{gap:9px}.parallax-col{gap:9px}#systems{padding-top:42px}.hero:is(.has-3d,.scene-loading)::after{height:36px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.hero:not(.exploring):is(.has-3d,.scene-loading) .hero-content{bottom:76px}
+@media(max-width:600px){.hero:not(.exploring):is(.has-3d,.scene-loading) .hero-content{bottom:46px}}
+.parallax-shot>a{display:block;width:100%;height:100%}.parallax-shot>a:focus-visible{outline:3px solid var(--accent);outline-offset:-4px}
+.taste-workbench{margin-top:32px}.taste-panel{padding:0!important}
+section.reveal{padding-top:clamp(62px,6.5vw,92px);padding-bottom:clamp(62px,6.5vw,92px);scroll-margin-top:0}
+#systems{scroll-margin-top:20px}
+@media(max-width:600px){section.reveal{scroll-margin-top:10px}#systems{scroll-margin-top:20px}}

@@ -1,0 +1,8 @@
+{
+  "vertices": 60101,
+  "triangles": 67596,
+  "bufferBytes": 2336800,
+  "glbBytes": 2363388,
+  "textureGpuBytes": 1048576,
+  "notes": "Geometry and textures shared by all 5 drones. Near/far geometry both resident. Browser overhead excluded."
+}
