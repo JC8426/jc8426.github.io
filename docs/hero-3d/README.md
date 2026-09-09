@@ -9,7 +9,25 @@ Run `python3 -m http.server 8080 --bind 127.0.0.1` from the repository root.
 - Fleet experiment: http://127.0.0.1:8080/
 - Original video comparison: http://127.0.0.1:8080/?hero=video
 
-## Revision 3
+## Revision 4 (current)
+
+Default mode runs the supplied closed figure-eight route at 2.4 horizontal scene m/s at the default pace. XY coordinates map to world XZ. The supplied Z=1 is interpreted as +1 m relative to the previous 4.3 m cruise clearance, so nominal patrol clearance is 5.3 m above local ground. This is visual terrain following, not a flight controller.
+
+The automatic director cycles wide fleet (15 s), stationary broadcast tracking (12 s), individual follow (11 s), onboard (7 s), and wide fleet (12 s). Camera changes are editorial cuts with damped tracking inside each shot. It freezes for reduced motion or pause. Selected models are hidden only for their onboard view; labels and selection rings are absent in cinematic mode.
+
+**Browse scene / 浏览场景** enters the full viewport controls. All secondary controls are hidden and inert before entry. The initial HUD reports mean fleet clearance, mean 3D speed and route progress; exploration reports the selected unit. Exiting returns toward the nearest patrol point at bounded horizontal speed, then resumes the loop. Theme changes preserve clearance. Navigation links exit exploration.
+
+Physical WASD/QE/RF key codes are handled at window level only while exploration and pilot mode are active. Text fields retain their normal input. A short key press is consumed for at least one simulation frame even if keyup arrives before the next frame. Blur, visibility changes, mode/selection changes, and text-input focus clear input. Pilot resumes a paused scene explicitly.
+
+A / line / S / matrix formations use five unique slots and minimum-travel assignments biased toward separation. Tests cover all preset-to-preset transitions with >3.7 m horizontal separation. This is **not** a collision guarantee for arbitrary manual positions, obstacle avoidance, or native EGO-Swarm. Waypoints preserve the active layout; formation expansion near navigation limits recenters the fleet.
+
+Terrain now spans 1024 m with ±240 m flight bounds: a 256 m / 0.5 m centre, 512 m / 2 m middle ring and 1024 m / 4 m horizon. Irregular dune chains, eroded crater profiles, synchronized offset PBR sampling, continuous edge normals and terrain shadows replace the smaller world. All separate pebble meshes are removed. [Terrain details](terrain-revision-4.md).
+
+The scene remains a procedural terrain reconstruction with photographic surface textures and a reference-guided drone model. **Extreme photorealism is not yet achieved**: it does not use a scanned terrain mesh, calibrated HDR environment or manufacturer CAD. A reviewed Aerial Sand texture was rejected because its footprints/vehicle tracks did not fit this setting; no additional raster assets were shipped.
+
+See [EGO portability and CPU/GPU budget](ego-portability.md) and [verification](revision4-verification.md). Developer-only `?heroStats=1` displays rendered frame rate, draw calls, triangles and deduplicated geometry/texture estimates; it is absent from the normal homepage. These estimates exclude shadow/environment/framebuffer targets and driver overhead, and do not measure actual GPU resident memory.
+
+## Revision 3 (historical baseline)
 
 Reference: the user's third aircraft screenshot and `swarm_formation.mp4`. The recording was inspected locally; it is not redistributed.
 
@@ -49,7 +67,7 @@ Reduced-motion starts paused. Rendering is suspended when the hero is offscreen 
 
 - `scene.js`: fleet, selection, camera, input, telemetry and lifecycle.
 - `research-drone.js`: reference-guided batched aircraft geometry.
-- `world.js`: terrain, rock instances and material sets.
+- `world.js`: terrain LOD rings, scanned surface materials and height queries.
 - `flight-state.mjs`: pure movement, speed, centroid, waypoint stepping and formation helpers.
 - `scene.css`: responsive hero controls.
 - `tests/flight-state.test.mjs`: movement, altitude, boundary and formation checks.

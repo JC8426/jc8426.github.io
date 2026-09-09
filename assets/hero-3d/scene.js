@@ -3,7 +3,7 @@ import {OrbitControls} from '../vendor/three/OrbitControls.js';
 import {Sky} from '../vendor/three/Sky.js';
 import {createResearchDrone,unitLabel} from './research-drone.js';
 import {createWorld,groundHeight,WORLD_LIMIT} from './world.js';
-import {manualStep,automaticPose,SPEED_MULTIPLIER,fleetCenter,clampWaypoint,advanceWaypoint,formationTarget} from './flight-state.mjs';
+import {manualStep,SPEED_MULTIPLIER,fleetCenter,clampWaypoint,advanceWaypoint,formationTarget,flightKey,acceptsFlightInput,FORMATIONS,assignFormation,patrolPose,nearestPatrolDistance} from './flight-state.mjs';
 
 const hero=document.querySelector('.hero'),host=document.querySelector('#drone-scene');
 const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
@@ -11,11 +11,36 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)'),darkMedia=matchMedia
 const state={selected:0,mode:'overview',exploring:false,paused:reduce.matches,pace:.6,dark:false,ready:false};
 let renderer,scene,camera,controls,day,night,sky,stars,keyLight,fillLight;
 let units=[],frame=0,last=0,clock=0,active=true,transition=0,hudTime=0,failed=false,entryScroll=0;
-const keys=new Set(),touch=new Set(),ray=new T.Raycaster(),pointer=new T.Vector2();
+const keys=new Set(),pressed=new Set(),touch=new Set(),ray=new T.Raycaster(),pointer=new T.Vector2();
 const cameraGoal=new T.Vector3(),targetGoal=new T.Vector3();
 const tr=(en,zh)=>document.documentElement.lang.startsWith('zh')?zh:en;
 const floor=(x,z)=>groundHeight(x,z,state.dark),selected=()=>units[state.selected];
 let waypointArmed=false,mission=null,goalMarker,routeLine;
+let rejoining=false,patrolDistance=0,shotTime=0,shotIndex=0,slots=FORMATIONS.a.map(p=>[...p]),slotGoal=slots,formation='a';
+const shots=[{mode:'overview',duration:15},{mode:'broadcast',duration:12},{mode:'follow',duration:11},{mode:'fpv',duration:7},{mode:'overview',duration:12}];
+let broadcastPosition=new T.Vector3(55,32,-55),fleetSpeed=0,statsElapsed=0,statsFrames=0;
+const diagnostic=new URLSearchParams(location.search).has('heroStats');
+function updateVisibility(){
+ for(const u of units){u.root.visible=!(state.mode==='fpv'&&u===selected());u.marker.visible=state.exploring&&u===selected()&&state.mode!=='fpv';u.label.visible=state.exploring&&state.mode!=='fpv';}
+}
+function setFormation(name){
+ if(!FORMATIONS[name]||!state.ready)return;
+ const center=fleetCenter(units.map(u=>u.root.position));
+ slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);slotGoal=assignFormation(slots,FORMATIONS[name]);formation=name;
+ for(const u of units)u.manual=false;
+ if(mission){mission.center=center;mission.slots=slots;mission.goal=clampWaypoint(mission.goal,WORLD_LIMIT,slotGoal);mission.yaw=Math.atan2(mission.goal.x-center.x,mission.goal.z-center.z);if(Math.hypot(mission.goal.x-center.x,mission.goal.z-center.z)>.01&&mission.status==='holding')mission.status='traveling';refreshRoute();}
+ keys.clear();pressed.clear();touch.clear();labels();
+}
+function reportResources(){
+ if(!diagnostic)return;
+ const gs=new Set(),ts=new Set(),buffers=new Set();let geometry=0,textures=0;
+ scene.traverse(o=>{if(o.geometry)gs.add(o.geometry);for(const m of (Array.isArray(o.material)?o.material:[o.material]).filter(Boolean))for(const v of Object.values(m))if(v?.isTexture)ts.add(v);});
+ for(const g of gs)for(const a of [...Object.values(g.attributes),g.index].filter(Boolean)){if(!buffers.has(a.array)){geometry+=a.array.byteLength;buffers.add(a.array);}}
+ for(const t of ts){const img=t.image;if(img?.width&&img?.height)textures+=img.width*img.height*4*(t.generateMipmaps?4/3:1);}
+ let panel=$('[data-render-stats]');if(!panel){panel=document.createElement('output');panel.dataset.renderStats='';panel.style.cssText='position:fixed;left:8px;bottom:8px;z-index:100;background:#000c;color:white;padding:8px;font:11px monospace;pointer-events:none';document.body.append(panel);}
+ panel.textContent=`${(statsFrames/(statsElapsed||1)).toFixed(1)} fps · ${renderer.info.render.calls} draws · ${renderer.info.render.triangles.toLocaleString()} triangles · geometry ${(geometry/1048576).toFixed(1)} MiB · texture estimate ${(textures/1048576).toFixed(1)} MiB (excludes targets/driver)`;
+}
+
 function waypointLabels(){
  $('[data-waypoint]').textContent=waypointArmed?tr('Click ground…','请点选地面…'):tr('Set waypoint','设置航点');
  $('[data-waypoint]').setAttribute('aria-pressed',String(waypointArmed));
@@ -42,24 +67,30 @@ function refreshRoute(){
  routeLine.geometry.dispose();routeLine.geometry=new T.BufferGeometry().setFromPoints(points);routeLine.computeLineDistances();
 }
 function sendFleet(point){
- const center=fleetCenter(units.map(u=>u.root.position)),slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);
+ const center=fleetCenter(units.map(u=>u.root.position));slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);
  const goal=clampWaypoint(point,WORLD_LIMIT,slots);
+ slotGoal=slots.map(p=>[...p]);
  mission={center,start:{...center},goal,slots,status:'traveling',yaw:Math.atan2(goal.x-center.x,goal.z-center.z)};
  for(const u of units)u.manual=false;
- waypointArmed=false;keys.clear();touch.clear();goalMarker.visible=true;routeLine.visible=true;refreshRoute();labels();render();
+ waypointArmed=false;keys.clear();pressed.clear();touch.clear();goalMarker.visible=true;routeLine.visible=true;refreshRoute();labels();render();
 }
 function cancelWaypoint(){
  waypointArmed=false;
- if(mission){mission.center=fleetCenter(units.map(u=>u.root.position));mission.goal={...mission.center};mission.slots=units.map(u=>[u.root.position.x-mission.center.x,u.root.position.z-mission.center.z]);mission.status='cancelled';}
+ if(mission){mission.center=fleetCenter(units.map(u=>u.root.position));mission.goal={...mission.center};mission.slots=units.map(u=>[u.root.position.x-mission.center.x,u.root.position.z-mission.center.z]);mission.status='cancelled';slots=mission.slots;slotGoal=slots.map(p=>[...p]);}
  if(goalMarker){goalMarker.visible=false;routeLine.visible=false;}labels();render();
 }
 function labels(){
  $('[data-scene-status]').textContent=state.dark?tr('LUNAR REGOLITH / 05 UNITS','月球表面 / 5 架无人机'):tr('DESERT EXPEDITION / 05 UNITS','沙漠巡航 / 5 架无人机');
  $('[data-scene-motion]').textContent=state.paused?tr('Resume','继续'):tr('Pause','暂停');
  $('[data-scene-motion]').setAttribute('aria-pressed',String(state.paused));
- $('[data-scene-explore]').textContent=state.exploring?tr('Exit exploration','退出探索'):tr('Explore fleet','探索集群');
+ $('[data-scene-explore]').textContent=state.exploring?tr('Exit exploration','退出探索'):tr('Browse scene','浏览场景');
  $('[data-scene-explore]').setAttribute('aria-pressed',String(state.exploring));
- $('[data-unit-heading]').textContent=`U0${state.selected+1}`;
+ $('[data-unit-heading]').textContent=state.exploring?`U0${state.selected+1}`:tr('FLEET / 05','集群 / 05');
+ $('.fleet-dock').inert=!state.exploring;
+ all('[data-formation]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.formation===formation)));
+ $('[data-altitude-label]').textContent=state.exploring?tr('Ground clearance','离地高度'):tr('Mean clearance','平均净空');
+ $('[data-speed-label]').textContent=state.exploring?tr('Speed','速度'):tr('Mean speed','平均速度');
+ $('[data-distance-label]').textContent=state.exploring?tr('Distance','累计航程'):tr('Patrol progress','巡航进度');
  all('[data-unit]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.unit)===state.selected)));
  all('[data-camera]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.camera===state.mode)));
  $('[data-manual]').setAttribute('aria-pressed',String(selected()?.manual||false));
@@ -70,27 +101,34 @@ function labels(){
 function explore(on){
  if(!state.ready)return;
  if(on&&!state.exploring)entryScroll=window.scrollY;state.exploring=on;hero.classList.toggle('exploring',on);document.body.classList.toggle('scene-exploring',on);host.tabIndex=on?0:-1;if(!on)window.scrollTo({top:entryScroll,behavior:'instant'});
- renderer.domElement.style.touchAction=on?'none':'pan-y';controls.enabled=on&&state.mode!=='fpv';if(!on)waypointArmed=false;keys.clear();touch.clear();labels();if(on)host.focus({preventScroll:true});
+ renderer.domElement.style.touchAction=on?'none':'pan-y';controls.enabled=on&&state.mode!=='fpv';if(!on){
+ const center=fleetCenter(units.map(u=>u.root.position));patrolDistance=nearestPatrolDistance(center);rejoining=true;
+ slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);slotGoal=assignFormation(slots,FORMATIONS[formation]);
+ waypointArmed=false;mission=null;goalMarker.visible=routeLine.visible=false;for(const u of units)u.manual=false;state.paused=reduce.matches;shotIndex=0;shotTime=0;view('overview');}else if(state.mode==='broadcast')view('overview');
+ updateVisibility();keys.clear();pressed.clear();touch.clear();labels();if(on)host.focus({preventScroll:true});
 }
 function view(mode){
  if(!state.ready)return;state.mode=mode;controls.enabled=state.exploring&&mode!=='fpv';transition=1;
- for(const u of units){u.root.visible=!(mode==='fpv'&&u===selected());u.marker.visible=u===selected()&&mode!=='fpv';u.label.visible=mode!=='fpv';}labels();
+ updateVisibility();labels();
 }
-function choose(i){if(!Number.isInteger(i)||i<0||i>=units.length)return;state.selected=i;keys.clear();touch.clear();view(state.mode==='overview'?'follow':state.mode);if(state.exploring)host.focus({preventScroll:true});}
+function choose(i){if(!Number.isInteger(i)||i<0||i>=units.length)return;state.selected=i;keys.clear();pressed.clear();touch.clear();view(state.mode==='overview'?'follow':state.mode);if(state.exploring)host.focus({preventScroll:true});}
 function syncTheme(){
  if(!state.ready)return;const previousDark=state.dark;
  state.dark=document.body.classList.contains('force-dark')||(!document.body.classList.contains('force-light')&&darkMedia.matches);
  day.visible=!state.dark;night.visible=state.dark;sky.visible=!state.dark;stars.visible=state.dark;
- scene.background=new T.Color(state.dark?'#030406':'#ccbaa0');scene.fog=state.dark?new T.Fog('#08090b',110,255):new T.Fog('#d5b992',95,250);
- keyLight.color.set(state.dark?'#eee9df':'#ffddb0');keyLight.intensity=state.dark?3.2:3.8;
- fillLight.color.set(state.dark?'#a8b5c8':'#dbe8ed');fillLight.groundColor.set(state.dark?'#1e2127':'#705b44');fillLight.intensity=state.dark?.46:.9;
- scene.environmentIntensity=state.dark?.3:.65;renderer.toneMappingExposure=state.dark?1.02:1;
+ scene.background=new T.Color(state.dark?'#030406':'#ccbaa0');scene.fog=state.dark?new T.Fog('#08090b',350,850):new T.Fog('#d5b992',260,820);
+ keyLight.color.set(state.dark?'#eee9df':'#ffddb0');keyLight.intensity=state.dark?4.1:3.8;
+ fillLight.color.set(state.dark?'#a8b5c8':'#dbe8ed');fillLight.groundColor.set(state.dark?'#1e2127':'#705b44');fillLight.intensity=state.dark?.55:.55;
+ scene.environmentIntensity=state.dark?.45:.65;renderer.toneMappingExposure=state.dark?1.28:1;
  for(const u of units){const p=u.root.position,clearance=p.y-groundHeight(p.x,p.z,previousDark);p.y=floor(p.x,p.z)+Math.max(1.25,clearance);}
+ camera.position.y+=groundHeight(camera.position.x,camera.position.z,state.dark)-groundHeight(camera.position.x,camera.position.z,previousDark);
+ controls.target.y+=groundHeight(controls.target.x,controls.target.z,state.dark)-groundHeight(controls.target.x,controls.target.z,previousDark);
  host.dataset.environment=state.dark?'moon':'desert';refreshRoute();labels();render();
 }
 function cameraTargets(){
  const p=selected().root.position,yaw=selected().yaw;
- if(state.mode==='overview'){const center=fleetCenter(units.map(u=>u.root.position));targetGoal.set(center.x,floor(center.x,center.z)+3,center.z);cameraGoal.set(5,11,38);if(camera.aspect<.8)cameraGoal.multiplyScalar(1.35);cameraGoal.add(targetGoal);}
+ if(state.mode==='overview'){const center=fleetCenter(units.map(u=>u.root.position));targetGoal.set(center.x,floor(center.x,center.z)+3,center.z);cameraGoal.set(state.exploring?5:28,state.exploring?11:22,state.exploring?38:52);if(camera.aspect<.8)cameraGoal.multiplyScalar(1.35);cameraGoal.add(targetGoal);}
+ else if(state.mode==='broadcast'){const center=fleetCenter(units.map(u=>u.root.position));targetGoal.set(center.x,floor(center.x,center.z)+4,center.z);cameraGoal.copy(broadcastPosition);}
  else if(state.mode==='follow'){targetGoal.copy(p).add(new T.Vector3(0,.24,0));cameraGoal.set(4.5,2.8,7.5).applyAxisAngle(new T.Vector3(0,1,0),yaw).add(p);}
  else if(state.mode==='fpv'){cameraGoal.set(0,.3,1).applyAxisAngle(new T.Vector3(0,1,0),yaw).add(p);targetGoal.set(Math.sin(yaw)*20,1,Math.cos(yaw)*20).add(cameraGoal);}
  else{targetGoal.copy(controls.target);cameraGoal.copy(camera.position);}
@@ -98,48 +136,71 @@ function cameraTargets(){
 function resize(){if(!renderer)return;const b=host.getBoundingClientRect();if(!b.width||!b.height)return;renderer.setSize(b.width,b.height,false);camera.aspect=b.width/b.height;camera.fov=b.width<650?56:40;camera.updateProjectionMatrix();render();}
 function render(){if(renderer&&state.ready&&!failed)renderer.render(scene,camera);}
 function stepCamera(dt){
+ if(!state.exploring&&!state.paused&&!reduce.matches){
+  shotTime+=dt;
+  if(shotTime>shots[shotIndex].duration){
+   shotTime=0;shotIndex=(shotIndex+1)%shots.length;state.selected=(state.selected+1)%5;state.mode=shots[shotIndex].mode;
+   const center=fleetCenter(units.map(u=>u.root.position));broadcastPosition.set(center.x+42,floor(center.x+42,center.z-38)+25,center.z-38);
+   updateVisibility();cameraTargets();camera.position.copy(cameraGoal);controls.target.copy(targetGoal);camera.lookAt(targetGoal);host.dataset.camera=state.mode;
+  }
+ }
  cameraTargets();
+ cameraGoal.y=Math.max(cameraGoal.y,floor(cameraGoal.x,cameraGoal.z)+1.4);
+ if(!state.exploring){transition=Math.max(0,transition-dt);camera.position.lerp(cameraGoal,1-Math.exp(-dt*3));controls.target.lerp(targetGoal,1-Math.exp(-dt*4));camera.lookAt(controls.target);return;}
  if(state.mode==='fpv'){camera.position.lerp(cameraGoal,1-Math.exp(-dt*9));controls.target.lerp(targetGoal,1-Math.exp(-dt*9));camera.lookAt(controls.target);return;}
  if(transition>0){const b=1-Math.exp(-dt*5);camera.position.lerp(cameraGoal,b);controls.target.lerp(targetGoal,b);transition-=dt;camera.lookAt(controls.target);}
  else if(state.mode==='follow'||state.mode==='overview'){const delta=targetGoal.clone().sub(controls.target);camera.position.add(delta);controls.target.copy(targetGoal);}
  controls.update();
+ const minimum=floor(camera.position.x,camera.position.z)+1.2;
+ if(camera.position.y<minimum){camera.position.y=minimum;camera.lookAt(controls.target);}
 }
 function updateHud(u,speed){
- $('[data-flight-altitude]').textContent=(u.root.position.y-floor(u.root.position.x,u.root.position.z)).toFixed(1)+' m';
- $('[data-flight-speed]').textContent=speed.toFixed(2)+' m/s';$('[data-flight-distance]').textContent=u.distance.toFixed(1)+' m';
- $('[data-flight-state]').textContent=state.paused?tr('Paused','已暂停'):u.manual?tr('Manual control','手动操控'):mission?mission.status==='traveling'?tr('To waypoint','前往航点'):tr('Holding formation','编队悬停'):tr('Formation flight','编队飞行');host.dataset.flight=state.paused?'paused':u.manual?'manual':'formation';waypointLabels();
+ const clearance=state.exploring?u.root.position.y-floor(u.root.position.x,u.root.position.z):units.reduce((a,v)=>a+v.root.position.y-floor(v.root.position.x,v.root.position.z),0)/units.length;
+ $('[data-flight-altitude]').textContent=clearance.toFixed(1)+' m';
+ $('[data-flight-speed]').textContent=(state.exploring?speed:fleetSpeed).toFixed(2)+' m/s';
+ $('[data-flight-distance]').textContent=state.exploring?u.distance.toFixed(1)+' m':(patrolPose(patrolDistance).progress*100).toFixed(0)+'%';
+ $('[data-flight-state]').textContent=state.paused?tr('Paused','已暂停'):u.manual?tr('Manual control','手动操控'):mission?mission.status==='traveling'?tr('To waypoint','前往航点'):tr('Holding formation','编队悬停'):rejoining?tr('Returning to patrol','返回巡航'):tr('Figure-eight patrol','8 字巡航');
+ host.dataset.flight=state.paused?'paused':u.manual?'manual':'formation';host.dataset.position=`${u.root.position.x.toFixed(3)},${u.root.position.y.toFixed(3)},${u.root.position.z.toFixed(3)}`;host.dataset.heading=u.yaw.toFixed(3);
+ waypointLabels();reportResources();
 }
 function animate(now){
- frame=requestAnimationFrame(animate);const dt=Math.min((now-(last||now))/1000,.05);last=now;
- if(!active||document.hidden||failed)return;if(!state.paused)clock+=dt*state.pace*SPEED_MULTIPLIER;let speed=0;
- if(mission&&mission.status==='traveling'&&!state.paused){const next=advanceWaypoint(mission.center,mission.goal,dt,2*state.pace*SPEED_MULTIPLIER);mission.center={x:next.x,z:next.z};if(next.arrived)mission.status='holding';}
+ frame=requestAnimationFrame(animate);const elapsed=(now-(last||now))/1000,dt=Math.min(elapsed,.05);last=now;
+ if(!active||document.hidden||failed)return;
+ statsElapsed+=elapsed;if(statsElapsed>5){statsElapsed=elapsed;statsFrames=0;}
+ if(!state.paused){clock+=dt*state.pace*SPEED_MULTIPLIER;if(!mission&&!rejoining)patrolDistance+=dt*2*state.pace*SPEED_MULTIPLIER;
+  const blend=1-Math.exp(-dt*1.5);slots=slots.map((p,i)=>p.map((v,j)=>T.MathUtils.lerp(v,slotGoal[i][j],blend)));if(mission){mission.slots=slots;mission.center=clampWaypoint(mission.center,WORLD_LIMIT,slots);}
+ }let speed=0;fleetSpeed=0;
+ if(mission&&mission.status==='traveling'&&!state.paused){mission.yaw=Math.atan2(mission.goal.x-mission.center.x,mission.goal.z-mission.center.z);const next=advanceWaypoint(mission.center,mission.goal,dt,2*state.pace*SPEED_MULTIPLIER);mission.center=clampWaypoint(next,WORLD_LIMIT,slots);if(Math.hypot(mission.center.x-mission.goal.x,mission.center.z-mission.goal.z)<.01)mission.status='holding';}
  for(const u of units){const before=u.root.position.clone();
   if(!state.paused){
-   if(u.manual){const held=(k,c)=>keys.has(k)||touch.has(c);const input={forward:+held('w','forward')-held('s','back'),side:+held('d','right')-held('a','left'),up:+held('r','rise')-held('f','fall'),yaw:+held('q','yawLeft')-held('e','yawRight')};const v=manualStep(before,u.yaw,u===selected()&&state.exploring?input:{},dt,2*state.pace*SPEED_MULTIPLIER,floor,WORLD_LIMIT);u.root.position.set(v.x,v.y,v.z);u.yaw=v.yaw;}
+   if(u.manual){const held=(k,c)=>keys.has(k)||pressed.has(k)||touch.has(c);const input={forward:+held('w','forward')-held('s','back'),side:+held('d','right')-held('a','left'),up:+held('r','rise')-held('f','fall'),yaw:+held('q','yawLeft')-held('e','yawRight')};const v=manualStep(before,u.yaw,u===selected()&&state.exploring?input:{},dt,2*state.pace*SPEED_MULTIPLIER,floor,WORLD_LIMIT);u.root.position.set(v.x,v.y,v.z);u.yaw=v.yaw;}
    else if(mission){const p=formationTarget(u.index,mission.center,mission.slots);const blend=1-Math.exp(-dt*4);u.root.position.set(mission.status==='traveling'?p.x:T.MathUtils.lerp(u.root.position.x,p.x,blend),T.MathUtils.lerp(u.root.position.y,floor(p.x,p.z)+4.3+Math.sin(clock*.55+u.index)*.10,blend),mission.status==='traveling'?p.z:T.MathUtils.lerp(u.root.position.z,p.z,blend));u.yaw+=Math.atan2(Math.sin(mission.yaw-u.yaw),Math.cos(mission.yaw-u.yaw))*(1-Math.exp(-dt*3));}
-   else{const p=automaticPose(u.index,clock);u.root.position.lerp(new T.Vector3(p.x,floor(p.x,p.z)+p.height,p.z),1-Math.exp(-dt*2));u.yaw=p.yaw;}
+   else{const c=patrolPose(patrolDistance),p=formationTarget(u.index,c,slots);p.x=T.MathUtils.clamp(p.x,-WORLD_LIMIT,WORLD_LIMIT);p.z=T.MathUtils.clamp(p.z,-WORLD_LIMIT,WORLD_LIMIT);if(rejoining){const step=advanceWaypoint(u.root.position,p,dt,2*state.pace*SPEED_MULTIPLIER);u.root.position.set(step.x,T.MathUtils.lerp(u.root.position.y,floor(step.x,step.z)+c.height,1-Math.exp(-dt*3)),step.z);}else u.root.position.lerp(new T.Vector3(p.x,floor(p.x,p.z)+c.height,p.z),1-Math.exp(-dt*3));u.yaw+=Math.atan2(Math.sin(c.yaw-u.yaw),Math.cos(c.yaw-u.yaw))*(1-Math.exp(-dt*4));}
    for(let i=0;i<u.rotors.length;i++)u.rotors[i].rotation.y+=dt*48*(i%2?1:-1);u.root.rotation.set(Math.sin(clock*.7+u.index)*.018,u.yaw,Math.cos(clock*.6+u.index)*.018);
   }
-  const distance=before.distanceTo(u.root.position);u.distance+=distance;if(u===selected())speed=dt>0?distance/dt:0;
+  u.root.position.y=Math.max(u.root.position.y,floor(u.root.position.x,u.root.position.z)+1.25);
+  const distance=before.distanceTo(u.root.position);u.distance+=distance;fleetSpeed+=dt>0?distance/dt/units.length:0;if(u===selected())speed=dt>0?distance/dt:0;
  }
- const lightCenter=fleetCenter(units.map(u=>u.root.position)),ground=floor(lightCenter.x,lightCenter.z);keyLight.position.set(lightCenter.x-24,ground+30,lightCenter.z+18);keyLight.target.position.set(lightCenter.x,ground,lightCenter.z);
- stepCamera(dt);hudTime+=dt;if(hudTime>.15){hudTime=0;updateHud(selected(),speed);}if(!state.paused||state.exploring||transition>0)render();
+ if(rejoining){const c=patrolPose(patrolDistance);rejoining=!units.every(u=>{const p=formationTarget(u.index,c,slotGoal);return Math.hypot(u.root.position.x-p.x,u.root.position.z-p.z)<.15;});}
+ pressed.clear();
+ const lightCenter=fleetCenter(units.map(u=>u.root.position)),ground=floor(lightCenter.x,lightCenter.z);keyLight.position.set(lightCenter.x-52,ground+22,lightCenter.z+26);keyLight.target.position.set(lightCenter.x,ground,lightCenter.z);
+ stepCamera(dt);hudTime+=dt;if(hudTime>.15){hudTime=0;updateHud(selected(),speed);}if(!state.paused||state.exploring||transition>0){render();statsFrames++;}
 }
 function init(){
  state.dark=document.body.classList.contains('force-dark')||(!document.body.classList.contains('force-light')&&darkMedia.matches);
  renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<650?1.25:1.65));renderer.toneMapping=T.ACESFilmicToneMapping;renderer.outputColorSpace=T.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
  host.appendChild(renderer.domElement);renderer.domElement.style.touchAction='pan-y';renderer.domElement.setAttribute('aria-label','Selectable five-aircraft fleet');
- scene=new T.Scene();camera=new T.PerspectiveCamera(40,1,.12,600);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=2.3;controls.maxDistance=80;controls.maxPolarAngle=Math.PI*.48;controls.minPolarAngle=.08;controls.enabled=false;
+ scene=new T.Scene();camera=new T.PerspectiveCamera(40,1,.12,1800);controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=2.3;controls.maxDistance=300;controls.maxPolarAngle=Math.PI*.48;controls.minPolarAngle=.08;controls.enabled=false;
  const manager=new T.LoadingManager();manager.onLoad=()=>{host.dataset.materials='loaded';render();};manager.onError=()=>{host.dataset.materials='partial';};
  const loader=new T.TextureLoader(manager),aniso=Math.min(8,renderer.capabilities.getMaxAnisotropy());day=createWorld(false,loader,aniso);night=createWorld(true,loader,aniso);scene.add(day,night);
- sky=new Sky();sky.scale.setScalar(500);const un=sky.material.uniforms;un.turbidity.value=4;un.rayleigh.value=1.3;un.mieCoefficient.value=.004;un.sunPosition.value.set(-.45,.3,-.65);scene.add(sky);
+ sky=new Sky();sky.scale.setScalar(1400);const un=sky.material.uniforms;un.turbidity.value=2.3;un.rayleigh.value=2.1;un.mieCoefficient.value=.004;un.sunPosition.value.set(-.8,.24,.4);scene.add(sky);
  const envScene=new T.Scene();envScene.add(sky.clone());const pmrem=new T.PMREMGenerator(renderer);scene.environment=pmrem.fromScene(envScene,.03).texture;pmrem.dispose();
- keyLight=new T.DirectionalLight('#fff2dd',3);keyLight.position.set(-24,30,18);keyLight.castShadow=true;keyLight.shadow.mapSize.set(2048,2048);Object.assign(keyLight.shadow.camera,{left:-40,right:40,top:40,bottom:-40,near:.5,far:120});keyLight.shadow.bias=-.0002;keyLight.shadow.normalBias=.035;scene.add(keyLight,keyLight.target);
+ keyLight=new T.DirectionalLight('#fff2dd',3);keyLight.position.set(-24,30,18);keyLight.castShadow=true;keyLight.shadow.mapSize.set(2048,2048);Object.assign(keyLight.shadow.camera,{left:-40,right:40,top:40,bottom:-40,near:.5,far:200});keyLight.shadow.bias=-.0002;keyLight.shadow.normalBias=.035;scene.add(keyLight,keyLight.target);
  fillLight=new T.HemisphereLight('#bccbdb','#342d25',.5);scene.add(fillLight);const rim=new T.DirectionalLight('#a8c8ef',1.15);rim.position.set(10,8,-18);scene.add(rim);
- const starsArray=[];for(let i=0;i<1400;i++){const a=i*2.399963,y=((i*73)%1400)/1400,r=Math.sqrt(1-y*y);starsArray.push(Math.sin(a)*r*280,y*280,Math.cos(a)*r*280);}const sg=new T.BufferGeometry();sg.setAttribute('position',new T.Float32BufferAttribute(starsArray,3));stars=new T.Points(sg,new T.PointsMaterial({size:.22,color:'#7a889d',fog:false}));scene.add(stars);
+ const starsArray=[];for(let i=0;i<1400;i++){const a=i*2.399963,y=((i*73)%1400)/1400,r=Math.sqrt(1-y*y);starsArray.push(Math.sin(a)*r*1200,y*1200,Math.cos(a)*r*1200);}const sg=new T.BufferGeometry();sg.setAttribute('position',new T.Float32BufferAttribute(starsArray,3));stars=new T.Points(sg,new T.PointsMaterial({size:.5,color:'#7a889d',fog:false}));scene.add(stars);
  const prototype=createResearchDrone();
- for(let i=0;i<5;i++){const root=prototype.root.clone(true);root.userData.unitId=i;const pose=automaticPose(i,0);root.position.set(pose.x,floor(pose.x,pose.z)+pose.height,pose.z);scene.add(root);const rotors=root.children.slice(1,5);const marker=new T.Mesh(new T.RingGeometry(1.55,1.57,80),new T.MeshBasicMaterial({color:'#b4c58b',side:T.DoubleSide,transparent:true,opacity:.55,depthWrite:false}));marker.rotation.x=-Math.PI/2;marker.position.y=-.7;marker.visible=i===0;root.add(marker);const label=unitLabel(`U0${i+1}`);root.add(label);units.push({root,index:i,manual:false,yaw:0,distance:0,rotors,marker,label});}
- makeWaypointVisuals();state.ready=true;camera.position.set(5,14,34);controls.target.set(0,3,-4);controls.update();host.dataset.ready='true';host.dataset.units='5';hero.classList.add('has-3d');$('.hero-video')?.pause();syncTheme();resize();cameraTargets();camera.position.copy(cameraGoal);controls.target.copy(targetGoal);controls.update();render();labels();updateHud(selected(),0);
+ for(let i=0;i<5;i++){const root=prototype.root.clone(true);root.userData.unitId=i;const pose={...formationTarget(i,patrolPose(0),slots),height:5.3};root.position.set(pose.x,floor(pose.x,pose.z)+pose.height,pose.z);scene.add(root);const rotors=root.children.slice(1,5);const marker=new T.Mesh(new T.RingGeometry(1.55,1.57,80),new T.MeshBasicMaterial({color:'#b4c58b',side:T.DoubleSide,transparent:true,opacity:.55,depthWrite:false}));marker.rotation.x=-Math.PI/2;marker.position.y=-.7;marker.visible=i===0;root.add(marker);const label=unitLabel(`U0${i+1}`);root.add(label);units.push({root,index:i,manual:false,yaw:0,distance:0,rotors,marker,label});}
+ makeWaypointVisuals();state.ready=true;camera.position.set(5,14,34);controls.target.set(0,3,-4);controls.update();host.dataset.ready='true';host.dataset.units='5';hero.classList.add('has-3d');$('.hero-video')?.pause();syncTheme();resize();cameraTargets();camera.position.copy(cameraGoal);controls.target.copy(targetGoal);controls.update();updateVisibility();render();labels();updateHud(selected(),0);
  new ResizeObserver(resize).observe(host);new IntersectionObserver(e=>{active=e[0].isIntersecting;last=performance.now();},{threshold:0}).observe(host);
  let down=null,dragged=false;
  renderer.domElement.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY};dragged=false;});
@@ -157,13 +218,24 @@ function fallback(message){failed=true;state.ready=false;hero.classList.remove('
 all('[data-unit]').forEach(b=>b.addEventListener('click',()=>{explore(true);choose(Number(b.dataset.unit));}));all('[data-camera]').forEach(b=>b.addEventListener('click',()=>{explore(true);view(b.dataset.camera);host.focus({preventScroll:true});}));
 $('[data-waypoint]').addEventListener('click',()=>{if(!state.ready)return;explore(true);waypointArmed=!waypointArmed;if(waypointArmed)view('overview');labels();host.focus({preventScroll:true});});
 $('[data-cancel-waypoint]').addEventListener('click',cancelWaypoint);
-$('[data-scene-explore]').addEventListener('click',()=>explore(!state.exploring));$('[data-scene-motion]').addEventListener('click',()=>{state.paused=!state.paused;keys.clear();touch.clear();labels();updateHud(selected(),0);render();});
-$('[data-manual]').addEventListener('click',()=>{if(!state.ready)return;explore(true);if(!selected().manual&&mission)cancelWaypoint();selected().manual=!selected().manual;labels();updateHud(selected(),0);host.focus({preventScroll:true});});$('[data-rejoin]').addEventListener('click',()=>{if(!state.ready)return;selected().manual=false;keys.clear();touch.clear();labels();});
+$('[data-scene-explore]').addEventListener('click',()=>explore(!state.exploring));$('[data-scene-motion]').addEventListener('click',()=>{state.paused=!state.paused;keys.clear();pressed.clear();touch.clear();labels();updateHud(selected(),0);render();});
+$('[data-manual]').addEventListener('click',()=>{if(!state.ready)return;explore(true);if(!selected().manual){
+ const center=fleetCenter(units.map(u=>u.root.position));slots=units.map(u=>[u.root.position.x-center.x,u.root.position.z-center.z]);slotGoal=slots.map(p=>[...p]);
+ mission={center,start:{...center},goal:{...center},slots,status:'cancelled',yaw:selected().yaw};goalMarker.visible=routeLine.visible=false;waypointArmed=false;state.paused=false;
+ }selected().manual=!selected().manual;labels();updateHud(selected(),0);host.focus({preventScroll:true});});$('[data-rejoin]').addEventListener('click',()=>{if(!state.ready)return;selected().manual=false;keys.clear();pressed.clear();touch.clear();labels();});
 $('[data-scene-reset]').addEventListener('click',()=>{view('overview');transition=1;host.focus({preventScroll:true});});$('[data-flight-pace]').addEventListener('input',e=>{state.pace=Number(e.target.value);$('[data-pace-output]').textContent=state.pace.toFixed(1)+'×';});
-host.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(k==='escape'){explore(false);$('[data-scene-explore]').focus({preventScroll:true});return;}if(state.exploring&&selected()?.manual&&'wasdqerf'.includes(k)&&k.length===1){e.preventDefault();keys.add(k);}});
-window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.clear();});host.addEventListener('blur',()=>keys.clear());
+window.addEventListener('keydown',e=>{
+ if(!state.exploring)return;
+ if(e.code==='Escape'){explore(false);$('[data-scene-explore]').focus({preventScroll:true});return;}
+ const k=flightKey(e);if(selected()?.manual&&acceptsFlightInput(e.target)&&k){e.preventDefault();keys.add(k);if(!e.repeat)pressed.add(k);}
+});
+window.addEventListener('keyup',e=>{const k=flightKey(e);if(k)keys.delete(k);});
+window.addEventListener('blur',()=>{keys.clear();pressed.clear();touch.clear();});
+ document.addEventListener('focusin',e=>{if(!acceptsFlightInput(e.target)){keys.clear();pressed.clear();touch.clear();}});
+ all('.nav a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(state.exploring)explore(false);}));
+all('[data-formation]').forEach(b=>b.addEventListener('click',()=>setFormation(b.dataset.formation)));
 all('[data-command]').forEach(b=>b.addEventListener('click',e=>{if(e.detail!==0||!state.ready||state.paused||!selected().manual)return;const cmd=b.dataset.command;const input={forward:cmd==='forward'?1:cmd==='back'?-1:0,side:cmd==='right'?1:cmd==='left'?-1:0,up:cmd==='rise'?1:cmd==='fall'?-1:0,yaw:cmd==='yawLeft'?1:cmd==='yawRight'?-1:0};const u=selected(),before=u.root.position.clone(),v=manualStep(before,u.yaw,input,.25,2*state.pace*SPEED_MULTIPLIER,floor,WORLD_LIMIT);u.root.position.set(v.x,v.y,v.z);u.yaw=v.yaw;u.distance+=before.distanceTo(u.root.position);render();}));
 all('[data-command]').forEach(b=>{b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);touch.add(b.dataset.command);});for(const event of ['pointerup','pointercancel','lostpointercapture'])b.addEventListener(event,()=>touch.delete(b.dataset.command));});
-document.addEventListener('jc-theme-changed',syncTheme);document.addEventListener('jc-language-changed',()=>{if(state.ready)labels();});darkMedia.addEventListener('change',syncTheme);document.addEventListener('visibilitychange',()=>{keys.clear();touch.clear();last=performance.now();});reduce.addEventListener('change',()=>{state.paused=reduce.matches;if(state.ready){labels();render();}});
-window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);keys.clear();touch.clear();});window.addEventListener('pageshow',e=>{if(e.persisted&&state.ready){last=0;frame=requestAnimationFrame(animate);}});
+document.addEventListener('jc-theme-changed',syncTheme);document.addEventListener('jc-language-changed',()=>{if(state.ready)labels();});darkMedia.addEventListener('change',syncTheme);document.addEventListener('visibilitychange',()=>{keys.clear();pressed.clear();touch.clear();last=performance.now();});reduce.addEventListener('change',()=>{state.paused=reduce.matches;if(state.ready){labels();render();}});
+window.addEventListener('pagehide',()=>{cancelAnimationFrame(frame);keys.clear();pressed.clear();touch.clear();});window.addEventListener('pageshow',e=>{if(e.persisted&&state.ready){last=0;frame=requestAnimationFrame(animate);}});
 try{if(new URLSearchParams(location.search).get('hero')==='video')fallback('Video comparison mode');else init();}catch(error){fallback(error);}

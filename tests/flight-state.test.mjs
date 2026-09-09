@@ -44,3 +44,42 @@ test('waypoint clamp keeps every member inside bounds including custom offsets',
 test('redirecting starts from the current center without resetting the fleet',()=>{
  const halfway=advanceWaypoint({x:0,z:0},{x:20,z:0},2,2);const turn=advanceWaypoint(halfway,{x:-10,z:8},.1,2);near(Math.hypot(turn.x-halfway.x,turn.z-halfway.z),.2);assert.ok(turn.x>3);
 });
+
+import {flightKey,acceptsFlightInput,patrolPose,PATROL_LENGTH,PATROL_POINTS,FORMATIONS,assignFormation} from '../assets/hero-3d/flight-state.mjs';
+test('pilot physical keys survive keyboard layouts and button focus; text fields retain typing',()=>{
+ assert.equal(flightKey({code:'KeyW',key:'ц'}),'w');
+ assert.equal(flightKey({code:'KeyQ',key:'й'}),'q');
+ assert.equal(flightKey({code:'ArrowUp',key:'ArrowUp'}),null);
+ assert.equal(acceptsFlightInput({tagName:'BUTTON'}),true);
+ for(const tagName of ['INPUT','TEXTAREA','SELECT'])assert.equal(acceptsFlightInput({tagName}),false);
+ assert.equal(acceptsFlightInput({isContentEditable:true}),false);
+});
+test('patrol closes continuously, passes both loops and follows every supplied waypoint',()=>{
+ assert.deepEqual(patrolPose(0),patrolPose(PATROL_LENGTH));
+ assert.ok(Math.hypot(patrolPose(PATROL_LENGTH-.01).x,patrolPose(PATROL_LENGTH-.01).z)<.011);
+ for(const [x,z] of PATROL_POINTS){let nearest=Infinity;for(let d=0;d<PATROL_LENGTH;d+=.05){const p=patrolPose(d);nearest=Math.min(nearest,Math.hypot(p.x-x,p.z-z));}assert.ok(nearest<.06);}
+});
+test('arc-length patrol keeps horizontal speed even near the crossing and bends',()=>{
+ for(let d=0;d<PATROL_LENGTH;d+=.7){const a=patrolPose(d),b=patrolPose(d+.024);assert.ok(Math.abs(Math.hypot(b.x-a.x,b.z-a.z)-.024)<.0003);}
+});
+test('formation transitions keep aircraft apart across all preset pairs',()=>{
+ for(const from of Object.values(FORMATIONS))for(const to of Object.values(FORMATIONS)){
+  const assigned=assignFormation(from,to);assert.equal(new Set(assigned.map(p=>p.join(','))).size,5);
+  for(let t=0;t<=1;t+=.02){const p=from.map((v,i)=>v.map((a,j)=>a+(assigned[i][j]-a)*t));for(let i=0;i<5;i++)for(let j=0;j<i;j++)assert.ok(Math.hypot(p[i][0]-p[j][0],p[i][1]-p[j][1])>3.7);}
+ }
+});
+import {nearestPatrolDistance} from '../assets/hero-3d/flight-state.mjs';
+test('expanding formation at a map edge recenters every member within the world',()=>{
+ const start={x:232,z:232},goal=FORMATIONS.line;
+ const center=clampWaypoint(start,240,goal);
+ for(let i=0;i<5;i++){const p=formationTarget(i,center,goal);assert.ok(Math.abs(p.x)<=240&&Math.abs(p.z)<=240);}
+});
+test('return from remote exploration is bounded and picks a nearby patrol point',()=>{
+ const from={x:230,z:140},p=patrolPose(nearestPatrolDistance(from)),next=advanceWaypoint(from,p,1/60,2.4);
+ assert.ok(Math.hypot(next.x-from.x,next.z-from.z)<=.04000001);
+ assert.ok(p.x>20);
+});
+test('manual ceiling stays above high terrain outside the original small map',()=>{
+ const p=manualStep({x:200,y:55,z:200},0,{up:1},1,2.4,()=>60,240);
+ assert.ok(p.y>=61.25);
+});

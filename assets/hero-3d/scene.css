@@ -37,3 +37,11 @@ body.scene-exploring .nav{z-index:60}
 .hero .waypoint-readout[hidden]{display:none}.hero.setting-waypoint #drone-scene canvas{cursor:crosshair}.hero.setting-waypoint .pilot-pad{display:none}
 @media(max-width:900px){.hero .fleet-dock{flex-wrap:wrap}.hero .waypoint-readout{bottom:188px}.hero .scene-help{bottom:137px}}
 @media(max-width:600px){.hero .waypoint-readout{bottom:209px;width:90%;max-width:90%;font-size:9px}.hero .scene-help{bottom:163px}.hero .pilot-pad{bottom:273px}.fleet-dock .pilot-controls{flex-wrap:wrap;justify-content:center}.hero .fleet-dock{gap:5px}}
+
+/* Revision 4: cinematic first; hidden controls cannot receive focus. */
+.hero:not(.exploring) .fleet-dock,.hero:not(.exploring) .scene-help,.hero:not(.exploring) .waypoint-readout,.hero:not(.exploring) .pilot-pad{display:none}
+.hero.exploring .fleet-dock{width:min(1050px,calc(100% - 32px));flex-wrap:wrap}
+.hero.exploring .scene-help{bottom:165px}
+.hero.exploring .waypoint-readout{bottom:212px}
+.hero.exploring .pilot-pad{bottom:258px}
+@media(max-width:600px){.hero.exploring .fleet-dock{width:calc(100% - 24px);max-height:32dvh;overflow:auto}.hero.exploring .scene-help{bottom:205px;font-size:8px}.hero.exploring .waypoint-readout{bottom:254px}.hero.exploring .pilot-pad{bottom:305px}.fleet-dock .formation-selector{border-left:0;padding-left:0}.hero.exploring .flight-telemetry{top:140px}}
