@@ -1,6 +1,6 @@
 import {loadSurfaceTexture} from './compressed-texture.js';
 import {createWorld} from './world.js';
-import {createGlacierWorld} from './glacier.js';
+import {createGlacierWorld} from './glacier.js?v=8';
 import {disposeGraph} from './resources.mjs';
 function geometryInWorker(lunar,signal,recycle){
  return new Promise((resolve,reject)=>{

@@ -99,9 +99,29 @@ function lagoonNormals(){
 export function createGlacierWorld(){
  const group=new T.Group();group.name='Glacial lagoon';
  const normals=lagoonNormals();
- const water=new Water(new T.PlaneGeometry(1024,1024,1,1),{textureWidth:512,textureHeight:512,waterNormals:normals,sunDirection:new T.Vector3(.7143,.4687,.5197).normalize(),sunColor:0xe3edf1,waterColor:0x0a3446,distortionScale:1.15,fog:true});
+ const water=new Water(new T.PlaneGeometry(1024,1024,1,1),{textureWidth:512,textureHeight:512,waterNormals:normals,sunDirection:new T.Vector3(.7143,.4687,.5197).normalize(),sunColor:0xe3edf1,waterColor:0x0a3446,distortionScale:.65,fog:true});
  water.material.fragmentShader=water.material.fragmentShader.replace('float rf0 = 0.3;', 'float rf0 = 0.025;').replace('vec3( 0.1 ) + reflectionSample', 'vec3( 0.015 ) + reflectionSample');
- water.material.uniforms.size.value=12;water.rotation.x=-Math.PI/2;water.receiveShadow=true;water.name='Lagoon water';group.add(water);
+ // Broad, differently oriented samples avoid the old repeated crosshatch.
+ const shader=water.material.fragmentShader;
+ const start=shader.indexOf('vec4 getNoise( vec2 uv ) {');
+ const end=shader.indexOf('void sunLight(',start);
+ if(start<0||end<0)throw new Error('Water shader noise hook changed');
+ water.material.fragmentShader=shader.slice(0,start)+`
+ vec4 getNoise(vec2 uv) {
+  vec2 drift=vec2(time*.006,time*.004);
+  vec2 warp=vec2(sin(uv.y*.013+time*.04),cos(uv.x*.017-time*.03))*1.8;
+  vec2 p=uv+warp;
+  vec4 a=texture2D(normalSampler,p/137.+drift);
+  vec4 b=texture2D(normalSampler,mat2(.8,-.6,.6,.8)*p/211.-drift*.73);
+  vec4 c=texture2D(normalSampler,mat2(.28,.96,-.96,.28)*p/89.+drift*.41);
+  return (a*.46+b*.34+c*.20)*2.-1.;
+ }
+ `+shader.slice(end);
+ water.material.fragmentShader=water.material.fragmentShader
+  .replace('vec3 surfaceNormal = normalize( noise.xzy * vec3( 1.5, 1.0, 1.5 ) );',
+   'float rippleFade = mix(1.0, 0.28, smoothstep(35.0, 200.0, length(eye-worldPosition.xyz)));\n vec3 surfaceNormal = normalize(vec3(noise.x * .55 * rippleFade, max(noise.z, .5), noise.y * .55 * rippleFade));')
+  .replace('100.0, 2.0, 0.5, diffuseLight', '45.0, 0.65, 0.5, diffuseLight');
+ water.material.uniforms.size.value=2;water.rotation.x=-Math.PI/2;water.receiveShadow=true;water.name='Lagoon water';group.add(water);
  const material=iceMaterial(),grounds=[water];
  for(const b of [...icebergs,...floes]){const mesh=new T.Mesh(iceGeometry(b,b.h>3?80:28),material);mesh.castShadow=b.h<45;mesh.receiveShadow=true;mesh.name=b.h>3?'Sculpted iceberg':'Floating ice';group.add(mesh);grounds.push(mesh);}
  let geometryBytes=0;
